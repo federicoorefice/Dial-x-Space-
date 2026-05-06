@@ -10,16 +10,6 @@ export default function Footer() {
       }}
     >
       <div style={{ maxWidth: 1480, margin: "0 auto" }}>
-        <h2
-          style={{
-            fontFamily: "var(--font-heading, 'Archivo Black')", fontWeight: 900,
-            fontSize: "clamp(56px, 10vw, 160px)", lineHeight: 0.85,
-            letterSpacing: "-0.04em", textTransform: "uppercase", margin: 0,
-          }}
-        >
-          DAL BOSCO<br />ALLA TUA<br />TAVOLA.
-        </h2>
-
         <div
           style={{
             display: "flex", justifyContent: "space-between", flexWrap: "wrap",
