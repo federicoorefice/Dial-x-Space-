@@ -87,10 +87,10 @@ function FooterBoldB() {
             <img src={bp("assets/logo-dial.png")} alt="Dial" style={{ width: 50, height: 50 }} />
             <div>
               <div style={{ fontWeight: 900, fontSize: 16, textTransform: "uppercase" }}>Dial Funghi srl</div>
-              <div style={{ fontSize: 12, opacity: 0.7 }}>Via dei Bosco · Trentino · Italia</div>
+              <div style={{ fontSize: 12, opacity: 0.7 }}>Via Dei Prati, 60 · 38057 Pergine Valsugana (TN)</div>
             </div>
           </div>
-          <div style={{ fontSize: 12, opacity: 0.7 }}>© 2026 · P.IVA 00000000000</div>
+          <div style={{ fontSize: 12, opacity: 0.7 }}>© 2026 Dial S.r.l. · P.IVA 02439500220 · info@dialfunghi.it</div>
         </div>
       </div>
     </footer>
