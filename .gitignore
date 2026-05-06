@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+**/.DS_Store
+._*
+
+# Source images (already copied to project/assets/)
+IMMAGINI /
+project/IMMAGINI /
+
+# Uploads (screenshots, videos from Claude sessions)
+project/uploads/
+
+# Chat history
+chats/
+
+# Node (for future Next.js phase)
+node_modules/
+.next/
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+out/
+
+# Logs
+*.log
+npm-debug.log*
