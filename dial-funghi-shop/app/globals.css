@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DIAL FUNGHI — DESIGN TOKENS
+   Space Patty bold style
+   ============================================================ */
+
+:root {
+  --c-ink: #0A0F0C;
+  --c-ink-2: #121A14;
+  --c-cream: #F5EFE0;
+  --c-paper: #F0EAD8;
+  --c-paper-2: #E8E0CB;
+
+  --c-acid: #D4FF3C;
+  --c-ketchup: #E63B1E;
+  --c-mustard: #F2C200;
+  --c-cobalt: #2E4FE8;
+
+  --c-gold: #C8A55A;
+  --c-moss: #3A4F3A;
+  --c-bark: #6B4F2E;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-ink: var(--c-ink);
+  --color-cream: var(--c-cream);
+  --color-paper: var(--c-paper);
+  --color-acid: var(--c-acid);
+  --color-ketchup: var(--c-ketchup);
+  --color-mustard: var(--c-mustard);
+  --color-cobalt: var(--c-cobalt);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--c-paper);
+  color: var(--c-ink);
+  font-family: "Barlow", -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
