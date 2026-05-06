@@ -267,7 +267,7 @@ export default function HomePage() {
             minHeight: "100vh",
             display: "flex", flexDirection: "column",
             justifyContent: "center", alignItems: "center",
-            padding: "120px 24px 140px", textAlign: "center",
+            padding: "80px 24px 90px", textAlign: "center",
           }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -292,7 +292,7 @@ export default function HomePage() {
               style={{
                 fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
                 fontWeight: 900,
-                fontSize: "clamp(72px, 14vw, 240px)",
+                fontSize: "clamp(48px, 9vw, 160px)",
                 lineHeight: 0.85,
                 letterSpacing: "-0.04em",
                 textTransform: "uppercase",
@@ -317,7 +317,7 @@ export default function HomePage() {
               transition={{ delay: 0.45, duration: 0.7 }}
               style={{
                 marginTop: 40, color: "var(--c-cream)",
-                fontSize: 20, fontWeight: 500, maxWidth: 600,
+                fontSize: 15, fontWeight: 500, maxWidth: 600,
                 textShadow: "0 2px 20px rgba(0,0,0,0.6)", lineHeight: 1.5,
               }}
             >
@@ -333,16 +333,16 @@ export default function HomePage() {
             >
               <Link href="/shop" style={{
                 background: "var(--c-acid)", color: "var(--c-ink)",
-                border: "3px solid var(--c-ink)", padding: "20px 40px",
-                borderRadius: 999, fontWeight: 900, fontSize: 16,
+                border: "3px solid var(--c-ink)", padding: "14px 28px",
+                borderRadius: 999, fontWeight: 900, fontSize: 14,
                 letterSpacing: "0.06em", textTransform: "uppercase",
                 textDecoration: "none", boxShadow: "6px 6px 0 var(--c-ink)",
                 display: "inline-flex", alignItems: "center", gap: 10,
               }}>Compra Ora →</Link>
               <Link href="/ricette" style={{
                 background: "transparent", color: "var(--c-cream)",
-                border: "3px solid var(--c-cream)", padding: "20px 40px",
-                borderRadius: 999, fontWeight: 800, fontSize: 16,
+                border: "3px solid var(--c-cream)", padding: "14px 28px",
+                borderRadius: 999, fontWeight: 800, fontSize: 14,
                 letterSpacing: "0.06em", textTransform: "uppercase",
                 textDecoration: "none",
               }}>Ricette</Link>
@@ -358,11 +358,11 @@ export default function HomePage() {
             <motion.div
               animate={{ x: [0, -1400] }}
               transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-              style={{ display: "flex", gap: 32, padding: "14px 0", whiteSpace: "nowrap" }}
+              style={{ display: "flex", gap: 24, padding: "10px 0", whiteSpace: "nowrap" }}
             >
               {Array.from({ length: 4 }).flatMap((_, i) =>
                 ["🍄 PORCINI E SPECK", "✨ TARTUFO E PECORINO", "🔥 PAPRIKA E BBQ", "🌶️ TERIYAKI E ZENZERO", "⭐ DAL 1992", "🌲 100% TRENTINO"].map((t, j) => (
-                  <span key={`${i}-${j}`} style={{ fontWeight: 900, fontSize: 18, color: "var(--c-ink)", letterSpacing: "0.04em" }}>{t}</span>
+                  <span key={`${i}-${j}`} style={{ fontWeight: 900, fontSize: 13, color: "var(--c-ink)", letterSpacing: "0.04em" }}>{t}</span>
                 ))
               )}
             </motion.div>
@@ -372,7 +372,7 @@ export default function HomePage() {
         {/* ── SQUEEZE & BOOM! ──────────────────────── */}
         <section style={{
           background: "var(--c-cream)", position: "relative",
-          overflow: "hidden", padding: "120px 0 160px",
+          overflow: "hidden", padding: "80px 0 110px",
           borderTop: "3px solid var(--c-ink)",
         }}>
           <div style={{ maxWidth: 1480, margin: "0 auto", padding: "0 32px" }}>
@@ -395,7 +395,7 @@ export default function HomePage() {
                 <h2 style={{
                   fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
                   fontWeight: 900,
-                  fontSize: "clamp(56px, 9vw, 140px)",
+                  fontSize: "clamp(38px, 6vw, 94px)",
                   lineHeight: 0.88, margin: 0,
                   textTransform: "uppercase", letterSpacing: "-0.04em",
                   color: "var(--c-ink)",
@@ -404,7 +404,7 @@ export default function HomePage() {
                   <span style={{ color: "#C24B2B" }}>& Boom!</span>
                 </h2>
               </div>
-              <p style={{ fontSize: 18, fontWeight: 500, maxWidth: 380, color: "var(--c-ink)", lineHeight: 1.5 }}>
+              <p style={{ fontSize: 14, fontWeight: 500, maxWidth: 380, color: "var(--c-ink)", lineHeight: 1.5 }}>
                 Quattro salse ai funghi pronte all'uso. Squeeze, condisci, gustati l'effetto.
               </p>
             </div>
@@ -437,7 +437,7 @@ export default function HomePage() {
                     <h3 style={{
                       fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
                       fontWeight: 900,
-                      fontSize: "clamp(40px, 5vw, 76px)",
+                      fontSize: "clamp(28px, 3.5vw, 52px)",
                       lineHeight: 0.92, margin: 0,
                       textTransform: "uppercase", letterSpacing: "-0.03em",
                       color: "var(--c-ink)",
@@ -445,10 +445,10 @@ export default function HomePage() {
 
                     <p style={{
                       marginTop: 16, fontStyle: "italic",
-                      fontSize: 22, color: product.color, lineHeight: 1.3,
+                      fontSize: 16, color: product.color, lineHeight: 1.3,
                     }}>"{product.tagline}"</p>
 
-                    <p style={{ marginTop: 24, fontSize: 17, lineHeight: 1.55, color: "var(--c-ink)", maxWidth: 480 }}>
+                    <p style={{ marginTop: 24, fontSize: 13, lineHeight: 1.55, color: "var(--c-ink)", maxWidth: 480 }}>
                       {product.desc}
                     </p>
 
@@ -465,7 +465,7 @@ export default function HomePage() {
                     <div style={{ marginTop: 36, display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
                       <span style={{
                         fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
-                        fontWeight: 900, fontSize: 52, color: "var(--c-ink)", letterSpacing: "-0.02em",
+                        fontWeight: 900, fontSize: 36, color: "var(--c-ink)", letterSpacing: "-0.02em",
                       }}>{formatPrice(product.price)}</span>
                       <AddToCartButton product={product} />
                     </div>
@@ -504,7 +504,7 @@ export default function HomePage() {
         {/* ── CERTIFICAZIONI ───────────────────────── */}
         <section style={{
           background: "var(--c-ink)", color: "var(--c-cream)",
-          padding: "80px 0", position: "relative",
+          padding: "56px 0", position: "relative",
           overflow: "hidden", borderTop: "3px solid var(--c-ink)",
         }}>
           <div style={{ maxWidth: 1480, margin: "0 auto", padding: "0 32px", marginBottom: 50 }}>
@@ -521,7 +521,7 @@ export default function HomePage() {
                 <h2 style={{
                   fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
                   fontWeight: 900,
-                  fontSize: "clamp(40px, 6vw, 80px)",
+                  fontSize: "clamp(28px, 4vw, 54px)",
                   lineHeight: 0.9, margin: 0,
                   textTransform: "uppercase", letterSpacing: "-0.03em",
                 }}>
@@ -529,7 +529,7 @@ export default function HomePage() {
                   <span style={{ color: "var(--c-acid)" }}>certificati.</span>
                 </h2>
               </div>
-              <p style={{ maxWidth: 360, fontSize: 16, color: "rgba(245,239,224,0.75)", lineHeight: 1.55 }}>
+              <p style={{ maxWidth: 360, fontSize: 13, color: "rgba(245,239,224,0.75)", lineHeight: 1.55 }}>
                 Standard internazionali per ogni fase: dalla raccolta in bosco al barattolo. Niente compromessi.
               </p>
             </div>
@@ -540,23 +540,23 @@ export default function HomePage() {
             overflow: "hidden",
             borderTop: "2px solid rgba(245,239,224,0.15)",
             borderBottom: "2px solid rgba(245,239,224,0.15)",
-            padding: "40px 0",
+            padding: "28px 0",
             background: "rgba(0,0,0,0.2)",
           }}>
             <motion.div
               animate={{ x: [0, -1600] }}
               transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-              style={{ display: "flex", gap: 80, alignItems: "center" }}
+              style={{ display: "flex", gap: 56, alignItems: "center" }}
             >
               {[...CERTIFICATIONS, ...CERTIFICATIONS, ...CERTIFICATIONS].map((c, i) => (
                 <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, minWidth: 200 }}>
                   <div style={{
-                    background: "var(--c-cream)", borderRadius: 24, padding: 20,
-                    width: 140, height: 140,
+                    background: "var(--c-cream)", borderRadius: 20, padding: 14,
+                    width: 100, height: 100,
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    boxShadow: "6px 6px 0 var(--c-acid)",
+                    boxShadow: "5px 5px 0 var(--c-acid)",
                   }}>
-                    <Image src={c.img} alt={c.name} width={100} height={100} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
+                    <Image src={c.img} alt={c.name} width={70} height={70} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <div style={{ fontWeight: 900, fontSize: 14, letterSpacing: "0.06em", textTransform: "uppercase" }}>{c.name}</div>
@@ -571,7 +571,7 @@ export default function HomePage() {
         {/* ── PERGINE VALSUGANA ─────────────────────── */}
         <section style={{
           background: "var(--c-ink)", color: "var(--c-cream)",
-          padding: "140px 0", position: "relative",
+          padding: "90px 0", position: "relative",
           overflow: "hidden", borderTop: "3px solid var(--c-ink)",
         }}>
           <div style={{
@@ -593,7 +593,7 @@ export default function HomePage() {
               <h2 style={{
                 fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
                 fontWeight: 900,
-                fontSize: "clamp(48px, 7vw, 110px)",
+                fontSize: "clamp(32px, 4.7vw, 74px)",
                 lineHeight: 0.88, margin: 0,
                 textTransform: "uppercase", letterSpacing: "-0.04em",
               }}>
@@ -601,7 +601,7 @@ export default function HomePage() {
                 <span style={{ color: "var(--c-acid)" }}>Trentino.</span>
               </h2>
 
-              <p style={{ marginTop: 32, fontSize: 19, color: "rgba(245,239,224,0.8)", lineHeight: 1.55, maxWidth: 480 }}>
+              <p style={{ marginTop: 32, fontSize: 14, color: "rgba(245,239,224,0.8)", lineHeight: 1.55, maxWidth: 480 }}>
                 Cinque generazioni di raccoglitori. Dieci ettari di bosco. Una sola ossessione: tirare fuori l'umami che la natura ci regala.{" "}
                 <strong style={{ color: "var(--c-cream)" }}>Senza scorciatoie.</strong>
               </p>
@@ -609,7 +609,7 @@ export default function HomePage() {
               <div style={{ display: "flex", gap: 24, marginTop: 40, flexWrap: "wrap" }}>
                 {[["33", "anni di storia"], ["10", "ettari di bosco"], ["5", "certificazioni"], ["16", "prodotti"]].map(([n, l]) => (
                   <div key={l}>
-                    <div style={{ fontWeight: 900, fontSize: 52, color: "var(--c-acid)", lineHeight: 1, letterSpacing: "-0.03em" }}>{n}</div>
+                    <div style={{ fontWeight: 900, fontSize: 36, color: "var(--c-acid)", lineHeight: 1, letterSpacing: "-0.03em" }}>{n}</div>
                     <div style={{ fontSize: 11, fontWeight: 700, color: "rgba(245,239,224,0.6)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4 }}>{l}</div>
                   </div>
                 ))}
