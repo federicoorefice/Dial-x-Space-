@@ -57,7 +57,8 @@ async function handleCompletedOrder(session: Stripe.Checkout.Session) {
     .join("");
 
   const totalFormatted = formatPrice((session.amount_total ?? 0) / 100);
-  const shippingAddress = session.shipping_details?.address;
+  // shipping_details typings lag behind the API version
+  const shippingAddress = (session as { shipping_details?: { address?: { line1?: string | null; line2?: string | null; postal_code?: string | null; city?: string | null } } }).shipping_details?.address;
   const addressHtml = shippingAddress
     ? `${shippingAddress.line1 ?? ""}${shippingAddress.line2 ? ", " + shippingAddress.line2 : ""}, ${shippingAddress.postal_code} ${shippingAddress.city}`
     : "—";

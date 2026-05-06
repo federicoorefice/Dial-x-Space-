@@ -28,7 +28,14 @@ export async function POST(req: NextRequest) {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
 
     // Build Stripe line items from catalog (never trust client prices)
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+    const lineItems: {
+      price_data: {
+        currency: string;
+        product_data: { name: string; description?: string; images?: string[]; metadata?: Record<string, string> };
+        unit_amount: number;
+      };
+      quantity: number;
+    }[] = [];
     let subtotal = 0;
 
     for (const { id, qty } of items) {
