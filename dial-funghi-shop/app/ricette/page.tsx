@@ -1,0 +1,138 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import { PRODUCTS } from "@/lib/products";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
+const RECIPES = [
+  { id: "risotto-porcini", title: "Risotto cremoso al fungo", time: "25 min", diff: "Facile", tag: "Porcini e Speck", productId: "ffps", color: "#D4FF3C", img: "/images/ricette/risotto-porcini.png" },
+  { id: "burger-gourmet", title: "Burger gourmet con fungo", time: "15 min", diff: "Facile", tag: "Porcini e Speck", productId: "ffps", color: "#F2C200", img: "/images/ricette/panino-bbq.png" },
+  { id: "bruschette", title: "Bruschette autunnali", time: "5 min", diff: "Facilissima", tag: "Porcini e Speck", productId: "ffps", color: "#E63B1E", img: "/images/ricette/risotto-porcini.png" },
+  { id: "uova-tartufo", title: "Uova strapazzate al tartufo", time: "8 min", diff: "Facilissima", tag: "Tartufo e Pecorino", productId: "fftap", color: "#2E4FE8", img: "/images/ricette/tartufo-pecorino.png" },
+  { id: "toast-gourmet", title: "Toast gourmet", time: "5 min", diff: "Facilissima", tag: "Tartufo e Pecorino", productId: "fftap", color: "#F5EFE0", img: "/images/ricette/tartufo-pecorino.png" },
+  { id: "tagliolini", title: "Tagliolini al tartufo", time: "10 min", diff: "Facile", tag: "Tartufo e Pecorino", productId: "fftap", color: "#D4FF3C", img: "/images/ricette/tartufo-pecorino.png" },
+  { id: "costine", title: "Costine BBQ", time: "60 min", diff: "Media", tag: "Paprika e BBQ", productId: "ffpab", color: "#E63B1E", img: "/images/ricette/panino-bbq.png" },
+  { id: "patatine", title: "Patatine al forno", time: "35 min", diff: "Facile", tag: "Paprika e BBQ", productId: "ffpab", color: "#F2C200", img: "/images/ricette/panino-bbq.png" },
+  { id: "hotdog", title: "Hot dog gourmet", time: "10 min", diff: "Facile", tag: "Paprika e BBQ", productId: "ffpab", color: "#D4FF3C", img: "/images/ricette/panino-bbq.png" },
+  { id: "salmone", title: "Salmone alla brace", time: "20 min", diff: "Facile", tag: "Teriyaki e Zenzero", productId: "fft", color: "#2E4FE8", img: "/images/ricette/teriyaki-salmone.png" },
+  { id: "bowl-pollo", title: "Bowl di pollo teriyaki", time: "25 min", diff: "Facile", tag: "Teriyaki e Zenzero", productId: "fft", color: "#F5EFE0", img: "/images/ricette/teriyaki-salmone.png" },
+  { id: "wok-verdure", title: "Wok di verdure fusion", time: "15 min", diff: "Facile", tag: "Teriyaki e Zenzero", productId: "fft", color: "#D4FF3C", img: "/images/ricette/teriyaki-salmone.png" },
+];
+
+const TAGS = ["Tutte", "Porcini e Speck", "Tartufo e Pecorino", "Paprika e BBQ", "Teriyaki e Zenzero"];
+
+export default function RicettePage() {
+  const [tag, setTag] = useState("Tutte");
+  const filtered = tag === "Tutte" ? RECIPES : RECIPES.filter((r) => r.tag === tag);
+
+  return (
+    <div style={{ background: "var(--c-paper)", minHeight: "100vh", color: "var(--c-ink)" }}>
+      <Navbar active="Ricette" />
+
+      <section style={{ padding: "160px 32px 60px", maxWidth: 1480, margin: "0 auto", position: "relative" }}>
+        <div
+          style={{
+            position: "absolute", top: 130, right: 120,
+            background: "var(--c-ketchup)", color: "var(--c-cream)",
+            fontWeight: 900, fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase",
+            padding: "8px 16px", borderRadius: 999, border: "2.5px solid var(--c-ink)",
+            boxShadow: "5px 5px 0 var(--c-ink)", transform: "rotate(4deg)",
+          }}
+        >
+          {RECIPES.length} ricette
+        </div>
+        <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.6 }}>
+          Ricette / Squeeze quotidiano
+        </div>
+        <h1
+          style={{
+            fontFamily: "var(--font-heading)", fontSize: "clamp(72px, 13vw, 220px)",
+            lineHeight: 0.85, letterSpacing: "-0.04em", textTransform: "uppercase", margin: "16px 0 0",
+          }}
+        >
+          UNO{" "}
+          <span
+            style={{
+              display: "inline-block", background: "var(--c-acid)", padding: "0 24px",
+              border: "3px solid var(--c-ink)", borderRadius: 24,
+              transform: "rotate(-2deg)", boxShadow: "8px 8px 0 var(--c-ink)",
+            }}
+          >
+            SQUEEZE
+          </span>
+          <br />E SEI A CENA.
+        </h1>
+        <p style={{ fontSize: 18, marginTop: 32, maxWidth: 600, lineHeight: 1.5 }}>
+          Ricette pronte in pochi minuti. Pasta, bowl, burger, brunch — il bosco diventa pratico.
+        </p>
+      </section>
+
+      {/* Filtri */}
+      <div style={{ padding: "0 32px 32px", maxWidth: 1480, margin: "0 auto", display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
+        {TAGS.map((t) => (
+          <button key={t} onClick={() => setTag(t)}
+            style={{
+              background: tag === t ? "var(--c-ink)" : "var(--c-cream)",
+              color: tag === t ? "var(--c-acid)" : "var(--c-ink)",
+              border: "2.5px solid var(--c-ink)", borderRadius: 999,
+              padding: "10px 22px", fontWeight: 800, fontSize: 12,
+              letterSpacing: "0.06em", textTransform: "uppercase",
+              cursor: "pointer", boxShadow: "4px 4px 0 var(--c-ink)",
+            }}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+
+      <section style={{ padding: "32px 32px 120px", maxWidth: 1480, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 28 }}>
+          {filtered.map((r, i) => (
+            <div key={r.id}
+              style={{
+                background: r.color, color: "var(--c-ink)", border: "2.5px solid var(--c-ink)",
+                borderRadius: 28, boxShadow: "8px 8px 0 var(--c-ink)", padding: 24,
+                display: "block", position: "relative", overflow: "hidden",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                <span
+                  style={{
+                    background: "var(--c-ink)", color: r.color, padding: "5px 11px",
+                    borderRadius: 999, fontSize: 10, fontWeight: 800,
+                    textTransform: "uppercase", letterSpacing: "0.06em",
+                  }}
+                >
+                  {r.diff}
+                </span>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 700 }}>
+                  ⏱ {r.time}
+                </span>
+              </div>
+
+              <div style={{ height: 160, borderRadius: 12, overflow: "hidden", margin: "8px 0 16px", position: "relative" }}>
+                <Image src={r.img} alt={r.title} fill style={{ objectFit: "cover" }} />
+              </div>
+
+              <div
+                style={{
+                  fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 22,
+                  lineHeight: 1, textTransform: "uppercase", letterSpacing: "-0.01em",
+                }}
+              >
+                {r.title}
+              </div>
+              <div style={{ fontSize: 12, marginTop: 10, fontWeight: 700, opacity: 0.7, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                Con {r.tag}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
