@@ -1,25 +1,66 @@
-# CODING AGENTS: READ THIS FIRST
+# Dial Funghi — Web Site Remix
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Prototipo e-commerce Dial Funghi. Design in HTML/CSS/JS con React 18 (CDN), Framer Motion, Tailwind.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## Come aprire il sito in locale
 
-## What you should do — IMPORTANT
+Apri `project/Homepage Dial Funghi.html` nel browser — funziona senza server.
 
-**Read the chat transcripts first.** There are 3 chat transcript(s) in `web-site-remix/chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Struttura
 
-**Read `web-site-remix/project/Homepage Dial Funghi.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+```
+project/
+  Homepage Dial Funghi.html   ← entry point principale
+  components.jsx               ← componenti stile bosco/glass
+  js/
+    home.jsx                   ← homepage (stile Bold)
+    shop.jsx                   ← pagina shop
+    carrello.jsx               ← carrello
+    chi-siamo.jsx              ← chi siamo
+    contatti.jsx               ← contatti
+    ricette.jsx                ← ricette
+    products-data.js           ← catalogo 16 prodotti
+  assets/
+    products/                  ← 16 immagini prodotti ufficiali
+    azienda/                   ← foto stabilimento e lab
+    ricette/                   ← foto food per le ricette
+    cert/                      ← loghi certificazioni
+  frames/                      ← 120 frame JPG animazione bosco (NON modificare)
+  pages/                       ← HTML per le sotto-pagine
+  styles/system.css            ← variabili CSS globali
+```
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Cosa è stato completato (FASE 0)
 
-## About the design files
+- Immagini ufficiali: tutti i 16 prodotti, azienda, ricette, certificazioni
+- Prezzi corretti: Fior di Funghi €2.99
+- Dati aziendali reali: P.IVA 02439500220, Via Dei Prati 60, Pergine Valsugana (TN)
+- Contatti reali: tel. +39 0461 534505, info@dialfunghi.it
+- Ricette: foto food reali (risotto, panino, tartufo, teriyaki)
+- Chi siamo: griglia foto stabilimento e laboratorio completa
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+## Prossimi passi (FASE 1+)
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+Vedere il piano completo in `/Users/federicoorefice/.claude/plans/riesci-a-vedere-il-gentle-wreath.md`
 
-## Bundle contents
+**FASE 1:** Setup Next.js 14 + TypeScript + Tailwind
 
-- `web-site-remix/README.md` — this file
-- `web-site-remix/chats/` — conversation transcripts (read these!)
-- `web-site-remix/project/` — the `web site (Remix)` project files (HTML prototypes, assets, components)
+## GitHub — setup al rientro
+
+Il repo git locale è pronto. Per creare e pushare su GitHub esegui:
+
+```bash
+cd /Users/federicoorefice/Desktop/web-site-remix
+
+# 1. Autenticati con GitHub
+gh auth login -h github.com
+
+# 2. Crea il repo e pusha
+gh repo create web-site-remix-dial --public --push --source .
+```
+
+Oppure se la repo esiste già:
+```bash
+git remote add origin https://github.com/federicoorefice/web-site-remix-dial.git
+git push -u origin main
+```
