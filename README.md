@@ -1,66 +1,102 @@
 # Dial Funghi — Web Site Remix
 
-Prototipo e-commerce Dial Funghi. Design in HTML/CSS/JS con React 18 (CDN), Framer Motion, Tailwind.
+E-commerce completo per Dial Funghi (tartufi, funghi e condimenti gourmet trentini).
 
-## Come aprire il sito in locale
-
-Apri `project/Homepage Dial Funghi.html` nel browser — funziona senza server.
-
-## Struttura
+## Struttura repository
 
 ```
-project/
-  Homepage Dial Funghi.html   ← entry point principale
-  components.jsx               ← componenti stile bosco/glass
+project/                          ← Prototipo HTML/CSS/JS (FASE 0 completata)
+  Homepage Dial Funghi.html        ← entry point, apri nel browser senza server
+  components.jsx                   ← componenti stile bosco/glass
   js/
-    home.jsx                   ← homepage (stile Bold)
-    shop.jsx                   ← pagina shop
-    carrello.jsx               ← carrello
-    chi-siamo.jsx              ← chi siamo
-    contatti.jsx               ← contatti
-    ricette.jsx                ← ricette
-    products-data.js           ← catalogo 16 prodotti
-  assets/
-    products/                  ← 16 immagini prodotti ufficiali
-    azienda/                   ← foto stabilimento e lab
-    ricette/                   ← foto food per le ricette
-    cert/                      ← loghi certificazioni
-  frames/                      ← 120 frame JPG animazione bosco (NON modificare)
-  pages/                       ← HTML per le sotto-pagine
-  styles/system.css            ← variabili CSS globali
+    home.jsx, shop.jsx, carrello.jsx, chi-siamo.jsx, contatti.jsx, ricette.jsx
+    products-data.js               ← catalogo 16 prodotti
+  assets/products/ azienda/ ricette/ cert/ frames/
+
+dial-funghi-shop/                 ← App Next.js 16 (produzione)
+  app/
+    page.tsx                       ← Homepage
+    shop/page.tsx                  ← Catalogo con filtri categoria
+    shop/[id]/page.tsx             ← Pagina singolo prodotto
+    carrello/page.tsx              ← Carrello
+    chi-siamo/page.tsx             ← Chi siamo con timeline
+    contatti/page.tsx              ← Form contatti
+    ricette/page.tsx               ← Ricette con filtri
+    success/page.tsx               ← Conferma ordine
+    cancel/page.tsx                ← Ordine annullato
+    api/checkout/route.ts          ← Stripe Checkout (server-side)
+    api/webhooks/stripe/route.ts   ← Webhook + email Resend
+    privacy/ cookie/ termini/ recesso/  ← Pagine legali GDPR
+  components/Navbar.tsx Footer.tsx AddToCartButton.tsx CheckoutButton.tsx
+  lib/products.ts                  ← Catalogo TypeScript (16 prodotti, 6 categorie)
+  lib/cart.tsx                     ← CartContext + localStorage
+  public/images/                   ← Tutte le immagini ufficiali
+  .env.example                     ← Variabili d'ambiente necessarie
+  vercel.json                      ← Config deploy (region cdg1)
 ```
 
-## Cosa è stato completato (FASE 0)
+## Stato completamento
 
-- Immagini ufficiali: tutti i 16 prodotti, azienda, ricette, certificazioni
-- Prezzi corretti: Fior di Funghi €2.99
-- Dati aziendali reali: P.IVA 02439500220, Via Dei Prati 60, Pergine Valsugana (TN)
-- Contatti reali: tel. +39 0461 534505, info@dialfunghi.it
-- Ricette: foto food reali (risotto, panino, tartufo, teriyaki)
-- Chi siamo: griglia foto stabilimento e laboratorio completa
+- ✅ FASE 0 — Prototipo: immagini, prezzi, dati aziendali, ricette, chi siamo
+- ✅ FASE 1 — Next.js 16 setup: TypeScript, Cart Context, layout, homepage
+- ✅ FASE 2 — Porting design: tutte le pagine (shop, prodotto, carrello, chi-siamo, contatti, ricette)
+- ✅ FASE 3 — Stripe Checkout: API route, sessione, success/cancel pages
+- ✅ FASE 4 — Email Resend: webhook con email business + cliente in HTML branded
+- ✅ FASE 5 — Pagine legali: privacy, cookie, termini, diritto di recesso (GDPR/D.lgs.206/2005)
+- ✅ FASE 6 — Security headers: CSP, X-Frame-Options DENY, HSTS, Permissions-Policy
+- ⏳ FASE 7 — Deploy Vercel (istruzioni sotto)
 
-## Prossimi passi (FASE 1+)
+## Deploy su Vercel — istruzioni passo-passo
 
-Vedere il piano completo in `/Users/federicoorefice/.claude/plans/riesci-a-vedere-il-gentle-wreath.md`
-
-**FASE 1:** Setup Next.js 14 + TypeScript + Tailwind
-
-## GitHub — setup al rientro
-
-Il repo git locale è pronto. Per creare e pushare su GitHub esegui:
+### Passo 1: Autenticati su GitHub
 
 ```bash
-cd /Users/federicoorefice/Desktop/web-site-remix
-
-# 1. Autenticati con GitHub
 gh auth login -h github.com
-
-# 2. Crea il repo e pusha
-gh repo create web-site-remix-dial --public --push --source .
 ```
 
-Oppure se la repo esiste già:
+### Passo 2: Crea il repo su GitHub e pusha
+
+```bash
+gh repo create web-site-remix-dial --public --push --source /Users/federicoorefice/Desktop/web-site-remix
+```
+
+Oppure se il repo esiste già:
 ```bash
 git remote add origin https://github.com/federicoorefice/web-site-remix-dial.git
 git push -u origin main
 ```
+
+### Passo 3: Collega a Vercel
+
+1. Vai su https://vercel.com/new
+2. "Import Git Repository" → seleziona `web-site-remix-dial`
+3. **Root Directory**: `dial-funghi-shop`
+4. Framework: Next.js (rilevato automaticamente)
+
+### Passo 4: Aggiungi variabili d'ambiente su Vercel
+
+Nelle impostazioni del progetto Vercel → Environment Variables:
+
+| Variable | Dove trovarla |
+|---|---|
+| `STRIPE_SECRET_KEY` | https://dashboard.stripe.com/test/apikeys → Secret key |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | https://dashboard.stripe.com/test/apikeys → Publishable key |
+| `STRIPE_WEBHOOK_SECRET` | Dopo aver creato il webhook (passo 5) |
+| `RESEND_API_KEY` | https://resend.com/api-keys |
+| `NEXT_PUBLIC_BASE_URL` | `https://[tuo-dominio].vercel.app` |
+| `BUSINESS_EMAIL` | `federico.orefice@dialfunghi.it` |
+
+### Passo 5: Configura il webhook Stripe
+
+1. Vai su https://dashboard.stripe.com/test/webhooks
+2. "Add endpoint" → URL: `https://[tuo-dominio].vercel.app/api/webhooks/stripe`
+3. Events: seleziona `checkout.session.completed`
+4. Copia il "Signing secret" → incollalo come `STRIPE_WEBHOOK_SECRET` su Vercel
+
+### Passo 6: Test end-to-end
+
+1. Apri il sito Vercel
+2. Aggiungi prodotti al carrello
+3. Checkout con carta test: `4242 4242 4242 4242` (qualsiasi data futura, qualsiasi CVC)
+4. Verifica che arrivi email a `federico.orefice@dialfunghi.it`
+5. Verifica https://securityheaders.com con il dominio Vercel (target: grado A o A+)
