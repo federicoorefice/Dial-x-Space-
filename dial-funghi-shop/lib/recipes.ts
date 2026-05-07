@@ -88,7 +88,7 @@ export const RECIPES: Recipe[] = [
     tag: "Fior di Funghi",
     productId: "ffps",
     color: "#E63B1E",
-    img: "/images/ricette/risotto-porcini.png",
+    img: "/images/ricette/bruschette-funghi.png",
     intro: "Cinque minuti. Pane, squeeze, cena. Le bruschette più veloci e saporite che tu abbia mai fatto.",
     servings: 4,
     ingredients: [
@@ -175,7 +175,7 @@ export const RECIPES: Recipe[] = [
     tag: "Fior di Funghi",
     productId: "fftap",
     color: "#D4FF3C",
-    img: "/images/ricette/tartufo-pecorino.png",
+    img: "/images/ricette/pasta-grigliata.png",
     intro: "La pasta più lussuosa in 10 minuti. Tagliolini all'uovo, burro, squeeze di tartufo. Fine.",
     servings: 2,
     ingredients: [
@@ -205,7 +205,7 @@ export const RECIPES: Recipe[] = [
     tag: "Fior di Funghi",
     productId: "ffpab",
     color: "#E63B1E",
-    img: "/images/ricette/panino-bbq.png",
+    img: "/images/ricette/costine-bbq.png",
     intro: "Le costine che tutti chiedono la ricetta. La salsa Paprika e BBQ caramellizza sul maiale in forno per un risultato irresistibile.",
     servings: 4,
     ingredients: [
@@ -234,7 +234,7 @@ export const RECIPES: Recipe[] = [
     tag: "Fior di Funghi",
     productId: "ffpab",
     color: "#F2C200",
-    img: "/images/ricette/panino-bbq.png",
+    img: "/images/ricette/patatine-paprika.png",
     intro: "Patatine croccanti fuori, morbide dentro, con la magia del fungo affumicato.",
     servings: 4,
     ingredients: [
@@ -262,7 +262,7 @@ export const RECIPES: Recipe[] = [
     tag: "Fior di Funghi",
     productId: "ffpab",
     color: "#D4FF3C",
-    img: "/images/ricette/panino-bbq.png",
+    img: "/images/ricette/hotdog-bosco.png",
     intro: "L'hot dog che non ti aspetti. Il fungo BBQ sostituisce (e supera) qualsiasi salsa industriale.",
     servings: 4,
     ingredients: [
@@ -319,7 +319,7 @@ export const RECIPES: Recipe[] = [
     tag: "Fior di Funghi",
     productId: "fft",
     color: "#F5EFE0",
-    img: "/images/ricette/teriyaki-salmone.png",
+    img: "/images/ricette/pollo-condito.png",
     intro: "La bowl che metti in Instagram. Colorata, bilanciata, saporita. E il bosco c'è dentro.",
     servings: 2,
     ingredients: [
@@ -348,7 +348,7 @@ export const RECIPES: Recipe[] = [
     tag: "Fior di Funghi",
     productId: "fft",
     color: "#D4FF3C",
-    img: "/images/ricette/teriyaki-salmone.png",
+    img: "/images/ricette/verdure-griglio.png",
     intro: "Verdure saltate in wok con la salsa più inaspettata: fungo, teriyaki, zenzero. Pronto in 15 minuti.",
     servings: 2,
     ingredients: [
