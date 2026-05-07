@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { PRODUCTS, getProductById, formatPrice } from "@/lib/products";
+import { getRecipesByProductId } from "@/lib/recipes";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AddToCartButton from "@/components/AddToCartButton";
@@ -27,6 +28,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   if (!p) notFound();
 
   const related = PRODUCTS.filter((x) => x.category === p.category && x.id !== p.id).slice(0, 3);
+  const recipes = getRecipesByProductId(p.id).slice(0, 3);
 
   return (
     <div style={{ background: "var(--c-paper)", minHeight: "100vh", color: "var(--c-ink)" }}>
@@ -137,6 +139,56 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
       </section>
+
+      {/* RICETTE CON QUESTO PRODOTTO */}
+      {recipes.length > 0 && (
+        <section style={{ padding: "0 32px 60px", maxWidth: 1480, margin: "0 auto" }}>
+          <div style={{
+            borderTop: "3px solid var(--c-ink)", paddingTop: 60, marginBottom: 32,
+            display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 24, flexWrap: "wrap",
+          }}>
+            <h2 style={{
+              fontFamily: "var(--font-heading)", fontSize: "clamp(32px, 4vw, 60px)",
+              lineHeight: 0.9, textTransform: "uppercase", letterSpacing: "-0.03em", margin: 0,
+            }}>
+              RICETTE CON<br />
+              <span style={{ background: "var(--c-acid)", padding: "0 16px", border: "2.5px solid var(--c-ink)", borderRadius: 14, display: "inline-block" }}>
+                QUESTO PRODOTTO
+              </span>
+            </h2>
+            <Link href="/ricette" style={{
+              color: "var(--c-ink)", fontWeight: 700, fontSize: 13,
+              textTransform: "uppercase", letterSpacing: "0.06em",
+              textDecoration: "none", opacity: 0.6,
+            }}>Tutte le ricette →</Link>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 24 }}>
+            {recipes.map((r) => (
+              <Link key={r.id} href={`/ricette/${r.id}`}
+                style={{
+                  background: r.color, border: "2.5px solid var(--c-ink)",
+                  borderRadius: 24, padding: 20, boxShadow: "6px 6px 0 var(--c-ink)",
+                  textDecoration: "none", color: "var(--c-ink)", display: "block",
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
+                  <span style={{ background: "var(--c-ink)", color: r.color, padding: "4px 10px", borderRadius: 999, fontSize: 10, fontWeight: 800, textTransform: "uppercase" }}>{r.diff}</span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 700 }}>⏱ {r.time}</span>
+                </div>
+                <div style={{ height: 130, borderRadius: 10, overflow: "hidden", marginBottom: 12, position: "relative" }}>
+                  <Image src={r.img} alt={r.title} fill style={{ objectFit: "cover" }} />
+                </div>
+                <div style={{ fontFamily: "var(--font-heading)", fontSize: 19, textTransform: "uppercase", lineHeight: 1 }}>
+                  {r.title}
+                </div>
+                <div style={{ fontSize: 11, marginTop: 8, fontWeight: 700, opacity: 0.6, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                  Vedi ricetta →
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* PRODOTTI CORRELATI */}
       {related.length > 0 && (

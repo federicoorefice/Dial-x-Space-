@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo_Black, Barlow, JetBrains_Mono } from "next/font/google";
 import { CartProvider } from "@/lib/cart";
+import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 const archivoBlack = Archivo_Black({
@@ -44,7 +45,10 @@ export default function RootLayout({
       className={`${archivoBlack.variable} ${barlow.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col antialiased">
-        <CartProvider>{children}</CartProvider>
+        <CartProvider>
+          <PageTransition />
+          {children}
+        </CartProvider>
       </body>
     </html>
   );
