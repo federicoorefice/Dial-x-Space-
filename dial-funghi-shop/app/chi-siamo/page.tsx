@@ -331,7 +331,7 @@ export default function ChiSiamoPage() {
                   role: "Leader mondiale nella pasta fresca",
                   text: "Rana richiede ingredienti con profilo aromatico estremamente costante e tracciabilità completa del lotto. Il nostro laboratorio sviluppa estratti e paste di porcini calibrate su specifiche tecniche precise, integrabili direttamente nella loro linea di produzione ad alta velocità.",
                   tag: "Paste & Estratti",
-                  photo: "/images/azienda/lab-1.png",
+                  photo: "/images/ricette/pasta-grigliata.png",
                   accent: "var(--c-acid)",
                 },
                 {
@@ -340,7 +340,7 @@ export default function ChiSiamoPage() {
                   role: "Primo produttore europeo di salse",
                   text: "Per Develey sviluppiamo componenti di fungo che resistono ai processi di pastorizzazione e sterilizzazione senza perdere il profilo aromatico. Un risultato impossibile con additivi chimici — noi lo otteniamo con processi fisici brevettati.",
                   tag: "Componenti per salse",
-                  photo: "/images/azienda/macchinario-1.png",
+                  photo: "/images/ricette/sugo-porcini.png",
                   accent: "var(--c-cream)",
                 },
                 {
@@ -349,7 +349,7 @@ export default function ChiSiamoPage() {
                   role: "Gruppo alimentare internazionale",
                   text: "Parmalat lavora con Dial per l'ingredientistica dei propri prodotti in Private Label. La nostra certificazione Bio EU e la filiera completamente tracciata sono requisiti non negoziabili che pochi fornitori in Europa riescono a garantire ai loro livelli.",
                   tag: "Private Label & Bio",
-                  photo: "/images/azienda/stabilimento-1.jpg",
+                  photo: "/images/ricette/polenta-porcini.png",
                   accent: "var(--c-acid)",
                 },
               ].map((c, i) => {
