@@ -122,21 +122,31 @@ export default function ChiSiamoPage() {
           <br />NEL BOSCO.
         </h1>
         <p style={{ fontSize: 20, marginTop: 32, maxWidth: 720, lineHeight: 1.6 }}>
-          Cinque generazioni di raccoglitori trentini. Ogni fungo che trasformiamo viene da boschi che conosciamo a memoria, lavorato con processi certificati che non lasciano nulla al caso.{" "}
+          Tre generazioni di una famiglia trentina con una sola missione: portare il fungo migliore sulle tavole italiane. Non raccogliamo — selezioniamo. Acquistiamo funghi secchi dai migliori fornitori, li valutiamo con le nostre micologhe e li imbutiamo rigorosamente a mano.{" "}
           <a href="https://www.dialfunghi.it" target="_blank" rel="noopener noreferrer"
             style={{ color: "var(--c-ink)", fontWeight: 800, textDecoration: "underline" }}>
             dialfunghi.it ↗
           </a>
         </p>
 
-        {/* Stats row — animated counters */}
-        <div ref={statsRef} style={{ display: "flex", gap: 40, marginTop: 48, flexWrap: "wrap" }}>
-          {STAT_TARGETS.map(({ key, suffix, label }) => (
-            <div key={key}>
-              <div style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(40px, 5vw, 72px)", lineHeight: 0.9, letterSpacing: "-0.03em" }}>
+        {/* Stats row — animated counters, bordered card */}
+        <div
+          ref={statsRef}
+          style={{
+            display: "inline-flex", flexWrap: "wrap", marginTop: 48,
+            background: "var(--c-cream)", border: "2.5px solid var(--c-ink)",
+            borderRadius: 24, boxShadow: "8px 8px 0 var(--c-ink)", overflow: "hidden",
+          }}
+        >
+          {STAT_TARGETS.map(({ key, suffix, label }, i) => (
+            <div key={key} style={{
+              padding: "24px 36px",
+              borderRight: i < STAT_TARGETS.length - 1 ? "2.5px solid var(--c-ink)" : "none",
+            }}>
+              <div style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(36px, 4.5vw, 64px)", lineHeight: 0.9, letterSpacing: "-0.03em" }}>
                 {counts[key]}{suffix}
               </div>
-              <div style={{ fontSize: 12, fontWeight: 700, opacity: 0.55, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 6 }}>{label}</div>
+              <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.55, textTransform: "uppercase", letterSpacing: "0.1em", marginTop: 8 }}>{label}</div>
             </div>
           ))}
         </div>
@@ -312,17 +322,70 @@ export default function ChiSiamoPage() {
             })}
           </div>
 
-          <div style={{ marginTop: 48, padding: 28, background: "rgba(212,255,60,0.1)", borderRadius: 24, border: "2px solid rgba(212,255,60,0.3)", maxWidth: 700 }}>
-            <div style={{ fontFamily: "var(--font-heading)", fontSize: 18, textTransform: "uppercase", color: "var(--c-acid)", marginBottom: 12 }}>
-              ⚙️ Produzione su commessa
+          {/* B2B Industrial detail */}
+          <div style={{ marginTop: 60, paddingTop: 60, borderTop: "2px solid rgba(212,255,60,0.2)" }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.5, marginBottom: 16 }}>
+              Semilavorati industriali / OEM / Private Label
             </div>
-            <p style={{ fontSize: 14, color: "rgba(245,239,224,0.8)", lineHeight: 1.6 }}>
-              Produciamo su commessa per grandi marchi e catene della GDO. Ricette personalizzate, private label, formati dedicati. Le certificazioni BRC e IFS garantiscono la massima qualità anche a volumi industriali.{" "}
-              <a href="https://www.dialfunghi.it" target="_blank" rel="noopener noreferrer"
-                style={{ color: "var(--c-acid)", fontWeight: 800 }}>
-                Contattaci per un preventivo →
-              </a>
-            </p>
+            <h3 style={{
+              fontFamily: "var(--font-heading)", fontSize: "clamp(28px, 4vw, 56px)",
+              textTransform: "uppercase", letterSpacing: "-0.03em", color: "var(--c-cream)",
+              lineHeight: 0.9, margin: "0 0 40px",
+            }}>
+              Produzione<br /><span style={{ color: "var(--c-acid)" }}>su misura.</span>
+            </h3>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20, marginBottom: 32 }}>
+              {[
+                {
+                  title: "Prodotti Liquidi",
+                  body: "Estratti, concentrati, paste, emulsioni, puree e salse. Ideali per zuppe, minestroni, sughi pronti, ripieni e pasta fresca industriale.",
+                },
+                {
+                  title: "Prodotti Secchi",
+                  body: "Polvere micronizzata, polvere <2mm, briciole (1–9mm). Adatti a ogni applicazione nel food processing industriale.",
+                },
+                {
+                  title: "Solo Fisica, Zero Chimica",
+                  body: "Lavorazione esclusivamente fisica. Nessun additivo, nessuna chimica. Conserviamo virtualmente tutte le sostanze aromatiche naturali del fungo.",
+                },
+              ].map((card) => (
+                <div key={card.title} style={{
+                  background: "rgba(245,239,224,0.06)", border: "2px solid rgba(212,255,60,0.25)",
+                  borderRadius: 20, padding: 24,
+                }}>
+                  <div style={{ fontFamily: "var(--font-heading)", fontSize: 17, textTransform: "uppercase", color: "var(--c-acid)", marginBottom: 10 }}>
+                    {card.title}
+                  </div>
+                  <p style={{ fontSize: 14, color: "rgba(245,239,224,0.75)", lineHeight: 1.65, margin: 0 }}>
+                    {card.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 32 }}>
+              {["Bio EU", "Vegan V-Label", "Gluten Free", "Allergen Free", "Non-GMO", "BRC Food", "IFS Food"].map((c) => (
+                <span key={c} style={{
+                  background: "rgba(212,255,60,0.12)", border: "1.5px solid rgba(212,255,60,0.35)",
+                  color: "var(--c-acid)", borderRadius: 999,
+                  padding: "6px 14px", fontSize: 11, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase",
+                }}>
+                  {c}
+                </span>
+              ))}
+            </div>
+
+            <Link href="/contatti" className="pop" style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              background: "var(--c-acid)", color: "var(--c-ink)",
+              border: "2.5px solid var(--c-acid)", borderRadius: 999,
+              padding: "16px 28px", fontWeight: 900, fontSize: 13,
+              letterSpacing: "0.06em", textTransform: "uppercase",
+              textDecoration: "none", boxShadow: "5px 5px 0 rgba(212,255,60,0.4)",
+            }}>
+              Richiedi informazioni B2B →
+            </Link>
           </div>
         </div>
       </section>

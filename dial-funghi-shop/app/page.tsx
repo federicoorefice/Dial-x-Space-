@@ -230,6 +230,25 @@ const REVIEWS = [
     text: "Formato squeeze geniale. Non si rovescia, non si sporca, va su tutto. Regalo perfetto per chi ama cucinare.",
     product: "Tartufo e Pecorino", color: "var(--c-cream)",
   },
+  {
+    id: "r7", name: "Davide L.", location: "Napoli", stars: 5,
+    text: "Ho scoperto il Teriyaki quasi per caso e ora non torno indietro. Su pollo, pesce, verdure — cambia tutto.",
+    product: "Teriyaki e Zenzero", color: "#D4FF3C",
+  },
+  {
+    id: "r8", name: "Chiara P.", location: "Venezia", stars: 5,
+    text: "Ordino ogni mese. Il Paprika BBQ sulle costine al forno è una cosa seria. Tutta la famiglia lo chiede.",
+    product: "Paprika e BBQ", color: "var(--c-cream)",
+  },
+];
+
+const GALLERY_PHOTOS = [
+  { src: "/images/azienda/stabilimento-1.jpg", label: "Stabilimento" },
+  { src: "/images/azienda/stabilimento-2.jpg", label: "Stabilimento" },
+  { src: "/images/azienda/macchinario-1.png", label: "Macchinari" },
+  { src: "/images/azienda/macchinario-2.png", label: "Macchinari" },
+  { src: "/images/azienda/lab-1.png", label: "Laboratorio" },
+  { src: "/images/azienda/lab-2.jpg", label: "Laboratorio" },
 ];
 
 /* ── Page ────────────────────────────────────────────────────── */
@@ -239,11 +258,24 @@ export default function HomePage() {
   const [flippedCertHome, setFlippedCertHome] = useState<string | null>(null);
   const [hoveredReview, setHoveredReview] = useState<string | null>(null);
   const [hoveredHeroCard, setHoveredHeroCard] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [galleryIdx, setGalleryIdx] = useState(0);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 800);
     return () => clearTimeout(t);
   }, []);
+
+  useEffect(() => {
+    if (!galleryOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setGalleryOpen(false);
+      if (e.key === "ArrowLeft") setGalleryIdx((i) => (i - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length);
+      if (e.key === "ArrowRight") setGalleryIdx((i) => (i + 1) % GALLERY_PHOTOS.length);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [galleryOpen]);
 
   const product = FIOR[activeBottle];
 
@@ -401,8 +433,11 @@ export default function HomePage() {
               style={{ display: "flex", gap: 24, padding: "10px 0", whiteSpace: "nowrap" }}
             >
               {Array.from({ length: 4 }).flatMap((_, i) =>
-                ["🍄 PORCINI E SPECK", "✨ TARTUFO E PECORINO", "🔥 PAPRIKA E BBQ", "🌶️ TERIYAKI E ZENZERO", "⭐ DAL 1992", "🌲 100% TRENTINO"].map((t, j) => (
-                  <span key={`${i}-${j}`} style={{ fontWeight: 900, fontSize: 13, color: "var(--c-ink)", letterSpacing: "0.04em" }}>{t}</span>
+                ["PORCINI E SPECK", "TARTUFO E PECORINO", "PAPRIKA E BBQ", "TERIYAKI E ZENZERO", "DAL 1992", "100% TRENTINO"].map((t, j) => (
+                  <span key={`${i}-${j}`} style={{ fontWeight: 900, fontSize: 13, color: "var(--c-ink)", letterSpacing: "0.08em" }}>
+                    {t}
+                    <span style={{ margin: "0 16px", opacity: 0.3 }}>·</span>
+                  </span>
                 ))
               )}
             </motion.div>
@@ -696,11 +731,12 @@ export default function HomePage() {
               }}>La nostra storia →</Link>
             </div>
 
-            {/* Right — company building photo */}
+            {/* Right — company building photo — click to open gallery */}
             <div
               onMouseEnter={() => setHoveredHeroCard(true)}
               onMouseLeave={() => setHoveredHeroCard(false)}
-              style={{ position: "relative" }}
+              onClick={() => { setGalleryIdx(0); setGalleryOpen(true); }}
+              style={{ position: "relative", cursor: "pointer" }}
             >
               <div style={{
                 position: "relative", aspectRatio: "4/5",
@@ -850,6 +886,95 @@ export default function HomePage() {
 
         <Footer />
       </div>
+
+      {/* Gallery modal */}
+      {galleryOpen && (
+        <div
+          onClick={() => setGalleryOpen(false)}
+          style={{
+            position: "fixed", inset: 0, zIndex: 9500,
+            background: "rgba(10,15,12,0.94)",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            padding: 32,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: "relative",
+              width: "min(880px, 92vw)", height: "min(580px, 65vh)",
+              borderRadius: 24, overflow: "hidden",
+              border: "3px solid var(--c-cream)",
+              boxShadow: "16px 16px 0 var(--c-acid)",
+            }}
+          >
+            <Image
+              src={`${BASE_PATH}${GALLERY_PHOTOS[galleryIdx].src}`}
+              alt={GALLERY_PHOTOS[galleryIdx].label}
+              fill
+              style={{ objectFit: "cover" }}
+            />
+            <button
+              onClick={(e) => { e.stopPropagation(); setGalleryIdx((i) => (i - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length); }}
+              style={{
+                position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)",
+                background: "var(--c-cream)", border: "2.5px solid var(--c-ink)",
+                borderRadius: "50%", width: 44, height: 44, fontWeight: 900, fontSize: 18,
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: "3px 3px 0 var(--c-ink)",
+              }}
+            >←</button>
+            <button
+              onClick={(e) => { e.stopPropagation(); setGalleryIdx((i) => (i + 1) % GALLERY_PHOTOS.length); }}
+              style={{
+                position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)",
+                background: "var(--c-cream)", border: "2.5px solid var(--c-ink)",
+                borderRadius: "50%", width: 44, height: 44, fontWeight: 900, fontSize: 18,
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: "3px 3px 0 var(--c-ink)",
+              }}
+            >→</button>
+            <div style={{
+              position: "absolute", bottom: 16, left: "50%", transform: "translateX(-50%)",
+              background: "rgba(10,15,12,0.72)", color: "var(--c-cream)",
+              padding: "6px 18px", borderRadius: 999, fontSize: 11, fontWeight: 700,
+              letterSpacing: "0.08em", textTransform: "uppercase", whiteSpace: "nowrap",
+            }}>
+              {GALLERY_PHOTOS[galleryIdx].label} · {galleryIdx + 1} / {GALLERY_PHOTOS.length}
+            </div>
+            <button
+              onClick={() => setGalleryOpen(false)}
+              style={{
+                position: "absolute", top: 14, right: 14,
+                background: "var(--c-cream)", border: "2px solid var(--c-ink)",
+                borderRadius: "50%", width: 34, height: 34, fontWeight: 900, fontSize: 13,
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+              }}
+            >✕</button>
+          </div>
+          {/* Thumbnails */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap", justifyContent: "center" }}
+          >
+            {GALLERY_PHOTOS.map((p, idx) => (
+              <button
+                key={idx}
+                onClick={() => setGalleryIdx(idx)}
+                style={{
+                  width: 72, height: 50, borderRadius: 10, overflow: "hidden",
+                  border: galleryIdx === idx ? "3px solid var(--c-acid)" : "2px solid rgba(245,239,224,0.25)",
+                  cursor: "pointer", padding: 0, flexShrink: 0, position: "relative",
+                  background: "transparent",
+                }}
+              >
+                <Image src={`${BASE_PATH}${p.src}`} alt={p.label} fill style={{ objectFit: "cover" }} />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -23,6 +23,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   };
 }
 
+function isColorDark(color: string): boolean {
+  if (!color.startsWith("#") || color.length < 7) return false;
+  const r = parseInt(color.slice(1, 3), 16);
+  const g = parseInt(color.slice(3, 5), 16);
+  const b = parseInt(color.slice(5, 7), 16);
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.52;
+}
+
 export default async function RecipeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const r = getRecipeById(id);
@@ -30,6 +38,10 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
 
   const product = getProductById(r.productId);
   const related = RECIPES.filter((x) => x.tag === r.tag && x.id !== r.id).slice(0, 3);
+  const darkBg = isColorDark(r.color);
+  const textOnColor = darkBg ? "#ffffff" : "var(--c-ink)";
+  const mutedOnColor = darkBg ? "rgba(255,255,255,0.72)" : "rgba(10,15,12,0.55)";
+  const borderOnColor = darkBg ? "rgba(255,255,255,0.28)" : "rgba(10,15,12,0.2)";
 
   return (
     <div style={{ background: "var(--c-paper)", minHeight: "100vh", color: "var(--c-ink)" }}>
@@ -44,29 +56,29 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
       >
         <div style={{ maxWidth: 1480, margin: "0 auto" }}>
           {/* Breadcrumb */}
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", opacity: 0.6, marginBottom: 32 }}>
-            <Link href="/ricette" style={{ color: "var(--c-ink)", textDecoration: "none" }}>Ricette</Link>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", opacity: 0.6, marginBottom: 32, color: textOnColor }}>
+            <Link href="/ricette" style={{ color: textOnColor, textDecoration: "none" }}>Ricette</Link>
             {" / "}
             {r.title}
           </div>
 
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 28 }}>
             <span style={{
-              background: "var(--c-ink)", color: r.color,
+              background: textOnColor, color: r.color,
               padding: "6px 14px", borderRadius: 999, fontSize: 11, fontWeight: 800,
               textTransform: "uppercase", letterSpacing: "0.06em",
             }}>{r.diff}</span>
             <span style={{
-              background: "rgba(10,15,12,0.12)", color: "var(--c-ink)",
+              background: "transparent", color: textOnColor,
               padding: "6px 14px", borderRadius: 999, fontSize: 11, fontWeight: 700,
-              textTransform: "uppercase", letterSpacing: "0.06em", border: "1.5px solid var(--c-ink)",
-            }}>⏱ {r.time}</span>
+              textTransform: "uppercase", letterSpacing: "0.06em", border: `1.5px solid ${borderOnColor}`,
+            }}>{r.time}</span>
             {r.servings && (
               <span style={{
-                background: "rgba(10,15,12,0.12)", color: "var(--c-ink)",
+                background: "transparent", color: textOnColor,
                 padding: "6px 14px", borderRadius: 999, fontSize: 11, fontWeight: 700,
-                textTransform: "uppercase", letterSpacing: "0.06em", border: "1.5px solid var(--c-ink)",
-              }}>🍽 {r.servings} persone</span>
+                textTransform: "uppercase", letterSpacing: "0.06em", border: `1.5px solid ${borderOnColor}`,
+              }}>{r.servings} persone</span>
             )}
           </div>
 
@@ -74,14 +86,14 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
             style={{
               fontFamily: "var(--font-heading)", fontSize: "clamp(42px, 7vw, 120px)",
               lineHeight: 0.88, letterSpacing: "-0.04em", textTransform: "uppercase",
-              margin: "0 0 24px", color: "var(--c-ink)",
+              margin: "0 0 24px", color: textOnColor,
             }}
           >
             {r.title}
           </h1>
 
           {r.intro && (
-            <p style={{ fontSize: 18, lineHeight: 1.6, maxWidth: 680, color: "var(--c-ink)", opacity: 0.85 }}>
+            <p style={{ fontSize: 18, lineHeight: 1.6, maxWidth: 680, color: mutedOnColor }}>
               {r.intro}
             </p>
           )}
@@ -216,20 +228,21 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
             <div style={{
               background: r.color, border: "2.5px solid var(--c-ink)",
               borderRadius: 20, padding: 20, boxShadow: "6px 6px 0 var(--c-ink)",
+              color: textOnColor,
             }}>
-              <div style={{ fontWeight: 900, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 14 }}>
+              <div style={{ fontWeight: 900, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 14, color: textOnColor }}>
                 Riepilogo
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {[
-                  ["⏱", "Tempo", r.time],
-                  ["📊", "Difficoltà", r.diff],
-                  ...(r.servings ? [["🍽", "Porzioni", `${r.servings} persone`]] : []),
-                  ["🏷", "Categoria", r.tag],
-                ].map(([icon, label, value]) => (
+                  ["Tempo", r.time],
+                  ["Difficoltà", r.diff],
+                  ...(r.servings ? [["Porzioni", `${r.servings} persone`]] : []),
+                  ["Categoria", r.tag],
+                ].map(([label, value]) => (
                   <div key={label} style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
-                    <span style={{ opacity: 0.6, fontWeight: 700 }}>{icon} {label}</span>
-                    <span style={{ fontWeight: 800 }}>{value}</span>
+                    <span style={{ color: mutedOnColor, fontWeight: 700 }}>{label}</span>
+                    <span style={{ fontWeight: 800, color: textOnColor }}>{value}</span>
                   </div>
                 ))}
               </div>

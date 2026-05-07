@@ -42,6 +42,7 @@ export default function Navbar({ active }: { active?: string }) {
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           {LINKS.map((l) => (
             <Link key={l.href} href={l.href}
+              className="pop"
               style={{
                 background: active === l.label ? "var(--c-ink)" : "var(--c-cream)",
                 color: active === l.label ? "var(--c-acid)" : "var(--c-ink)",
