@@ -238,6 +238,7 @@ export default function HomePage() {
   const [activeBottle, setActiveBottle] = useState(0);
   const [flippedCertHome, setFlippedCertHome] = useState<string | null>(null);
   const [hoveredReview, setHoveredReview] = useState<string | null>(null);
+  const [hoveredHeroCard, setHoveredHeroCard] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 800);
@@ -696,12 +697,18 @@ export default function HomePage() {
             </div>
 
             {/* Right — company building photo */}
-            <div style={{ position: "relative" }}>
+            <div
+              onMouseEnter={() => setHoveredHeroCard(true)}
+              onMouseLeave={() => setHoveredHeroCard(false)}
+              style={{ position: "relative" }}
+            >
               <div style={{
                 position: "relative", aspectRatio: "4/5",
                 borderRadius: 32, overflow: "hidden",
                 border: "3px solid var(--c-cream)",
-                boxShadow: "10px 10px 0 var(--c-acid)",
+                boxShadow: hoveredHeroCard ? "18px 18px 0 var(--c-acid)" : "10px 10px 0 var(--c-acid)",
+                transform: hoveredHeroCard ? "translateY(-12px) scale(1.02)" : "translateY(0) scale(1)",
+                transition: "transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease",
               }}>
                 <Image
                   src={`${BASE_PATH}/images/azienda/stabilimento-1.jpg`}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Archivo_Black, Barlow, JetBrains_Mono } from "next/font/google";
 import { CartProvider } from "@/lib/cart";
 import PageTransition from "@/components/PageTransition";
+import CookieBanner from "@/components/CookieBanner";
 import "./globals.css";
 
 const archivoBlack = Archivo_Black({
@@ -48,6 +49,7 @@ export default function RootLayout({
         <CartProvider>
           <PageTransition />
           {children}
+          <CookieBanner />
         </CartProvider>
       </body>
     </html>

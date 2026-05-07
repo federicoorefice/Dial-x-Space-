@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CERTIFICATIONS } from "@/lib/products";
@@ -10,11 +10,11 @@ import { BASE_PATH } from "@/lib/basepath";
 
 const TIMELINE = [
   { y: "1992", t: "Nasce Dial", d: "Fondazione a Pergine Valsugana. Primo laboratorio di trasformazione funghi nel Trentino-Alto Adige.", c: "var(--c-acid)" },
-  { y: "2001", t: "BRC Food", d: "Prima certificazione internazionale per la sicurezza alimentare. Entriamo nella GDO.", c: "#D9A547" },
-  { y: "2005", t: "IFS Food", d: "International Featured Standard: riconoscimento dalla grande distribuzione europea.", c: "var(--c-cream)" },
-  { y: "2018", t: "V-Label Vegan", d: "Certificazione vegana su tutta la gamma. Apriamo nuovi mercati.", c: "#9CB85C" },
-  { y: "2020", t: "Bio EU", d: "Certificazione biologica europea. Tre ettari di coltivazioni bio.", c: "#6B9E3A", textLight: true },
-  { y: "2024", t: "Fior di Funghi", d: "Lancio della prima salsa squeeze ai porcini. Un nuovo formato per il mondo retail.", c: "#C24B2B", textLight: true },
+  { y: "2001", t: "BRC Food", d: "Prima certificazione internazionale per la sicurezza alimentare. Entriamo nella grande distribuzione.", c: "#D9A547" },
+  { y: "2005", t: "IFS Food", d: "International Featured Standard: riconoscimento ufficiale dalla grande distribuzione europea.", c: "var(--c-cream)" },
+  { y: "2018", t: "V-Label Vegan", d: "Certificazione vegana su tutta la gamma. Apriamo nuovi mercati e raggiungiamo nuovi consumatori.", c: "#9CB85C" },
+  { y: "2020", t: "Bio EU", d: "Certificazione biologica europea. Tre ettari di coltivazioni proprie nel rispetto dell'ecosistema.", c: "#6B9E3A", textLight: true },
+  { y: "2024", t: "Fior di Funghi", d: "Lanciamo la prima salsa squeeze ai porcini: un formato innovativo che porta il bosco in cucina in un secondo.", c: "#C24B2B", textLight: true },
 ];
 
 const B2B_CLIENTS = [
@@ -41,9 +41,47 @@ const PHOTOS = [
   { src: "/images/azienda/stabilimento-2.jpg", h: 280 },
 ];
 
+const STAT_TARGETS = [
+  { key: "anni", target: 33, suffix: "+", label: "Anni di storia" },
+  { key: "cert", target: 5, suffix: "", label: "Certificazioni" },
+  { key: "clienti", target: 10, suffix: "", label: "Clienti B2B" },
+  { key: "prodotti", target: 50, suffix: "", label: "Prodotti totali" },
+];
+
 export default function ChiSiamoPage() {
   const [flippedCert, setFlippedCert] = useState<string | null>(null);
   const [flippedClient, setFlippedClient] = useState<string | null>(null);
+  const [hoveredPhoto, setHoveredPhoto] = useState<number | null>(null);
+  const [hoveredTimeline, setHoveredTimeline] = useState<string | null>(null);
+  const [counts, setCounts] = useState<Record<string, number>>({ anni: 0, cert: 0, clienti: 0, prodotti: 0 });
+  const statsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        obs.disconnect();
+        const duration = 1600;
+        const start = performance.now();
+        const tick = (now: number) => {
+          const t = Math.min((now - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - t, 3);
+          const next: Record<string, number> = {};
+          STAT_TARGETS.forEach(({ key, target }) => {
+            next[key] = Math.round(target * ease);
+          });
+          setCounts(next);
+          if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      },
+      { threshold: 0.4 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <div style={{ background: "var(--c-paper)", minHeight: "100vh", color: "var(--c-ink)" }}>
@@ -79,24 +117,26 @@ export default function ChiSiamoPage() {
               transform: "rotate(-2deg)", boxShadow: "8px 8px 0 var(--c-ink)",
             }}
           >
-            30 ANNI
+            33 ANNI
           </span>
           <br />NEL BOSCO.
         </h1>
         <p style={{ fontSize: 20, marginTop: 32, maxWidth: 720, lineHeight: 1.6 }}>
-          Tre generazioni di una famiglia trentina dedicate a un solo frutto: il fungo. Dalla raccolta nei boschi di Pergine Valsugana alla lavorazione, ogni passo è nostro.{" "}
+          Cinque generazioni di raccoglitori trentini. Ogni fungo che trasformiamo viene da boschi che conosciamo a memoria, lavorato con processi certificati che non lasciano nulla al caso.{" "}
           <a href="https://www.dialfunghi.it" target="_blank" rel="noopener noreferrer"
             style={{ color: "var(--c-ink)", fontWeight: 800, textDecoration: "underline" }}>
             dialfunghi.it ↗
           </a>
         </p>
 
-        {/* Stats row */}
-        <div style={{ display: "flex", gap: 40, marginTop: 48, flexWrap: "wrap" }}>
-          {[["33+", "Anni di storia"], ["5", "Certificazioni"], ["150+", "Clienti B2B"], ["16", "Prodotti a catalogo"]].map(([n, l]) => (
-            <div key={l}>
-              <div style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(40px, 5vw, 72px)", lineHeight: 0.9, letterSpacing: "-0.03em" }}>{n}</div>
-              <div style={{ fontSize: 12, fontWeight: 700, opacity: 0.55, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 6 }}>{l}</div>
+        {/* Stats row — animated counters */}
+        <div ref={statsRef} style={{ display: "flex", gap: 40, marginTop: 48, flexWrap: "wrap" }}>
+          {STAT_TARGETS.map(({ key, suffix, label }) => (
+            <div key={key}>
+              <div style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(40px, 5vw, 72px)", lineHeight: 0.9, letterSpacing: "-0.03em" }}>
+                {counts[key]}{suffix}
+              </div>
+              <div style={{ fontSize: 12, fontWeight: 700, opacity: 0.55, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 6 }}>{label}</div>
             </div>
           ))}
         </div>
@@ -108,20 +148,31 @@ export default function ChiSiamoPage() {
           La nostra storia
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
-          {TIMELINE.map((it, i) => (
-            <div key={it.y}
-              style={{
-                background: it.c, color: it.textLight ? "var(--c-cream)" : "var(--c-ink)",
-                border: "2.5px solid var(--c-ink)", borderRadius: 24,
-                padding: 28, boxShadow: "8px 8px 0 var(--c-ink)",
-                transform: i % 2 === 0 ? "rotate(-1deg)" : "rotate(1deg)",
-              }}
-            >
-              <div style={{ fontFamily: "var(--font-heading)", fontSize: 52, lineHeight: 1, letterSpacing: "-0.04em" }}>{it.y}</div>
-              <div style={{ fontWeight: 900, fontSize: 16, marginTop: 8, textTransform: "uppercase" }}>{it.t}</div>
-              <div style={{ fontSize: 14, marginTop: 8, lineHeight: 1.55, opacity: it.textLight ? 0.85 : 0.75 }}>{it.d}</div>
-            </div>
-          ))}
+          {TIMELINE.map((it, i) => {
+            const isHov = hoveredTimeline === it.y;
+            const baseRot = i % 2 === 0 ? -1 : 1;
+            return (
+              <div key={it.y}
+                onMouseEnter={() => setHoveredTimeline(it.y)}
+                onMouseLeave={() => setHoveredTimeline(null)}
+                style={{
+                  background: it.c, color: it.textLight ? "var(--c-cream)" : "var(--c-ink)",
+                  border: "2.5px solid var(--c-ink)", borderRadius: 24,
+                  padding: 28,
+                  boxShadow: isHov ? "16px 16px 0 var(--c-ink)" : "8px 8px 0 var(--c-ink)",
+                  transform: isHov
+                    ? `translateY(-10px) scale(1.04) rotate(${baseRot}deg)`
+                    : `translateY(0) scale(1) rotate(${baseRot}deg)`,
+                  transition: "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease",
+                  cursor: "default",
+                }}
+              >
+                <div style={{ fontFamily: "var(--font-heading)", fontSize: 52, lineHeight: 1, letterSpacing: "-0.04em" }}>{it.y}</div>
+                <div style={{ fontWeight: 900, fontSize: 16, marginTop: 8, textTransform: "uppercase" }}>{it.t}</div>
+                <div style={{ fontSize: 14, marginTop: 8, lineHeight: 1.55, opacity: it.textLight ? 0.85 : 0.75 }}>{it.d}</div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -145,18 +196,27 @@ export default function ChiSiamoPage() {
           </span>
         </h2>
         <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 24, gridAutoRows: "minmax(240px, auto)" }}>
-          {PHOTOS.map((photo, i) => (
-            <div key={i}
-              style={{
-                border: "2.5px solid var(--c-ink)", borderRadius: 24,
-                overflow: "hidden", boxShadow: "6px 6px 0 var(--c-ink)",
-                height: photo.h, gridColumn: i === 0 ? "1" : "auto",
-                position: "relative",
-              }}
-            >
-              <Image src={`${BASE_PATH}${photo.src}`} alt="Dial Funghi stabilimento" fill style={{ objectFit: "cover" }} />
-            </div>
-          ))}
+          {PHOTOS.map((photo, i) => {
+            const isHov = hoveredPhoto === i;
+            return (
+              <div key={i}
+                onMouseEnter={() => setHoveredPhoto(i)}
+                onMouseLeave={() => setHoveredPhoto(null)}
+                style={{
+                  border: "2.5px solid var(--c-ink)", borderRadius: 24,
+                  overflow: "hidden",
+                  boxShadow: isHov ? "14px 14px 0 var(--c-ink)" : "6px 6px 0 var(--c-ink)",
+                  height: photo.h, gridColumn: i === 0 ? "1" : "auto",
+                  position: "relative",
+                  transform: isHov ? "translateY(-8px) scale(1.02)" : "translateY(0) scale(1)",
+                  transition: "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease",
+                  cursor: "default",
+                }}
+              >
+                <Image src={`${BASE_PATH}${photo.src}`} alt="Dial Funghi stabilimento" fill style={{ objectFit: "cover" }} />
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -180,7 +240,7 @@ export default function ChiSiamoPage() {
             <span style={{ color: "var(--c-acid)" }}>Dial Funghi.</span>
           </h2>
           <p style={{ fontSize: 16, color: "rgba(245,239,224,0.75)", maxWidth: 600, lineHeight: 1.6, marginBottom: 60 }}>
-            Da oltre 30 anni forniamo prodotti a base di funghi alle più grandi realtà della distribuzione e della ristorazione italiana ed europea. Qualità certificata, volumi industriali, filiera corta.
+            Da oltre 33 anni forniamo prodotti a base di funghi alle più grandi realtà della distribuzione e della ristorazione italiana ed europea. Qualità certificata, volumi industriali, filiera cortissima.
           </p>
 
           {/* Client grid — flip cards */}
@@ -257,7 +317,7 @@ export default function ChiSiamoPage() {
               ⚙️ Produzione su commessa
             </div>
             <p style={{ fontSize: 14, color: "rgba(245,239,224,0.8)", lineHeight: 1.6 }}>
-              Produciamo su commessa per grandi marchi e catene. Ricette personalizzate, private label, formati dedicati. Certificazioni BRC e IFS garantiscono la massima qualità anche a volumi industriali.{" "}
+              Produciamo su commessa per grandi marchi e catene della GDO. Ricette personalizzate, private label, formati dedicati. Le certificazioni BRC e IFS garantiscono la massima qualità anche a volumi industriali.{" "}
               <a href="https://www.dialfunghi.it" target="_blank" rel="noopener noreferrer"
                 style={{ color: "var(--c-acid)", fontWeight: 800 }}>
                 Contattaci per un preventivo →
@@ -325,7 +385,7 @@ export default function ChiSiamoPage() {
                       <Image src={`${BASE_PATH}${c.img}`} alt={c.name} width={100} height={100} style={{ objectFit: "contain" }} />
                       <div style={{ fontFamily: "var(--font-heading)", fontSize: 16, textTransform: "uppercase", letterSpacing: "-0.01em", marginTop: 16 }}>{c.name}</div>
                       <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.5, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 6 }}>Dal {c.year}</div>
-                      <div style={{ fontSize: 11, marginTop: 12, opacity: 0.45, fontStyle: "italic" }}>Tocca per saperne di più</div>
+                      <div style={{ fontSize: 11, marginTop: 12, opacity: 0.45, fontStyle: "italic" }}>Passa il mouse per saperne di più</div>
                     </div>
                     {/* Back */}
                     <div style={{
