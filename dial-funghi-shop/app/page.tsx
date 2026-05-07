@@ -237,6 +237,7 @@ export default function HomePage() {
   const [loaded, setLoaded] = useState(false);
   const [activeBottle, setActiveBottle] = useState(0);
   const [flippedCertHome, setFlippedCertHome] = useState<string | null>(null);
+  const [hoveredReview, setHoveredReview] = useState<string | null>(null);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 800);
@@ -764,16 +765,25 @@ export default function HomePage() {
               gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
               gap: 24,
             }}>
-              {REVIEWS.map((rev, i) => (
+              {REVIEWS.map((rev, i) => {
+                const isHov = hoveredReview === rev.id;
+                const baseRot = i % 2 === 0 ? -0.5 : 0.5;
+                return (
                 <div
                   key={rev.id}
+                  onMouseEnter={() => setHoveredReview(rev.id)}
+                  onMouseLeave={() => setHoveredReview(null)}
                   style={{
                     background: rev.color, color: "var(--c-ink)",
                     borderRadius: 24, padding: "32px 28px",
                     border: "2.5px solid var(--c-ink)",
-                    boxShadow: "6px 6px 0 var(--c-ink)",
-                    transform: i % 2 === 0 ? "rotate(-0.5deg)" : "rotate(0.5deg)",
+                    boxShadow: isHov ? "16px 20px 0 var(--c-ink)" : "6px 6px 0 var(--c-ink)",
+                    transform: isHov
+                      ? `translateY(-10px) scale(1.03) rotate(${baseRot}deg)`
+                      : `translateY(0) scale(1) rotate(${baseRot}deg)`,
+                    transition: "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease",
                     display: "flex", flexDirection: "column", gap: 16,
+                    cursor: "default",
                   }}
                 >
                   {/* Stars */}
@@ -806,7 +816,8 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-              ))}
+              );
+            })}
             </div>
 
             {/* CTA */}
