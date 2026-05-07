@@ -43,6 +43,7 @@ const PHOTOS = [
 
 export default function ChiSiamoPage() {
   const [flippedCert, setFlippedCert] = useState<string | null>(null);
+  const [flippedClient, setFlippedClient] = useState<string | null>(null);
 
   return (
     <div style={{ background: "var(--c-paper)", minHeight: "100vh", color: "var(--c-ink)" }}>
@@ -182,26 +183,73 @@ export default function ChiSiamoPage() {
             Da oltre 30 anni forniamo prodotti a base di funghi alle più grandi realtà della distribuzione e della ristorazione italiana ed europea. Qualità certificata, volumi industriali, filiera corta.
           </p>
 
-          {/* Client grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 16 }}>
-            {B2B_CLIENTS.map((client) => (
-              <div key={client.name}
-                style={{
-                  border: "2px solid rgba(245,239,224,0.2)", borderRadius: 16,
-                  padding: "20px 24px", minHeight: 88,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  background: "rgba(245,239,224,0.05)",
-                }}
-              >
-                <Image
-                  src={`${BASE_PATH}${client.logo}`}
-                  alt={client.name}
-                  width={140}
-                  height={56}
-                  style={{ objectFit: "contain", filter: "brightness(0) invert(1)", opacity: 0.9 }}
-                />
-              </div>
-            ))}
+          {/* Client grid — flip cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 20 }}>
+            {B2B_CLIENTS.map((client) => {
+              const isFlipped = flippedClient === client.name;
+              return (
+                <div
+                  key={client.name}
+                  onMouseEnter={() => setFlippedClient(client.name)}
+                  onMouseLeave={() => setFlippedClient(null)}
+                  style={{ perspective: 800, cursor: "pointer", height: 160 }}
+                >
+                  <div style={{
+                    position: "relative", width: "100%", height: "100%",
+                    transformStyle: "preserve-3d",
+                    transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                    transition: "transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                  }}>
+                    {/* Front — logo a colori su sfondo bianco */}
+                    <div style={{
+                      position: "absolute", inset: 0,
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                      background: "#fff",
+                      border: "2.5px solid rgba(245,239,224,0.3)",
+                      borderRadius: 20,
+                      boxShadow: "6px 6px 0 rgba(212,255,60,0.4)",
+                      display: "flex", flexDirection: "column",
+                      alignItems: "center", justifyContent: "center",
+                      padding: 20, gap: 10,
+                    }}>
+                      <Image
+                        src={`${BASE_PATH}${client.logo}`}
+                        alt={client.name}
+                        width={150}
+                        height={64}
+                        style={{ objectFit: "contain", maxHeight: 64 }}
+                      />
+                      <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#999" }}>
+                        Partner
+                      </div>
+                    </div>
+                    {/* Back — nome brand su acid */}
+                    <div style={{
+                      position: "absolute", inset: 0,
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                      transform: "rotateY(180deg)",
+                      background: "var(--c-acid)", color: "var(--c-ink)",
+                      border: "2.5px solid rgba(245,239,224,0.3)",
+                      borderRadius: 20,
+                      boxShadow: "6px 6px 0 rgba(212,255,60,0.4)",
+                      display: "flex", flexDirection: "column",
+                      alignItems: "center", justifyContent: "center",
+                      padding: 20, textAlign: "center",
+                    }}>
+                      <div style={{ fontFamily: "var(--font-heading)", fontSize: 22, textTransform: "uppercase", letterSpacing: "-0.02em", lineHeight: 0.95 }}>
+                        {client.name}
+                      </div>
+                      <div style={{ marginTop: 12, width: 32, height: 2, background: "var(--c-ink)", borderRadius: 2 }} />
+                      <div style={{ marginTop: 12, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.6 }}>
+                        Partner Dial Funghi
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           <div style={{ marginTop: 48, padding: 28, background: "rgba(212,255,60,0.1)", borderRadius: 24, border: "2px solid rgba(212,255,60,0.3)", maxWidth: 700 }}>
