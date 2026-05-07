@@ -249,8 +249,8 @@ export default function ChiSiamoPage() {
               lineHeight: 0.88, textTransform: "uppercase", letterSpacing: "-0.04em",
               margin: 0, color: "var(--c-cream)",
             }}>
-              Non siamo<br />un fornitore.<br />
-              <span style={{ color: "var(--c-acid)" }}>Siamo il lab.</span>
+              Non siamo<br />un fornitore<br />qualsiasi.<br />
+              <span style={{ color: "var(--c-acid)" }}>Siamo l&apos;eccellenza.</span>
             </h2>
             <div style={{ paddingTop: 16 }}>
               <p style={{ fontSize: 18, color: "rgba(245,239,224,0.85)", lineHeight: 1.7, margin: "0 0 28px" }}>
