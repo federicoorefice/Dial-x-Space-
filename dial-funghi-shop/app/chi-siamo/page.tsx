@@ -266,22 +266,22 @@ export default function ChiSiamoPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 80 }}>
             {[
               {
-                n: "01", emoji: "🏭",
+                n: "01",
                 title: "Tecnologia\nIndustriale",
                 body: "Linee di produzione all'avanguardia per formati liquidi (paste, estratti, salse, emulsioni) e secchi (polveri micronizzate, briciole calibrate). Investiamo ogni anno in nuovi macchinari.",
                 bg: "var(--c-acid)", color: "var(--c-ink)", rot: -1.5,
               },
               {
-                n: "02", emoji: "🔬",
+                n: "02",
                 title: "R&D Interno\nDedicato",
                 body: "Il nostro team di micologhe e food technologist sviluppa su richiesta nuovi ingredienti funzionali. Lavoriamo in NDA con i brand partner, dalla prototipazione alla produzione in scala.",
-                bg: "#D9A547", color: "var(--c-ink)", rot: 1,
+                bg: "var(--c-cream)", color: "var(--c-ink)", rot: 1,
               },
               {
-                n: "03", emoji: "🌲",
+                n: "03",
                 title: "Filiera Corta\nCertificata",
                 body: "Selezioniamo personalmente i fornitori di funghi secchi in tutto il mondo. Ogni lotto è tracciato, analizzato in laboratorio e certificato BRC, IFS, Bio EU, Vegan V-Label.",
-                bg: "#9CB85C", color: "var(--c-ink)", rot: -1,
+                bg: "var(--c-acid)", color: "var(--c-ink)", rot: -1,
               },
             ].map((p) => {
               const isHov = hoveredPillar === p.n;
@@ -302,8 +302,7 @@ export default function ChiSiamoPage() {
                     cursor: "default",
                   }}
                 >
-                  <div style={{ fontSize: 40, marginBottom: 16 }}>{p.emoji}</div>
-                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.18em", opacity: 0.55, marginBottom: 14 }}>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.18em", opacity: 0.5, marginBottom: 14 }}>
                     {p.n}
                   </div>
                   <div style={{
@@ -342,7 +341,7 @@ export default function ChiSiamoPage() {
                   text: "Per Develey sviluppiamo componenti di fungo che resistono ai processi di pastorizzazione e sterilizzazione senza perdere il profilo aromatico. Un risultato impossibile con additivi chimici — noi lo otteniamo con processi fisici brevettati.",
                   tag: "Componenti per salse",
                   photo: "/images/azienda/macchinario-1.png",
-                  accent: "#D9A547",
+                  accent: "var(--c-cream)",
                 },
                 {
                   brand: "Parmalat",
@@ -351,7 +350,7 @@ export default function ChiSiamoPage() {
                   text: "Parmalat lavora con Dial per l'ingredientistica dei propri prodotti in Private Label. La nostra certificazione Bio EU e la filiera completamente tracciata sono requisiti non negoziabili che pochi fornitori in Europa riescono a garantire ai loro livelli.",
                   tag: "Private Label & Bio",
                   photo: "/images/azienda/stabilimento-1.jpg",
-                  accent: "#9CB85C",
+                  accent: "var(--c-acid)",
                 },
               ].map((c, i) => {
                 const isHov = hoveredCase === c.brand;
