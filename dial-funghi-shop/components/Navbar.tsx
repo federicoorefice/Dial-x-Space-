@@ -30,14 +30,11 @@ export default function Navbar({ active }: { active?: string }) {
         <Link href="/"
           style={{
             background: "var(--c-cream)", border: "2.5px solid var(--c-ink)", borderRadius: 999,
-            padding: "8px 20px 8px 8px", display: "flex", alignItems: "center", gap: 12,
+            padding: "8px", display: "flex", alignItems: "center",
             textDecoration: "none", color: "var(--c-ink)", boxShadow: "4px 4px 0 var(--c-ink)",
           }}
         >
-          <Image src="/images/logo-dial.png" alt="Dial Funghi" width={42} height={42} style={{ objectFit: "contain" }} />
-          <span style={{ fontWeight: 900, fontSize: 14, letterSpacing: "0.02em", textTransform: "uppercase" }}>
-            Dial Funghi
-          </span>
+          <Image src="/images/logo-dial.png" alt="Dial Funghi" width={56} height={56} style={{ objectFit: "contain" }} />
         </Link>
 
         {/* Links */}

@@ -10,6 +10,7 @@ import AddToCartButton from "@/components/AddToCartButton";
 
 export default function ShopPage() {
   const [cat, setCat] = useState("tutti");
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const filtered = cat === "tutti" ? PRODUCTS : PRODUCTS.filter((p) => p.category === cat);
 
   return (
@@ -75,10 +76,15 @@ export default function ShopPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 28 }}>
           {filtered.map((p, i) => (
             <div key={p.id}
+              onMouseEnter={() => setHoveredId(p.id)}
+              onMouseLeave={() => setHoveredId(null)}
               style={{
                 background: "var(--c-cream)", border: "2.5px solid var(--c-ink)",
-                borderRadius: 28, padding: 24, boxShadow: "8px 8px 0 var(--c-ink)",
+                borderRadius: 28, padding: 24,
+                boxShadow: hoveredId === p.id ? "14px 18px 0 var(--c-ink)" : "8px 8px 0 var(--c-ink)",
                 display: "flex", flexDirection: "column",
+                transform: hoveredId === p.id ? "translateY(-8px) scale(1.015)" : "translateY(0) scale(1)",
+                transition: "transform 0.25s ease, box-shadow 0.25s ease",
               }}
             >
               {/* Badges */}

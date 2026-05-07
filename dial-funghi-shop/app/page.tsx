@@ -62,7 +62,8 @@ function LoadingScreen({ done }: { done: boolean }) {
 
 /* ── 3D Drag Bottle ──────────────────────────────────────────── */
 function DragBottle({ product }: { product: Product }) {
-  const ref = useRef<HTMLDivElement>(null);
+  // containerRef stays mounted permanently — never inside AnimatePresence
+  const containerRef = useRef<HTMLDivElement>(null);
   const rotateY = useMotionValue(0);
   const rotateX = useMotionValue(0);
   const dragging = useRef(false);
@@ -70,13 +71,15 @@ function DragBottle({ product }: { product: Product }) {
   const sRotateY = useSpring(rotateY, { stiffness: 200, damping: 24 });
   const sRotateX = useSpring(rotateX, { stiffness: 200, damping: 24 });
 
+  // Reset rotation on product switch
   useEffect(() => {
     rotateY.set(0);
     rotateX.set(0);
   }, [product.id, rotateX, rotateY]);
 
+  // Event listeners attach once to the stable container — never re-registers
   useEffect(() => {
-    const el = ref.current;
+    const el = containerRef.current;
     if (!el) return;
 
     let startX = 0, startY = 0, startRY = 0, startRX = 0;
@@ -120,15 +123,17 @@ function DragBottle({ product }: { product: Product }) {
       window.removeEventListener("mouseup", onUp);
       window.removeEventListener("touchend", onUp);
     };
-  }, [product.id, rotateX, rotateY]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // containerRef is stable; rotateY/rotateX are stable MotionValue refs
 
   return (
     <div style={{ position: "relative", aspectRatio: "1", maxWidth: 580, margin: "0 auto", width: "100%" }}>
-      {/* Radial glow */}
+      {/* Radial glow — animates with product color */}
       <div style={{
         position: "absolute", inset: 0,
         background: `radial-gradient(circle at center, ${product.color}50 0%, transparent 65%)`,
         borderRadius: "50%",
+        transition: "background 0.5s ease",
       }} />
 
       {/* Orbiting sticker */}
@@ -148,26 +153,27 @@ function DragBottle({ product }: { product: Product }) {
         }}>180g · Squeeze</div>
       </motion.div>
 
-      {/* Bottle with 3D drag */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          ref={ref}
-          key={product.id}
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.85 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            position: "absolute", inset: "12%",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            cursor: "grab", userSelect: "none", touchAction: "none",
-            perspective: 1000,
-          }}
-        >
+      {/* Stable drag container — ref lives here, never unmounts */}
+      <div
+        ref={containerRef}
+        style={{
+          position: "absolute", inset: "12%",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          cursor: "grab", userSelect: "none", touchAction: "none",
+          perspective: 1000,
+        }}
+      >
+        {/* Only the bottle image transitions between products */}
+        <AnimatePresence mode="wait">
           <motion.img
+            key={product.id}
             src={product.img}
             alt={product.name}
             draggable={false}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.85 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             style={{
               maxWidth: "100%", maxHeight: "100%", objectFit: "contain",
               filter: "drop-shadow(0 30px 40px rgba(0,0,0,0.3))",
@@ -175,8 +181,8 @@ function DragBottle({ product }: { product: Product }) {
               rotateX: sRotateX,
             }}
           />
-        </motion.div>
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
 
       {/* Drag hint */}
       <div style={{
@@ -376,35 +382,29 @@ export default function HomePage() {
           borderTop: "3px solid var(--c-ink)",
         }}>
           <div style={{ maxWidth: 1480, margin: "0 auto", padding: "0 32px" }}>
-            {/* Header */}
-            <div style={{
-              display: "flex", alignItems: "flex-end",
-              justifyContent: "space-between",
-              marginBottom: 60, flexWrap: "wrap", gap: 24,
-            }}>
-              <div>
-                <div style={{
-                  display: "inline-block",
-                  background: "var(--c-acid)", color: "var(--c-ink)",
-                  padding: "8px 16px", borderRadius: 999,
-                  border: "2.5px solid var(--c-ink)",
-                  fontWeight: 900, fontSize: 12, letterSpacing: "0.08em",
-                  textTransform: "uppercase", marginBottom: 20,
-                  boxShadow: "4px 4px 0 var(--c-ink)",
-                }}>⚡ La Gamma</div>
-                <h2 style={{
-                  fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
-                  fontWeight: 900,
-                  fontSize: "clamp(38px, 6vw, 94px)",
-                  lineHeight: 0.88, margin: 0,
-                  textTransform: "uppercase", letterSpacing: "-0.04em",
-                  color: "var(--c-ink)",
-                }}>
-                  Squeeze<br />
-                  <span style={{ color: "#C24B2B" }}>& Boom!</span>
-                </h2>
-              </div>
-              <p style={{ fontSize: 14, fontWeight: 500, maxWidth: 380, color: "var(--c-ink)", lineHeight: 1.5 }}>
+            {/* Header — centered */}
+            <div style={{ textAlign: "center", marginBottom: 70 }}>
+              <div style={{
+                display: "inline-block",
+                background: "var(--c-acid)", color: "var(--c-ink)",
+                padding: "8px 16px", borderRadius: 999,
+                border: "2.5px solid var(--c-ink)",
+                fontWeight: 900, fontSize: 12, letterSpacing: "0.08em",
+                textTransform: "uppercase", marginBottom: 20,
+                boxShadow: "4px 4px 0 var(--c-ink)",
+              }}>⚡ La Gamma</div>
+              <h2 style={{
+                fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
+                fontWeight: 900,
+                fontSize: "clamp(52px, 8vw, 130px)",
+                lineHeight: 0.88, margin: 0,
+                textTransform: "uppercase", letterSpacing: "-0.04em",
+                color: "var(--c-ink)",
+              }}>
+                Squeeze<br />
+                <span style={{ color: "#FF2800" }}>& Boom!</span>
+              </h2>
+              <p style={{ fontSize: 15, fontWeight: 500, maxWidth: 420, color: "var(--c-ink)", lineHeight: 1.5, margin: "24px auto 0" }}>
                 Quattro salse ai funghi pronte all'uso. Squeeze, condisci, gustati l'effetto.
               </p>
             </div>
@@ -448,7 +448,7 @@ export default function HomePage() {
                       fontSize: 16, color: product.color, lineHeight: 1.3,
                     }}>"{product.tagline}"</p>
 
-                    <p style={{ marginTop: 24, fontSize: 13, lineHeight: 1.55, color: "var(--c-ink)", maxWidth: 480 }}>
+                    <p style={{ marginTop: 24, fontSize: 15, lineHeight: 1.6, color: "var(--c-ink)", maxWidth: 480 }}>
                       {product.desc}
                     </p>
 
@@ -525,12 +525,12 @@ export default function HomePage() {
                   lineHeight: 0.9, margin: 0,
                   textTransform: "uppercase", letterSpacing: "-0.03em",
                 }}>
-                  Certificati,<br />certificati,<br />
-                  <span style={{ color: "var(--c-acid)" }}>certificati.</span>
+                  Cinque<br />marchi.<br />
+                  <span style={{ color: "var(--c-acid)" }}>Zero dubbi.</span>
                 </h2>
               </div>
-              <p style={{ maxWidth: 360, fontSize: 13, color: "rgba(245,239,224,0.75)", lineHeight: 1.55 }}>
-                Standard internazionali per ogni fase: dalla raccolta in bosco al barattolo. Niente compromessi.
+              <p style={{ maxWidth: 360, fontSize: 15, color: "rgba(245,239,224,0.8)", lineHeight: 1.6 }}>
+                BRC, IFS, Vegan, Bio EU, Family Audit. Ogni fase del processo — dal bosco al barattolo — è controllata, tracciata e certificata. Non perché siamo obbligati, ma perché lo vogliamo.
               </p>
             </div>
           </div>
@@ -601,7 +601,7 @@ export default function HomePage() {
                 <span style={{ color: "var(--c-acid)" }}>Trentino.</span>
               </h2>
 
-              <p style={{ marginTop: 32, fontSize: 14, color: "rgba(245,239,224,0.8)", lineHeight: 1.55, maxWidth: 480 }}>
+              <p style={{ marginTop: 32, fontSize: 16, color: "rgba(245,239,224,0.85)", lineHeight: 1.6, maxWidth: 480 }}>
                 Cinque generazioni di raccoglitori. Dieci ettari di bosco. Una sola ossessione: tirare fuori l'umami che la natura ci regala.{" "}
                 <strong style={{ color: "var(--c-cream)" }}>Senza scorciatoie.</strong>
               </p>
@@ -651,6 +651,120 @@ export default function HomePage() {
                 boxShadow: "4px 4px 0 var(--c-cream)",
                 transform: "rotate(-8deg)",
               }}>🌲 Bosco vivo</div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── IL PROCESSO ──────────────────────────── */}
+        <section style={{
+          background: "var(--c-acid)", color: "var(--c-ink)",
+          padding: "100px 0 110px",
+          borderTop: "3px solid var(--c-ink)",
+        }}>
+          <div style={{ maxWidth: 1480, margin: "0 auto", padding: "0 32px" }}>
+            {/* Header */}
+            <div style={{ marginBottom: 72 }}>
+              <div style={{
+                display: "inline-block",
+                background: "var(--c-ink)", color: "var(--c-acid)",
+                padding: "8px 16px", borderRadius: 999,
+                border: "2.5px solid var(--c-ink)",
+                fontWeight: 900, fontSize: 12, letterSpacing: "0.08em",
+                textTransform: "uppercase", marginBottom: 20,
+                boxShadow: "4px 4px 0 var(--c-ink)",
+              }}>⚙️ Come lavoriamo</div>
+              <h2 style={{
+                fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
+                fontWeight: 900,
+                fontSize: "clamp(42px, 7vw, 110px)",
+                lineHeight: 0.88, margin: 0,
+                textTransform: "uppercase", letterSpacing: "-0.04em",
+                color: "var(--c-ink)",
+              }}>
+                Dal bosco<br />al tuo piatto.
+              </h2>
+            </div>
+
+            {/* Steps */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: 24,
+            }}>
+              {[
+                {
+                  num: "01",
+                  title: "Raccolta a mano",
+                  desc: "Selezionati uno per uno nei boschi del Trentino. Solo i funghi con la forma, il profumo e la texture giusta entrano nella nostra filiera.",
+                  icon: "🌲",
+                  bg: "var(--c-ink)",
+                  txt: "var(--c-acid)",
+                },
+                {
+                  num: "02",
+                  title: "Lavorazione il giorno stesso",
+                  desc: "Niente depositi, niente attese. Ogni fungo viene lavorato fresco entro poche ore dalla raccolta. L'umami si preserva, non si aggiunge.",
+                  icon: "🔪",
+                  bg: "var(--c-cream)",
+                  txt: "var(--c-ink)",
+                },
+                {
+                  num: "03",
+                  title: "Squeeze & pronto",
+                  desc: "Formato innovativo, logica semplicissima: apri, squeeze, servi. Niente pentole, niente coltelli, niente tempi di preparazione.",
+                  icon: "✨",
+                  bg: "var(--c-ink)",
+                  txt: "var(--c-acid)",
+                },
+              ].map((step) => (
+                <div
+                  key={step.num}
+                  style={{
+                    background: step.bg, color: step.txt,
+                    borderRadius: 24, padding: "40px 36px",
+                    border: "3px solid var(--c-ink)",
+                    boxShadow: "6px 6px 0 var(--c-ink)",
+                    display: "flex", flexDirection: "column", gap: 20,
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <span style={{
+                      fontFamily: "var(--font-mono, 'JetBrains Mono'), monospace",
+                      fontSize: 13, fontWeight: 700, opacity: 0.5,
+                      letterSpacing: "0.08em",
+                    }}>{step.num}</span>
+                    <span style={{ fontSize: 32 }}>{step.icon}</span>
+                  </div>
+                  <h3 style={{
+                    fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
+                    fontWeight: 900, fontSize: "clamp(22px, 2.2vw, 34px)",
+                    lineHeight: 0.95, margin: 0,
+                    textTransform: "uppercase", letterSpacing: "-0.03em",
+                  }}>{step.title}</h3>
+                  <p style={{ fontSize: 14, lineHeight: 1.6, opacity: 0.85, margin: 0 }}>
+                    {step.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div style={{ marginTop: 64, display: "flex", gap: 16, flexWrap: "wrap" }}>
+              <Link href="/shop" style={{
+                background: "var(--c-ink)", color: "var(--c-acid)",
+                border: "3px solid var(--c-ink)", padding: "16px 32px",
+                borderRadius: 999, fontWeight: 900, fontSize: 14,
+                letterSpacing: "0.06em", textTransform: "uppercase",
+                textDecoration: "none", boxShadow: "6px 6px 0 var(--c-ink)",
+                display: "inline-flex", alignItems: "center", gap: 10,
+              }}>Esplora i Prodotti →</Link>
+              <Link href="/chi-siamo" style={{
+                background: "transparent", color: "var(--c-ink)",
+                border: "3px solid var(--c-ink)", padding: "16px 32px",
+                borderRadius: 999, fontWeight: 800, fontSize: 14,
+                letterSpacing: "0.06em", textTransform: "uppercase",
+                textDecoration: "none",
+              }}>Chi Siamo</Link>
             </div>
           </div>
         </section>

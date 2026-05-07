@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/lib/cart";
-import { formatPrice, SHIPPING } from "@/lib/products";
+import { formatPrice, SHIPPING, PRODUCTS } from "@/lib/products";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CheckoutButton from "@/components/CheckoutButton";
+import AddToCartButton from "@/components/AddToCartButton";
 
 export default function CarrelloPage() {
   const { items, count, subtotal, shipping, total, remove, setQty } = useCart();
@@ -125,6 +126,41 @@ export default function CarrelloPage() {
                 Riepilogo
               </div>
 
+              {/* Shipping threshold bar */}
+              {shipping > 0 ? (
+                <div style={{
+                  background: "rgba(212,255,60,0.15)", border: "2px solid var(--c-ink)",
+                  borderRadius: 16, padding: "14px 16px", marginBottom: 16,
+                }}>
+                  <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.04em", marginBottom: 10 }}>
+                    🚚 Ancora{" "}
+                    <span style={{ color: "#C24B2B" }}>
+                      {formatPrice(SHIPPING.freeThreshold - subtotal)}
+                    </span>{" "}
+                    per la spedizione gratuita!
+                  </div>
+                  <div style={{
+                    background: "rgba(10,15,12,0.12)", borderRadius: 999, height: 10,
+                    overflow: "hidden", border: "1.5px solid var(--c-ink)",
+                  }}>
+                    <div style={{
+                      height: "100%",
+                      width: `${Math.min((subtotal / SHIPPING.freeThreshold) * 100, 100)}%`,
+                      background: "var(--c-ink)", borderRadius: 999,
+                      transition: "width 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                    }} />
+                  </div>
+                </div>
+              ) : (
+                <div style={{
+                  background: "var(--c-acid)", border: "2px solid var(--c-ink)",
+                  borderRadius: 16, padding: "12px 16px", marginBottom: 16,
+                  fontWeight: 900, fontSize: 14, textAlign: "center",
+                }}>
+                  🎉 Spedizione gratuita!
+                </div>
+              )}
+
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15 }}>
                   <span>Subtotale</span>
@@ -134,15 +170,10 @@ export default function CarrelloPage() {
                   <span>Spedizione</span>
                   <span style={{ fontWeight: 700 }}>
                     {shipping === 0 ? (
-                      <span style={{ color: "var(--c-moss)", fontWeight: 800 }}>GRATIS 🎉</span>
+                      <span style={{ color: "#2a7a3b", fontWeight: 800 }}>GRATIS ✓</span>
                     ) : formatPrice(shipping)}
                   </span>
                 </div>
-                {shipping > 0 && (
-                  <div style={{ fontSize: 11, opacity: 0.55, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-                    Gratis sopra €{SHIPPING.freeThreshold}
-                  </div>
-                )}
                 <div style={{ borderTop: "2px solid var(--c-ink)", paddingTop: 12, display: "flex", justifyContent: "space-between" }}>
                   <span style={{ fontFamily: "var(--font-heading)", fontSize: 22, textTransform: "uppercase" }}>Totale</span>
                   <span style={{ fontFamily: "var(--font-heading)", fontSize: 28, fontWeight: 900 }}>{formatPrice(total)}</span>
@@ -165,6 +196,53 @@ export default function CarrelloPage() {
             </div>
           </div>
         )}
+
+        {/* UPSELL — suggerimenti */}
+        {count > 0 && (() => {
+          const suggestions = PRODUCTS.filter((p) => !items.some((i) => i.id === p.id)).slice(0, 3);
+          if (suggestions.length === 0) return null;
+          return (
+            <div style={{ marginTop: 80, paddingTop: 60, borderTop: "3px solid var(--c-ink)" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.5, marginBottom: 12 }}>
+                Potrebbe piacerti anche
+              </div>
+              <h2 style={{
+                fontFamily: "var(--font-heading)", fontSize: "clamp(32px, 5vw, 72px)",
+                lineHeight: 0.88, letterSpacing: "-0.04em", textTransform: "uppercase", margin: "0 0 40px",
+              }}>
+                Completa il<br />
+                <span style={{ background: "var(--c-acid)", padding: "0 16px", border: "3px solid var(--c-ink)", borderRadius: 16, display: "inline-block" }}>
+                  tuo bosco.
+                </span>
+              </h2>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 24 }}>
+                {suggestions.map((p) => (
+                  <div key={p.id} style={{
+                    background: "var(--c-cream)", border: "2.5px solid var(--c-ink)",
+                    borderRadius: 24, padding: 20, boxShadow: "6px 6px 0 var(--c-ink)",
+                    display: "flex", flexDirection: "column",
+                  }}>
+                    <Link href={`/shop/${p.id}`} style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 140, textDecoration: "none" }}>
+                      <Image src={p.img} alt={p.name} width={140} height={140} style={{ objectFit: "contain" }} />
+                    </Link>
+                    <Link href={`/shop/${p.id}`} style={{ textDecoration: "none", color: "var(--c-ink)" }}>
+                      <div style={{ fontFamily: "var(--font-heading)", fontSize: 18, fontWeight: 900, textTransform: "uppercase", lineHeight: 1, marginTop: 8 }}>
+                        {p.name}
+                      </div>
+                    </Link>
+                    <div style={{ fontSize: 12, opacity: 0.6, marginTop: 4 }}>{p.tagline}</div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 14 }}>
+                      <span style={{ fontFamily: "var(--font-heading)", fontSize: 22, fontWeight: 900 }}>
+                        {formatPrice(p.price)}
+                      </span>
+                      <AddToCartButton product={p} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })()}
       </section>
 
       <Footer />

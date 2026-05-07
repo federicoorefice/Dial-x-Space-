@@ -7,24 +7,44 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const RECIPES = [
-  { id: "risotto-porcini", title: "Risotto cremoso al fungo", time: "25 min", diff: "Facile", tag: "Porcini e Speck", productId: "ffps", color: "#D4FF3C", img: "/images/ricette/risotto-porcini.png" },
-  { id: "burger-gourmet", title: "Burger gourmet con fungo", time: "15 min", diff: "Facile", tag: "Porcini e Speck", productId: "ffps", color: "#F2C200", img: "/images/ricette/panino-bbq.png" },
-  { id: "bruschette", title: "Bruschette autunnali", time: "5 min", diff: "Facilissima", tag: "Porcini e Speck", productId: "ffps", color: "#E63B1E", img: "/images/ricette/risotto-porcini.png" },
-  { id: "uova-tartufo", title: "Uova strapazzate al tartufo", time: "8 min", diff: "Facilissima", tag: "Tartufo e Pecorino", productId: "fftap", color: "#2E4FE8", img: "/images/ricette/tartufo-pecorino.png" },
-  { id: "toast-gourmet", title: "Toast gourmet", time: "5 min", diff: "Facilissima", tag: "Tartufo e Pecorino", productId: "fftap", color: "#F5EFE0", img: "/images/ricette/tartufo-pecorino.png" },
-  { id: "tagliolini", title: "Tagliolini al tartufo", time: "10 min", diff: "Facile", tag: "Tartufo e Pecorino", productId: "fftap", color: "#D4FF3C", img: "/images/ricette/tartufo-pecorino.png" },
-  { id: "costine", title: "Costine BBQ", time: "60 min", diff: "Media", tag: "Paprika e BBQ", productId: "ffpab", color: "#E63B1E", img: "/images/ricette/panino-bbq.png" },
-  { id: "patatine", title: "Patatine al forno", time: "35 min", diff: "Facile", tag: "Paprika e BBQ", productId: "ffpab", color: "#F2C200", img: "/images/ricette/panino-bbq.png" },
-  { id: "hotdog", title: "Hot dog gourmet", time: "10 min", diff: "Facile", tag: "Paprika e BBQ", productId: "ffpab", color: "#D4FF3C", img: "/images/ricette/panino-bbq.png" },
-  { id: "salmone", title: "Salmone alla brace", time: "20 min", diff: "Facile", tag: "Teriyaki e Zenzero", productId: "fft", color: "#2E4FE8", img: "/images/ricette/teriyaki-salmone.png" },
-  { id: "bowl-pollo", title: "Bowl di pollo teriyaki", time: "25 min", diff: "Facile", tag: "Teriyaki e Zenzero", productId: "fft", color: "#F5EFE0", img: "/images/ricette/teriyaki-salmone.png" },
-  { id: "wok-verdure", title: "Wok di verdure fusion", time: "15 min", diff: "Facile", tag: "Teriyaki e Zenzero", productId: "fft", color: "#D4FF3C", img: "/images/ricette/teriyaki-salmone.png" },
+  // Fior di Funghi squeeze
+  { id: "risotto-porcini", title: "Risotto cremoso al fungo", time: "25 min", diff: "Facile", tag: "Fior di Funghi", productId: "ffps", color: "#D4FF3C", img: "/images/ricette/risotto-porcini.png" },
+  { id: "burger-gourmet", title: "Burger gourmet con fungo", time: "15 min", diff: "Facile", tag: "Fior di Funghi", productId: "ffps", color: "#F2C200", img: "/images/ricette/panino-bbq.png" },
+  { id: "bruschette", title: "Bruschette autunnali", time: "5 min", diff: "Facilissima", tag: "Fior di Funghi", productId: "ffps", color: "#E63B1E", img: "/images/ricette/risotto-porcini.png" },
+  { id: "uova-tartufo", title: "Uova strapazzate al tartufo", time: "8 min", diff: "Facilissima", tag: "Fior di Funghi", productId: "fftap", color: "#2E4FE8", img: "/images/ricette/tartufo-pecorino.png" },
+  { id: "toast-gourmet", title: "Toast gourmet al tartufo", time: "5 min", diff: "Facilissima", tag: "Fior di Funghi", productId: "fftap", color: "#F5EFE0", img: "/images/ricette/tartufo-pecorino.png" },
+  { id: "tagliolini", title: "Tagliolini al tartufo e pecorino", time: "10 min", diff: "Facile", tag: "Fior di Funghi", productId: "fftap", color: "#D4FF3C", img: "/images/ricette/tartufo-pecorino.png" },
+  { id: "costine", title: "Costine BBQ al fungo", time: "60 min", diff: "Media", tag: "Fior di Funghi", productId: "ffpab", color: "#E63B1E", img: "/images/ricette/panino-bbq.png" },
+  { id: "patatine", title: "Patatine al forno paprika", time: "35 min", diff: "Facile", tag: "Fior di Funghi", productId: "ffpab", color: "#F2C200", img: "/images/ricette/panino-bbq.png" },
+  { id: "hotdog", title: "Hot dog gourmet del bosco", time: "10 min", diff: "Facile", tag: "Fior di Funghi", productId: "ffpab", color: "#D4FF3C", img: "/images/ricette/panino-bbq.png" },
+  { id: "salmone", title: "Salmone alla brace teriyaki", time: "20 min", diff: "Facile", tag: "Fior di Funghi", productId: "fft", color: "#2E4FE8", img: "/images/ricette/teriyaki-salmone.png" },
+  { id: "bowl-pollo", title: "Bowl di pollo teriyaki", time: "25 min", diff: "Facile", tag: "Fior di Funghi", productId: "fft", color: "#F5EFE0", img: "/images/ricette/teriyaki-salmone.png" },
+  { id: "wok-verdure", title: "Wok di verdure fusion", time: "15 min", diff: "Facile", tag: "Fior di Funghi", productId: "fft", color: "#D4FF3C", img: "/images/ricette/teriyaki-salmone.png" },
+
+  // Funghi Secchi
+  { id: "risotto-secchi", title: "Risotto ai Porcini Secchi", time: "35 min", diff: "Facile", tag: "Funghi Secchi", productId: "psec", color: "#D9A547", img: "/images/ricette/risotto-porcini.png" },
+  { id: "sugo-porcini", title: "Sugo ai Porcini per Pasta", time: "20 min", diff: "Facile", tag: "Funghi Secchi", productId: "psec", color: "#A66B3D", img: "/images/ricette/risotto-porcini.png" },
+  { id: "trifolato", title: "Trifolato di Funghi Misti", time: "15 min", diff: "Facile", tag: "Funghi Secchi", productId: "finf", color: "#D4FF3C", img: "/images/ricette/risotto-porcini.png" },
+  { id: "zuppa-bosco", title: "Zuppa del Bosco", time: "40 min", diff: "Facile", tag: "Funghi Secchi", productId: "psec", color: "#8B5A2B", img: "/images/ricette/risotto-porcini.png" },
+  { id: "morchelle-uova", title: "Morchelle con Uova al Burro", time: "12 min", diff: "Media", tag: "Funghi Secchi", productId: "morc", color: "#F5EFE0", img: "/images/ricette/tartufo-pecorino.png" },
+  { id: "ramen-shiitake", title: "Ramen allo Shiitake", time: "30 min", diff: "Media", tag: "Funghi Secchi", productId: "shit", color: "#E63B1E", img: "/images/ricette/teriyaki-salmone.png" },
+
+  // Polenta
+  { id: "polenta-porcini", title: "Polenta Cremosa ai Porcini", time: "10 min", diff: "Facilissima", tag: "Polenta", productId: "pol", color: "#D9A547", img: "/images/ricette/risotto-porcini.png" },
+  { id: "crostini-polenta", title: "Crostini di Polenta Fritta", time: "20 min", diff: "Facile", tag: "Polenta", productId: "pol", color: "#F2C200", img: "/images/ricette/panino-bbq.png" },
+  { id: "polenta-cotechino", title: "Polenta con Ragù di Funghi", time: "45 min", diff: "Media", tag: "Polenta", productId: "pol", color: "#E63B1E", img: "/images/ricette/risotto-porcini.png" },
+
+  // Condimenti
+  { id: "pasta-grigliata", title: "Pasta alla Grigliata di Montagna", time: "15 min", diff: "Facile", tag: "Condimenti", productId: "grig", color: "#7A4226", img: "/images/ricette/risotto-porcini.png" },
+  { id: "pollo-condito", title: "Petto di Pollo al Condimento Funghi", time: "25 min", diff: "Facile", tag: "Condimenti", productId: "papor", color: "#D4FF3C", img: "/images/ricette/tartufo-pecorino.png" },
+  { id: "verdure-griglio", title: "Verdure Grigliate al Bosco", time: "20 min", diff: "Facile", tag: "Condimenti", productId: "grig", color: "#F5EFE0", img: "/images/ricette/panino-bbq.png" },
 ];
 
-const TAGS = ["Tutte", "Porcini e Speck", "Tartufo e Pecorino", "Paprika e BBQ", "Teriyaki e Zenzero"];
+const TAGS = ["Tutte", "Fior di Funghi", "Funghi Secchi", "Polenta", "Condimenti"];
 
 export default function RicettePage() {
   const [tag, setTag] = useState("Tutte");
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const filtered = tag === "Tutte" ? RECIPES : RECIPES.filter((r) => r.tag === tag);
 
   return (
@@ -91,10 +111,16 @@ export default function RicettePage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 28 }}>
           {filtered.map((r, i) => (
             <div key={r.id}
+              onMouseEnter={() => setHoveredId(r.id)}
+              onMouseLeave={() => setHoveredId(null)}
               style={{
                 background: r.color, color: "var(--c-ink)", border: "2.5px solid var(--c-ink)",
-                borderRadius: 28, boxShadow: "8px 8px 0 var(--c-ink)", padding: 24,
-                display: "block", position: "relative", overflow: "hidden",
+                borderRadius: 28,
+                boxShadow: hoveredId === r.id ? "14px 18px 0 var(--c-ink)" : "8px 8px 0 var(--c-ink)",
+                padding: 24, display: "block", position: "relative", overflow: "hidden",
+                transform: hoveredId === r.id ? "translateY(-8px) scale(1.015)" : "translateY(0) scale(1)",
+                transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                cursor: "pointer",
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
