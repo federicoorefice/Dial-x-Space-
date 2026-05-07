@@ -59,11 +59,13 @@ body {
 
 /* Pop hover — bordered buttons and nav links */
 .pop {
-  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
   will-change: transform;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .pop:hover {
-  transform: translateY(-4px) scale(1.04);
-  box-shadow: 8px 8px 0 var(--c-ink) !important;
+  transform: translateY(-8px) scale(1.06);
+  box-shadow: 12px 12px 0 var(--c-ink) !important;
 }
