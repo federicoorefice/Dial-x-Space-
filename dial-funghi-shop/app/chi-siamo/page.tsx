@@ -533,10 +533,6 @@ export default function ChiSiamoPage() {
                   title: "Prodotti Secchi",
                   body: "Polvere micronizzata, polvere &lt;2mm, briciole calibrate (1–9mm). Adatti a ogni applicazione nel food processing industriale: da condimenti a snack, da panificazione a pet food premium.",
                 },
-                {
-                  title: "Solo Fisica, Zero Chimica",
-                  body: "Lavorazione esclusivamente fisica. Nessun additivo, nessun conservante, nessuna chimica. Conserviamo virtualmente tutte le sostanze aromatiche naturali del fungo — impossibile con la pastorizzazione standard.",
-                },
               ].map((card) => (
                 <div key={card.title} style={{
                   background: "rgba(245,239,224,0.05)", border: "2px solid rgba(212,255,60,0.2)",
