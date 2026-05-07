@@ -31,26 +31,22 @@ function LoadingScreen({ done }: { done: boolean }) {
             initial={{ opacity: 0, scale: 0.8, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
-              fontWeight: 900,
-              fontSize: "clamp(64px, 14vw, 160px)",
-              lineHeight: 0.85,
-              letterSpacing: "-0.04em",
-              textTransform: "uppercase",
-              color: "#D4271A",
-              textAlign: "center",
-              userSelect: "none",
-            }}
           >
-            DIAL<br />FUNGHI
+            <Image
+              src="/images/logo-dial.png"
+              alt="Dial Funghi"
+              width={220}
+              height={220}
+              style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
+              priority
+            />
           </motion.div>
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ delay: 0.7, duration: 0.5, ease: "easeOut" }}
             style={{
-              marginTop: 32, width: 56, height: 3, background: "#D4271A",
+              marginTop: 24, width: 56, height: 3, background: "#D4271A",
               transformOrigin: "left",
             }}
           />
@@ -201,13 +197,48 @@ function DragBottle({ product }: { product: Product }) {
   );
 }
 
+/* ── Reviews data ───────────────────────────────────────────── */
+const REVIEWS = [
+  {
+    id: "r1", name: "Marco T.", location: "Milano", stars: 5,
+    text: "Ho messo la salsa ai porcini su tutto: pasta, bruschetta, risotto. Un barattolo non basta mai.",
+    product: "Porcini e Speck", color: "#D4FF3C",
+  },
+  {
+    id: "r2", name: "Laura B.", location: "Roma", stars: 5,
+    text: "Finalmente qualcosa che sa davvero di bosco. Il Tartufo e Pecorino ogni venerdì sera è diventato il mio rituale.",
+    product: "Tartufo e Pecorino", color: "var(--c-cream)",
+  },
+  {
+    id: "r3", name: "Giulio V.", location: "Trento", stars: 5,
+    text: "Orgoglioso di comprare trentino. La Paprika BBQ è perfetta per i barbecue estivi. La ordino a cartoni.",
+    product: "Paprika e BBQ", color: "#D4FF3C",
+  },
+  {
+    id: "r4", name: "Serena M.", location: "Torino", stars: 5,
+    text: "Il Teriyaki e Zenzero mi ha salvato tante cene dell'ultimo minuto. Cinque minuti e sembra un ristorante.",
+    product: "Teriyaki e Zenzero", color: "var(--c-cream)",
+  },
+  {
+    id: "r5", name: "Filippo R.", location: "Firenze", stars: 5,
+    text: "Mia figlia mangia le verdure solo se ci metto sopra i funghi Dial. Ho trovato la mia arma segreta.",
+    product: "Porcini e Speck", color: "#D4FF3C",
+  },
+  {
+    id: "r6", name: "Anna C.", location: "Bologna", stars: 5,
+    text: "Formato squeeze geniale. Non si rovescia, non si sporca, va su tutto. Regalo perfetto per chi ama cucinare.",
+    product: "Tartufo e Pecorino", color: "var(--c-cream)",
+  },
+];
+
 /* ── Page ────────────────────────────────────────────────────── */
 export default function HomePage() {
   const [loaded, setLoaded] = useState(false);
   const [activeBottle, setActiveBottle] = useState(0);
+  const [flippedCertHome, setFlippedCertHome] = useState<string | null>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setLoaded(true), 1500);
+    const t = setTimeout(() => setLoaded(true), 800);
     return () => clearTimeout(t);
   }, []);
 
@@ -535,35 +566,71 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Scrolling carousel */}
+          {/* Scrolling carousel — flip cards */}
           <div style={{
             overflow: "hidden",
             borderTop: "2px solid rgba(245,239,224,0.15)",
             borderBottom: "2px solid rgba(245,239,224,0.15)",
-            padding: "28px 0",
+            padding: "32px 0",
             background: "rgba(0,0,0,0.2)",
           }}>
             <motion.div
-              animate={{ x: [0, -1600] }}
-              transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-              style={{ display: "flex", gap: 56, alignItems: "center" }}
+              animate={{ x: [0, -1310] }}
+              transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+              style={{ display: "flex", gap: 30, alignItems: "center", paddingLeft: 30 }}
             >
-              {[...CERTIFICATIONS, ...CERTIFICATIONS, ...CERTIFICATIONS].map((c, i) => (
-                <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, minWidth: 200 }}>
-                  <div style={{
-                    background: "var(--c-cream)", borderRadius: 20, padding: 14,
-                    width: 100, height: 100,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    boxShadow: "5px 5px 0 var(--c-acid)",
-                  }}>
-                    <Image src={c.img} alt={c.name} width={70} height={70} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
+              {[...CERTIFICATIONS, ...CERTIFICATIONS, ...CERTIFICATIONS].map((c, i) => {
+                const key = `${c.id}-${i}`;
+                const isFlipped = flippedCertHome === key;
+                return (
+                  <div
+                    key={key}
+                    onMouseEnter={() => setFlippedCertHome(key)}
+                    onMouseLeave={() => setFlippedCertHome(null)}
+                    style={{ perspective: 800, cursor: "pointer", width: 232, height: 280, flexShrink: 0 }}
+                  >
+                    <div style={{
+                      position: "relative", width: "100%", height: "100%",
+                      transformStyle: "preserve-3d",
+                      transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                      transition: "transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                    }}>
+                      {/* Front */}
+                      <div style={{
+                        position: "absolute", inset: 0,
+                        backfaceVisibility: "hidden",
+                        WebkitBackfaceVisibility: "hidden",
+                        background: "var(--c-cream)", color: "var(--c-ink)",
+                        border: "2.5px solid rgba(245,239,224,0.4)", borderRadius: 24,
+                        padding: 24, boxShadow: "6px 6px 0 rgba(212,255,60,0.5)",
+                        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                        textAlign: "center",
+                      }}>
+                        <Image src={c.img} alt={c.name} width={100} height={100} style={{ objectFit: "contain" }} />
+                        <div style={{ fontFamily: "var(--font-heading)", fontSize: 15, textTransform: "uppercase", letterSpacing: "-0.01em", marginTop: 16 }}>{c.name}</div>
+                        <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.5, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 6 }}>Dal {c.year}</div>
+                        <div style={{ fontSize: 10, marginTop: 12, opacity: 0.4, fontStyle: "italic" }}>Hover per saperne di più</div>
+                      </div>
+                      {/* Back */}
+                      <div style={{
+                        position: "absolute", inset: 0,
+                        backfaceVisibility: "hidden",
+                        WebkitBackfaceVisibility: "hidden",
+                        transform: "rotateY(180deg)",
+                        background: "var(--c-acid)", color: "var(--c-ink)",
+                        border: "2.5px solid rgba(245,239,224,0.4)", borderRadius: 24,
+                        padding: 28, boxShadow: "6px 6px 0 rgba(212,255,60,0.5)",
+                        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                        textAlign: "center",
+                      }}>
+                        <div style={{ fontFamily: "var(--font-heading)", fontSize: 16, textTransform: "uppercase", letterSpacing: "-0.01em", marginBottom: 16 }}>{c.name}</div>
+                        <div style={{ fontSize: 13, lineHeight: 1.55, opacity: 0.85 }}>{c.desc}</div>
+                        <div style={{ marginTop: 20, fontWeight: 900, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.6 }}>Dal {c.year}</div>
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ textAlign: "center" }}>
-                    <div style={{ fontWeight: 900, fontSize: 14, letterSpacing: "0.06em", textTransform: "uppercase" }}>{c.name}</div>
-                    <div style={{ fontSize: 12, color: "rgba(245,239,224,0.5)", marginTop: 4 }}>dal {c.year}</div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </motion.div>
           </div>
         </section>
@@ -655,15 +722,15 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── IL PROCESSO ──────────────────────────── */}
+        {/* ── RECENSIONI ───────────────────────────── */}
         <section style={{
-          background: "var(--c-acid)", color: "var(--c-ink)",
+          background: "var(--c-paper)", color: "var(--c-ink)",
           padding: "100px 0 110px",
           borderTop: "3px solid var(--c-ink)",
         }}>
           <div style={{ maxWidth: 1480, margin: "0 auto", padding: "0 32px" }}>
             {/* Header */}
-            <div style={{ marginBottom: 72 }}>
+            <div style={{ marginBottom: 64 }}>
               <div style={{
                 display: "inline-block",
                 background: "var(--c-ink)", color: "var(--c-acid)",
@@ -672,7 +739,7 @@ export default function HomePage() {
                 fontWeight: 900, fontSize: 12, letterSpacing: "0.08em",
                 textTransform: "uppercase", marginBottom: 20,
                 boxShadow: "4px 4px 0 var(--c-ink)",
-              }}>⚙️ Come lavoriamo</div>
+              }}>⭐ Recensioni verificate</div>
               <h2 style={{
                 fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
                 fontWeight: 900,
@@ -681,69 +748,62 @@ export default function HomePage() {
                 textTransform: "uppercase", letterSpacing: "-0.04em",
                 color: "var(--c-ink)",
               }}>
-                Dal bosco<br />al tuo piatto.
+                Lo dicono<br />
+                <span style={{
+                  display: "inline-block", background: "var(--c-acid)",
+                  padding: "0 20px", border: "3px solid var(--c-ink)", borderRadius: 20,
+                  transform: "rotate(-1.5deg)", boxShadow: "6px 6px 0 var(--c-ink)",
+                }}>loro.</span>
               </h2>
             </div>
 
-            {/* Steps */}
+            {/* Review grid */}
             <div style={{
               display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
               gap: 24,
             }}>
-              {[
-                {
-                  num: "01",
-                  title: "Raccolta a mano",
-                  desc: "Selezionati uno per uno nei boschi del Trentino. Solo i funghi con la forma, il profumo e la texture giusta entrano nella nostra filiera.",
-                  icon: "🌲",
-                  bg: "var(--c-ink)",
-                  txt: "var(--c-acid)",
-                },
-                {
-                  num: "02",
-                  title: "Lavorazione il giorno stesso",
-                  desc: "Niente depositi, niente attese. Ogni fungo viene lavorato fresco entro poche ore dalla raccolta. L'umami si preserva, non si aggiunge.",
-                  icon: "🔪",
-                  bg: "var(--c-cream)",
-                  txt: "var(--c-ink)",
-                },
-                {
-                  num: "03",
-                  title: "Squeeze & pronto",
-                  desc: "Formato innovativo, logica semplicissima: apri, squeeze, servi. Niente pentole, niente coltelli, niente tempi di preparazione.",
-                  icon: "✨",
-                  bg: "var(--c-ink)",
-                  txt: "var(--c-acid)",
-                },
-              ].map((step) => (
+              {REVIEWS.map((rev, i) => (
                 <div
-                  key={step.num}
+                  key={rev.id}
                   style={{
-                    background: step.bg, color: step.txt,
-                    borderRadius: 24, padding: "40px 36px",
-                    border: "3px solid var(--c-ink)",
+                    background: rev.color, color: "var(--c-ink)",
+                    borderRadius: 24, padding: "32px 28px",
+                    border: "2.5px solid var(--c-ink)",
                     boxShadow: "6px 6px 0 var(--c-ink)",
-                    display: "flex", flexDirection: "column", gap: 20,
+                    transform: i % 2 === 0 ? "rotate(-0.5deg)" : "rotate(0.5deg)",
+                    display: "flex", flexDirection: "column", gap: 16,
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <span style={{
-                      fontFamily: "var(--font-mono, 'JetBrains Mono'), monospace",
-                      fontSize: 13, fontWeight: 700, opacity: 0.5,
-                      letterSpacing: "0.08em",
-                    }}>{step.num}</span>
-                    <span style={{ fontSize: 32 }}>{step.icon}</span>
+                  {/* Stars */}
+                  <div style={{ fontSize: 18, letterSpacing: 2 }}>
+                    {"★".repeat(rev.stars)}
                   </div>
-                  <h3 style={{
-                    fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
-                    fontWeight: 900, fontSize: "clamp(22px, 2.2vw, 34px)",
-                    lineHeight: 0.95, margin: 0,
-                    textTransform: "uppercase", letterSpacing: "-0.03em",
-                  }}>{step.title}</h3>
-                  <p style={{ fontSize: 14, lineHeight: 1.6, opacity: 0.85, margin: 0 }}>
-                    {step.desc}
+
+                  {/* Quote */}
+                  <p style={{ fontSize: 16, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>
+                    &ldquo;{rev.text}&rdquo;
                   </p>
+
+                  {/* Footer */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: "auto" }}>
+                    <div>
+                      <div style={{ fontFamily: "var(--font-heading)", fontSize: 16, fontWeight: 900, textTransform: "uppercase" }}>
+                        {rev.name}
+                      </div>
+                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, opacity: 0.55, letterSpacing: "0.1em", marginTop: 2 }}>
+                        {rev.location}
+                      </div>
+                    </div>
+                    <div style={{
+                      background: "var(--c-ink)", color: "var(--c-acid)",
+                      padding: "5px 12px", borderRadius: 999,
+                      fontSize: 10, fontWeight: 800,
+                      textTransform: "uppercase", letterSpacing: "0.06em",
+                    }}>
+                      {rev.product}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -758,13 +818,13 @@ export default function HomePage() {
                 textDecoration: "none", boxShadow: "6px 6px 0 var(--c-ink)",
                 display: "inline-flex", alignItems: "center", gap: 10,
               }}>Esplora i Prodotti →</Link>
-              <Link href="/chi-siamo" style={{
+              <Link href="/ricette" style={{
                 background: "transparent", color: "var(--c-ink)",
                 border: "3px solid var(--c-ink)", padding: "16px 32px",
                 borderRadius: 999, fontWeight: 800, fontSize: 14,
                 letterSpacing: "0.06em", textTransform: "uppercase",
                 textDecoration: "none",
-              }}>Chi Siamo</Link>
+              }}>Vedi le Ricette</Link>
             </div>
           </div>
         </section>

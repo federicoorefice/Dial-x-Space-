@@ -17,10 +17,18 @@ const TIMELINE = [
 ];
 
 const B2B_CLIENTS = [
-  "Giovanni Rana", "Parmalat", "McDonald's",
-  "COOP", "CONAD", "Deverley",
-  "Esselunga", "Carrefour", "Lidl",
-  "Metro", "Eurospin", "Tosano",
+  { name: "Giovanni Rana", logo: "/images/loghi/brandforum_logotale_giovanni_rana_logo9-scaled.jpeg" },
+  { name: "Parmalat", logo: "/images/loghi/Parmalat.svg" },
+  { name: "McDonald's", logo: "/images/loghi/McDonalds.svg" },
+  { name: "COOP", logo: "/images/loghi/Coop_Italia.svg" },
+  { name: "CONAD", logo: "/images/loghi/Conad.svg" },
+  { name: "Develey", logo: "/images/loghi/Develey.svg" },
+  { name: "Esselunga", logo: "/images/loghi/Esselunga.svg" },
+  { name: "Carrefour", logo: "/images/loghi/Carrefour.svg" },
+  { name: "Lidl", logo: "/images/loghi/Lidl.svg" },
+  { name: "Metro", logo: "/images/loghi/Metro.svg" },
+  { name: "Eurospin", logo: "/images/loghi/Eurospin.svg" },
+  { name: "Tosano", logo: "/images/loghi/Tosano.svg" },
 ];
 
 const PHOTOS = [
@@ -174,20 +182,23 @@ export default function ChiSiamoPage() {
           </p>
 
           {/* Client grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 16 }}>
             {B2B_CLIENTS.map((client) => (
-              <div key={client}
+              <div key={client.name}
                 style={{
                   border: "2px solid rgba(245,239,224,0.2)", borderRadius: 16,
-                  padding: "20px 24px",
+                  padding: "20px 24px", minHeight: 88,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontFamily: "var(--font-heading)", fontSize: 16,
-                  fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.01em",
-                  color: "var(--c-cream)",
                   background: "rgba(245,239,224,0.05)",
                 }}
               >
-                {client}
+                <Image
+                  src={client.logo}
+                  alt={client.name}
+                  width={140}
+                  height={56}
+                  style={{ objectFit: "contain", filter: "brightness(0) invert(1)", opacity: 0.9 }}
+                />
               </div>
             ))}
           </div>

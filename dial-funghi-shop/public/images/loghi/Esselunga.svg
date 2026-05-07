@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 140" width="400" height="140">
+  <!-- Esselunga logo approximation: green wordmark -->
+  <rect width="400" height="140" fill="white"/>
+  <!-- Green stylized "e" -->
+  <circle cx="55" cy="70" r="45" fill="none" stroke="#00833E" stroke-width="18"/>
+  <rect x="10" y="62" width="70" height="16" fill="white"/>
+  <!-- esselunga text -->
+  <text x="110" y="90" font-family="Georgia, serif" font-size="52" font-weight="bold" fill="#00833E" letter-spacing="1">esselunga</text>
+</svg>

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Dial Funghi Shop (Next.js dev)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "dial-funghi-shop", "run", "dev", "--", "--hostname", "0.0.0.0"],
+      "port": 3000
+    }
+  ]
+}

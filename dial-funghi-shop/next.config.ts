@@ -27,7 +27,15 @@ const securityHeaders = [
   },
 ];
 
+const isProd = process.env.NODE_ENV === "production";
+const repoName = "Dial-x-Space-";
+
 const nextConfig: NextConfig = {
+  output: "export",
+  basePath: isProd ? `/${repoName}` : "",
+  assetPrefix: isProd ? `/${repoName}/` : "",
+  trailingSlash: true,
+
   async headers() {
     return [
       {
@@ -38,7 +46,7 @@ const nextConfig: NextConfig = {
   },
 
   images: {
-    formats: ["image/avif", "image/webp"],
+    unoptimized: true,
   },
 
   poweredByHeader: false,
