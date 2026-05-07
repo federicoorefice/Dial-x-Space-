@@ -6,8 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CrossTicker from "@/components/CrossTicker";
-import FanCarousel from "@/components/FanCarousel";
 import SocialFanWall from "@/components/SocialFanWall";
 import AddToCartButton from "@/components/AddToCartButton";
 import { PRODUCTS, CERTIFICATIONS, formatPrice, type Product } from "@/lib/products";
@@ -548,40 +546,6 @@ export default function HomePage() {
               {/* Right — 3D draggable bottle */}
               <DragBottle product={product} />
             </div>
-          </div>
-        </section>
-
-        {/* ── CROSS TICKER ──────────────────────────── */}
-        <CrossTicker />
-
-        {/* ── FAN CAROUSEL ─────────────────────────── */}
-        <section style={{
-          background: "var(--c-paper)", padding: "90px 0 100px",
-          borderTop: "3px solid var(--c-ink)", position: "relative", overflow: "visible",
-        }}>
-          <div style={{ maxWidth: 1480, margin: "0 auto", padding: "0 32px" }}>
-            <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <div style={{
-                display: "inline-block", background: "var(--c-ink)", color: "var(--c-acid)",
-                padding: "8px 16px", borderRadius: 999, border: "2.5px solid var(--c-ink)",
-                fontWeight: 900, fontSize: 12, letterSpacing: "0.08em",
-                textTransform: "uppercase", marginBottom: 20, boxShadow: "4px 4px 0 var(--c-ink)",
-              }}>🍄 La Gamma Fior di Funghi</div>
-              <h2 style={{
-                fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
-                fontWeight: 900, fontSize: "clamp(42px, 7vw, 100px)",
-                lineHeight: 0.88, margin: 0,
-                textTransform: "uppercase", letterSpacing: "-0.04em", color: "var(--c-ink)",
-              }}>
-                Scegli il<br />
-                <span style={{
-                  display: "inline-block", background: "var(--c-acid)",
-                  padding: "0 20px", border: "3px solid var(--c-ink)", borderRadius: 20,
-                  transform: "rotate(-1.5deg)", boxShadow: "5px 5px 0 var(--c-ink)",
-                }}>tuo gusto.</span>
-              </h2>
-            </div>
-            <FanCarousel products={FIOR} />
           </div>
         </section>
 
