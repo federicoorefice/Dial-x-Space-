@@ -304,35 +304,6 @@ export default function HomePage() {
             background: "linear-gradient(180deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.08) 45%, rgba(0,0,0,0.68) 100%)",
           }} />
 
-          {/* Floating stickers */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
-            animate={loaded ? { opacity: 1, scale: 1, rotate: -8 } : {}}
-            transition={{ delay: 0.3, type: "spring", stiffness: 300, damping: 18 }}
-            style={{
-              position: "absolute", top: "22%", left: "6%", zIndex: 5,
-              background: "var(--c-acid)", color: "var(--c-ink)",
-              fontWeight: 900, fontSize: 13, letterSpacing: "0.06em",
-              textTransform: "uppercase", padding: "8px 16px",
-              borderRadius: 999, border: "2.5px solid var(--c-ink)",
-              boxShadow: "5px 5px 0 var(--c-ink)",
-            }}
-          >⭐ Dal 1992</motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.6, rotate: 0 }}
-            animate={loaded ? { opacity: 1, scale: 1, rotate: 6 } : {}}
-            transition={{ delay: 0.5, type: "spring", stiffness: 300, damping: 18 }}
-            style={{
-              position: "absolute", top: "30%", right: "8%", zIndex: 5,
-              background: "#D9A547", color: "var(--c-ink)",
-              fontWeight: 900, fontSize: 13, letterSpacing: "0.06em",
-              textTransform: "uppercase", padding: "8px 16px",
-              borderRadius: 999, border: "2.5px solid var(--c-ink)",
-              boxShadow: "5px 5px 0 var(--c-ink)",
-            }}
-          >100% Trentino</motion.div>
-
           {/* Center content */}
           <div style={{
             position: "relative", zIndex: 3,
