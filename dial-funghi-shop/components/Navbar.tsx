@@ -58,6 +58,7 @@ export default function Navbar({ active }: { active?: string }) {
 
           {/* Cart */}
           <Link href="/carrello"
+            className="pop"
             style={{
               background: count > 0 ? "var(--c-acid)" : "var(--c-cream)",
               color: "var(--c-ink)", border: "2.5px solid var(--c-ink)", borderRadius: 999,

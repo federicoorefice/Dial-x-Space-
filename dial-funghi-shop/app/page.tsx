@@ -336,22 +336,6 @@ export default function HomePage() {
             justifyContent: "center", alignItems: "center",
             padding: "80px 24px 90px", textAlign: "center",
           }}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={loaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.1, duration: 0.6 }}
-              style={{
-                marginBottom: 24,
-                background: "var(--c-cream)", color: "var(--c-ink)",
-                padding: "6px 18px", borderRadius: 999,
-                fontSize: 12, fontWeight: 800, letterSpacing: "0.12em",
-                textTransform: "uppercase", border: "2px solid var(--c-ink)",
-                display: "inline-block",
-              }}
-            >
-              🌲 Dial Funghi · Pergine Valsugana
-            </motion.div>
-
             <motion.h1
               initial={{ opacity: 0, y: 60 }}
               animate={loaded ? { opacity: 1, y: 0 } : {}}
@@ -398,7 +382,7 @@ export default function HomePage() {
               transition={{ delay: 0.6 }}
               style={{ marginTop: 48, display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}
             >
-              <Link href="/shop" style={{
+              <Link href="/shop" className="pop" style={{
                 background: "var(--c-acid)", color: "var(--c-ink)",
                 border: "3px solid var(--c-ink)", padding: "14px 28px",
                 borderRadius: 999, fontWeight: 900, fontSize: 14,
@@ -406,12 +390,12 @@ export default function HomePage() {
                 textDecoration: "none", boxShadow: "6px 6px 0 var(--c-ink)",
                 display: "inline-flex", alignItems: "center", gap: 10,
               }}>Compra Ora →</Link>
-              <Link href="/ricette" style={{
+              <Link href="/ricette" className="pop" style={{
                 background: "transparent", color: "var(--c-cream)",
                 border: "3px solid var(--c-cream)", padding: "14px 28px",
                 borderRadius: 999, fontWeight: 800, fontSize: 14,
                 letterSpacing: "0.06em", textTransform: "uppercase",
-                textDecoration: "none",
+                textDecoration: "none", boxShadow: "6px 6px 0 rgba(245,239,224,0.4)",
               }}>Ricette</Link>
             </motion.div>
           </div>
