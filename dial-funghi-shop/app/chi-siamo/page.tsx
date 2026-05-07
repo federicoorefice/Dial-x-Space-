@@ -6,6 +6,7 @@ import Link from "next/link";
 import { CERTIFICATIONS } from "@/lib/products";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { BASE_PATH } from "@/lib/basepath";
 
 const TIMELINE = [
   { y: "1992", t: "Nasce Dial", d: "Fondazione a Pergine Valsugana. Primo laboratorio di trasformazione funghi nel Trentino-Alto Adige.", c: "var(--c-acid)" },
@@ -152,7 +153,7 @@ export default function ChiSiamoPage() {
                 position: "relative",
               }}
             >
-              <Image src={photo.src} alt="Dial Funghi stabilimento" fill style={{ objectFit: "cover" }} />
+              <Image src={`${BASE_PATH}${photo.src}`} alt="Dial Funghi stabilimento" fill style={{ objectFit: "cover" }} />
             </div>
           ))}
         </div>
@@ -193,7 +194,7 @@ export default function ChiSiamoPage() {
                 }}
               >
                 <Image
-                  src={client.logo}
+                  src={`${BASE_PATH}${client.logo}`}
                   alt={client.name}
                   width={140}
                   height={56}
@@ -273,7 +274,7 @@ export default function ChiSiamoPage() {
                       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
                       textAlign: "center",
                     }}>
-                      <Image src={c.img} alt={c.name} width={100} height={100} style={{ objectFit: "contain" }} />
+                      <Image src={`${BASE_PATH}${c.img}`} alt={c.name} width={100} height={100} style={{ objectFit: "contain" }} />
                       <div style={{ fontFamily: "var(--font-heading)", fontSize: 16, textTransform: "uppercase", letterSpacing: "-0.01em", marginTop: 16 }}>{c.name}</div>
                       <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.5, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 6 }}>Dal {c.year}</div>
                       <div style={{ fontSize: 11, marginTop: 12, opacity: 0.45, fontStyle: "italic" }}>Tocca per saperne di più</div>

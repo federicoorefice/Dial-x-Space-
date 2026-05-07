@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CheckoutButton from "@/components/CheckoutButton";
 import AddToCartButton from "@/components/AddToCartButton";
+import { BASE_PATH } from "@/lib/basepath";
 
 export default function CarrelloPage() {
   const { items, count, subtotal, shipping, total, remove, setQty } = useCart();
@@ -223,7 +224,7 @@ export default function CarrelloPage() {
                     display: "flex", flexDirection: "column",
                   }}>
                     <Link href={`/shop/${p.id}`} style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 140, textDecoration: "none" }}>
-                      <Image src={p.img} alt={p.name} width={140} height={140} style={{ objectFit: "contain" }} />
+                      <Image src={`${BASE_PATH}${p.img}`} alt={p.name} width={140} height={140} style={{ objectFit: "contain" }} />
                     </Link>
                     <Link href={`/shop/${p.id}`} style={{ textDecoration: "none", color: "var(--c-ink)" }}>
                       <div style={{ fontFamily: "var(--font-heading)", fontSize: 18, fontWeight: 900, textTransform: "uppercase", lineHeight: 1, marginTop: 8 }}>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { BASE_PATH } from "@/lib/basepath";
 
 export default function Footer() {
   return (
@@ -18,7 +19,7 @@ export default function Footer() {
         >
           {/* Brand */}
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <Image src="/images/logo-dial.png" alt="Dial Funghi" width={50} height={50} />
+            <Image src={`${BASE_PATH}/images/logo-dial.png`} alt="Dial Funghi" width={50} height={50} />
             <div>
               <div style={{ fontWeight: 900, fontSize: 16, textTransform: "uppercase" }}>
                 Dial Funghi S.r.l.

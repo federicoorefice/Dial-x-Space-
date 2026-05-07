@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AddToCartButton from "@/components/AddToCartButton";
 import type { Metadata } from "next";
+import { BASE_PATH } from "@/lib/basepath";
 
 export async function generateStaticParams() {
   return PRODUCTS.map((p) => ({ id: p.id }));
@@ -51,7 +52,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               boxShadow: "10px 10px 0 var(--c-ink)", minHeight: 400,
             }}
           >
-            <Image src={p.img} alt={p.name} width={300} height={350}
+            <Image src={`${BASE_PATH}${p.img}`} alt={p.name} width={300} height={350}
               style={{ objectFit: "contain", filter: "drop-shadow(8px 8px 0 rgba(0,0,0,0.15))" }} />
           </div>
 
@@ -176,7 +177,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 700 }}>⏱ {r.time}</span>
                 </div>
                 <div style={{ height: 130, borderRadius: 10, overflow: "hidden", marginBottom: 12, position: "relative" }}>
-                  <Image src={r.img} alt={r.title} fill style={{ objectFit: "cover" }} />
+                  <Image src={`${BASE_PATH}${r.img}`} alt={r.title} fill style={{ objectFit: "cover" }} />
                 </div>
                 <div style={{ fontFamily: "var(--font-heading)", fontSize: 19, textTransform: "uppercase", lineHeight: 1 }}>
                   {r.title}
@@ -211,7 +212,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
                 }}
               >
                 <div style={{ height: 160, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 12 }}>
-                  <Image src={r.img} alt={r.name} width={140} height={160}
+                  <Image src={`${BASE_PATH}${r.img}`} alt={r.name} width={140} height={160}
                     style={{ objectFit: "contain", filter: "drop-shadow(4px 4px 0 rgba(0,0,0,0.1))" }} />
                 </div>
                 <div style={{ fontFamily: "var(--font-heading)", fontSize: 18, textTransform: "uppercase", lineHeight: 1 }}>

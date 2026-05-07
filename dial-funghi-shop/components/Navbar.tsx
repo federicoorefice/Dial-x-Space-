@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/lib/cart";
+import { BASE_PATH } from "@/lib/basepath";
 
 const LINKS = [
   { label: "Shop", href: "/shop" },
@@ -34,7 +35,7 @@ export default function Navbar({ active }: { active?: string }) {
             textDecoration: "none", color: "var(--c-ink)", boxShadow: "4px 4px 0 var(--c-ink)",
           }}
         >
-          <Image src="/images/logo-dial.png" alt="Dial Funghi" width={76} height={76} style={{ objectFit: "contain" }} />
+          <Image src={`${BASE_PATH}/images/logo-dial.png`} alt="Dial Funghi" width={76} height={76} style={{ objectFit: "contain" }} />
         </Link>
 
         {/* Links */}

@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AddToCartButton from "@/components/AddToCartButton";
 import { PRODUCTS, CERTIFICATIONS, formatPrice, type Product } from "@/lib/products";
+import { BASE_PATH } from "@/lib/basepath";
 
 const FIOR = PRODUCTS.filter((p) => p.brand === "fior");
 
@@ -33,7 +34,7 @@ function LoadingScreen({ done }: { done: boolean }) {
             transition={{ delay: 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <Image
-              src="/images/logo-dial.png"
+              src={`${BASE_PATH}/images/logo-dial.png`}
               alt="Dial Funghi"
               width={220}
               height={220}
@@ -163,7 +164,7 @@ function DragBottle({ product }: { product: Product }) {
         <AnimatePresence mode="wait">
           <motion.img
             key={product.id}
-            src={product.img}
+            src={`${BASE_PATH}${product.img}`}
             alt={product.name}
             draggable={false}
             initial={{ opacity: 0, scale: 0.85 }}
@@ -255,7 +256,7 @@ export default function HomePage() {
         <section style={{ position: "relative", minHeight: "100vh", overflow: "hidden", background: "#000" }}>
           {/* Video background */}
           <video
-            src="/images/hero-video.mp4"
+            src={`${BASE_PATH}/images/hero-video.mp4`}
             autoPlay muted loop playsInline
             style={{
               position: "absolute", inset: 0,
@@ -606,7 +607,7 @@ export default function HomePage() {
                         display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
                         textAlign: "center",
                       }}>
-                        <Image src={c.img} alt={c.name} width={100} height={100} style={{ objectFit: "contain" }} />
+                        <Image src={`${BASE_PATH}${c.img}`} alt={c.name} width={100} height={100} style={{ objectFit: "contain" }} />
                         <div style={{ fontFamily: "var(--font-heading)", fontSize: 15, textTransform: "uppercase", letterSpacing: "-0.01em", marginTop: 16 }}>{c.name}</div>
                         <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.5, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 6 }}>Dal {c.year}</div>
                         <div style={{ fontSize: 10, marginTop: 12, opacity: 0.4, fontStyle: "italic" }}>Hover per saperne di più</div>
@@ -702,7 +703,7 @@ export default function HomePage() {
                 boxShadow: "10px 10px 0 var(--c-acid)",
               }}>
                 <Image
-                  src="/images/azienda/stabilimento-1.jpg"
+                  src={`${BASE_PATH}/images/azienda/stabilimento-1.jpg`}
                   alt="Stabilimento Dial Funghi · Pergine Valsugana"
                   fill
                   style={{ objectFit: "cover" }}

@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AddToCartButton from "@/components/AddToCartButton";
 import type { Metadata } from "next";
+import { BASE_PATH } from "@/lib/basepath";
 
 export async function generateStaticParams() {
   return RECIPES.map((r) => ({ id: r.id }));
@@ -99,7 +100,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
               boxShadow: "10px 10px 0 var(--c-ink)", marginBottom: 56,
               height: 420, position: "relative",
             }}>
-              <Image src={r.img} alt={r.title} fill style={{ objectFit: "cover" }} />
+              <Image src={`${BASE_PATH}${r.img}`} alt={r.title} fill style={{ objectFit: "cover" }} />
             </div>
 
             {/* Ingredients */}
@@ -187,7 +188,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
                   Prodotto usato in questa ricetta
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
-                  <Image src={product.img} alt={product.name} width={80} height={90}
+                  <Image src={`${BASE_PATH}${product.img}`} alt={product.name} width={80} height={90}
                     style={{ objectFit: "contain" }} />
                   <div>
                     <div style={{ fontFamily: "var(--font-heading)", fontSize: 20, textTransform: "uppercase", lineHeight: 1 }}>
@@ -260,7 +261,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
                   <span style={{ fontFamily: "var(--font-mono)", fontSize: 11 }}>⏱ {rel.time}</span>
                 </div>
                 <div style={{ height: 120, borderRadius: 10, overflow: "hidden", marginBottom: 12, position: "relative" }}>
-                  <Image src={rel.img} alt={rel.title} fill style={{ objectFit: "cover" }} />
+                  <Image src={`${BASE_PATH}${rel.img}`} alt={rel.title} fill style={{ objectFit: "cover" }} />
                 </div>
                 <div style={{ fontFamily: "var(--font-heading)", fontSize: 18, textTransform: "uppercase", lineHeight: 1 }}>
                   {rel.title}

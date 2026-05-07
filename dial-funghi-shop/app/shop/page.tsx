@@ -7,6 +7,7 @@ import { PRODUCTS, CATEGORIES, formatPrice } from "@/lib/products";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AddToCartButton from "@/components/AddToCartButton";
+import { BASE_PATH } from "@/lib/basepath";
 
 export default function ShopPage() {
   const [cat, setCat] = useState("tutti");
@@ -106,7 +107,7 @@ export default function ShopPage() {
               {/* Immagine */}
               <Link href={`/shop/${p.id}`} style={{ display: "block" }}>
                 <div style={{ height: 200, display: "flex", alignItems: "center", justifyContent: "center", margin: "8px 0" }}>
-                  <Image src={p.img} alt={p.name} width={180} height={200}
+                  <Image src={`${BASE_PATH}${p.img}`} alt={p.name} width={180} height={200}
                     style={{ objectFit: "contain", filter: "drop-shadow(6px 6px 0 rgba(0,0,0,0.12))" }} />
                 </div>
               </Link>

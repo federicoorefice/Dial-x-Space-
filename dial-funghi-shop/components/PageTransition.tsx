@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { BASE_PATH } from "@/lib/basepath";
 
 export default function PageTransition() {
   const pathname = usePathname();
@@ -45,7 +46,7 @@ export default function PageTransition() {
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           >
             <Image
-              src="/images/logo-dial.png"
+              src={`${BASE_PATH}/images/logo-dial.png`}
               alt="Dial Funghi"
               width={200}
               height={200}

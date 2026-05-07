@@ -6,6 +6,7 @@ import Link from "next/link";
 import { RECIPES } from "@/lib/recipes";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { BASE_PATH } from "@/lib/basepath";
 
 const TAGS = ["Tutte", "Fior di Funghi", "Funghi Secchi", "Polenta", "Condimenti"];
 
@@ -130,7 +131,7 @@ export default function RicettePage() {
                 </div>
 
                 <div style={{ height: 200, borderRadius: 12, overflow: "hidden", margin: "8px 0 16px", position: "relative" }}>
-                  <Image src={r.img} alt={r.title} fill style={{ objectFit: "cover", objectPosition: "center 30%" }} />
+                  <Image src={`${BASE_PATH}${r.img}`} alt={r.title} fill style={{ objectFit: "cover", objectPosition: "center 30%" }} />
                 </div>
 
                 <div
