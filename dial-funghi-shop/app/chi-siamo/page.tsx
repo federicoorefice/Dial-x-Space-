@@ -233,154 +233,252 @@ export default function ChiSiamoPage() {
       {/* B2B — CLIENTI */}
       <section style={{
         background: "var(--c-ink)", color: "var(--c-cream)",
-        padding: "100px 32px", overflow: "hidden",
+        padding: "120px 32px 0", overflow: "hidden",
       }}>
         <div style={{ maxWidth: 1480, margin: "0 auto" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.5, marginBottom: 20 }}>
-            Mercato B2B / Partner
-          </div>
-          <h2
-            style={{
-              fontFamily: "var(--font-heading)", fontSize: "clamp(42px, 7vw, 100px)",
-              lineHeight: 0.88, textTransform: "uppercase", letterSpacing: "-0.04em",
-              margin: "0 0 24px", color: "var(--c-cream)",
-            }}
-          >
-            Loro scelgono<br />
-            <span style={{ color: "var(--c-acid)" }}>Dial Funghi.</span>
-          </h2>
-          <p style={{ fontSize: 16, color: "rgba(245,239,224,0.75)", maxWidth: 600, lineHeight: 1.6, marginBottom: 60 }}>
-            Da oltre 33 anni forniamo prodotti a base di funghi alle più grandi realtà della distribuzione e della ristorazione italiana ed europea. Qualità certificata, volumi industriali, filiera cortissima.
-          </p>
 
-          {/* Client grid — flip cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 20 }}>
-            {B2B_CLIENTS.map((client) => {
-              const isFlipped = flippedClient === client.name;
-              return (
-                <div
-                  key={client.name}
-                  onMouseEnter={() => setFlippedClient(client.name)}
-                  onMouseLeave={() => setFlippedClient(null)}
-                  style={{ perspective: 800, cursor: "pointer", height: 160 }}
-                >
+          {/* Header */}
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.5, marginBottom: 20 }}>
+            Mercato B2B / Partner industriali
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "start", marginBottom: 80 }}>
+            <h2 style={{
+              fontFamily: "var(--font-heading)", fontSize: "clamp(48px, 7vw, 110px)",
+              lineHeight: 0.88, textTransform: "uppercase", letterSpacing: "-0.04em",
+              margin: 0, color: "var(--c-cream)",
+            }}>
+              Non siamo<br />un fornitore.<br />
+              <span style={{ color: "var(--c-acid)" }}>Siamo il lab.</span>
+            </h2>
+            <div style={{ paddingTop: 16 }}>
+              <p style={{ fontSize: 18, color: "rgba(245,239,224,0.85)", lineHeight: 1.7, margin: "0 0 28px" }}>
+                Giovanni Rana, Develey, Parmalat e le più grandi insegne della distribuzione italiana non scelgono i fornitori per caso. Scelgono Dial Funghi perché siamo l&apos;unico partner che unisce materia prima d&apos;eccellenza, tecnologia industriale avanzata e un laboratorio R&D interno dedicato allo sviluppo di nuovi ingredienti.
+              </p>
+              <p style={{ fontSize: 15, color: "rgba(245,239,224,0.65)", lineHeight: 1.65, margin: 0 }}>
+                Quando un brand leader deve formulare un nuovo sugo, creare una pasta fresca con fungo, sviluppare una ricetta di qualità superiore — chiama noi. Perché sappiamo trasformare il fungo secco in qualsiasi forma: estratto, polvere, pasta, emulsione. E lo facciamo con zero additivi chimici.
+              </p>
+            </div>
+          </div>
+
+          {/* 3 pillars — perché ci scelgono */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 80, borderRadius: 24, overflow: "hidden", border: "2.5px solid rgba(212,255,60,0.3)" }}>
+            {[
+              {
+                n: "01",
+                title: "Tecnologia industriale",
+                body: "Linee di produzione all&apos;avanguardia con capacità di processo sia per formato liquido (paste, estratti, salse, emulsioni) che secco (polveri micronizzate, briciole calibrate). Investiamo ogni anno in nuovi macchinari per ampliare i formati disponibili.",
+                accent: "var(--c-acid)",
+              },
+              {
+                n: "02",
+                title: "R&D interno dedicato",
+                body: "Il nostro team di micologhe e food technologist sviluppa su richiesta nuovi ingredienti funzionali, ricette e formulazioni. Lavoriamo in NDA con i brand partner, seguendo ogni progetto dalla prototipazione alla produzione in scala.",
+                accent: "#D9A547",
+              },
+              {
+                n: "03",
+                title: "Filiera corta certificata",
+                body: "Selezioniamo personalmente i fornitori di funghi secchi in tutto il mondo. Ogni lotto è tracciato, analizzato in laboratorio e certificato BRC, IFS, Bio EU, Vegan V-Label. Zero scorciatoie, zero sorprese.",
+                accent: "#9CB85C",
+              },
+            ].map((p, i) => (
+              <div key={p.n} style={{
+                background: i === 0 ? "rgba(212,255,60,0.07)" : i === 1 ? "rgba(217,165,71,0.07)" : "rgba(156,184,92,0.07)",
+                borderRight: i < 2 ? "2px solid rgba(212,255,60,0.15)" : "none",
+                padding: "40px 32px",
+              }}>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.18em", color: "rgba(245,239,224,0.35)", marginBottom: 20 }}>
+                  {p.n}
+                </div>
+                <div style={{
+                  fontFamily: "var(--font-heading)", fontSize: "clamp(20px, 2vw, 28px)",
+                  textTransform: "uppercase", letterSpacing: "-0.02em",
+                  color: p.accent, marginBottom: 16, lineHeight: 1,
+                }}>
+                  {p.title}
+                </div>
+                <p style={{ fontSize: 14, color: "rgba(245,239,224,0.72)", lineHeight: 1.7, margin: 0 }}
+                   dangerouslySetInnerHTML={{ __html: p.body }} />
+              </div>
+            ))}
+          </div>
+
+          {/* Why Rana, Develey, Parmalat */}
+          <div style={{ marginBottom: 80 }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.5, marginBottom: 24 }}>
+              Case — perché i leader ci scelgono
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+              {[
+                {
+                  brand: "Giovanni Rana",
+                  role: "Leader mondiale nella pasta fresca",
+                  text: "Rana richiede ingredienti con profilo aromatico estremamente costante e tracciabilità completa del lotto. Il nostro laboratorio sviluppa estratti e paste di porcini calibrate su specifiche tecniche precise, integrabili direttamente nella loro linea di produzione ad alta velocità.",
+                  tag: "Paste & Estratti",
+                },
+                {
+                  brand: "Develey",
+                  role: "Primo produttore europeo di salse",
+                  text: "Per Develey sviluppiamo componenti di fungo che resistono ai processi di pastorizzazione e sterilizzazione senza perdere il profilo aromatico. Un risultato impossibile con additivi chimici — noi lo otteniamo con processi fisici brevettati.",
+                  tag: "Componenti per salse",
+                },
+                {
+                  brand: "Parmalat",
+                  role: "Gruppo alimentare internazionale",
+                  text: "Parmalat lavora con Dial per l&apos;ingredientistica dei propri prodotti in Private Label. La nostra certificazione Bio EU e la filiera completamente tracciata sono requisiti non negoziabili che pochi fornitori in Europa riescono a garantire ai loro livelli.",
+                  tag: "Private Label & Bio",
+                },
+              ].map((c) => (
+                <div key={c.brand} style={{
+                  background: "rgba(245,239,224,0.04)", border: "2px solid rgba(212,255,60,0.2)",
+                  borderRadius: 24, padding: "32px 28px",
+                }}>
                   <div style={{
-                    position: "relative", width: "100%", height: "100%",
-                    transformStyle: "preserve-3d",
-                    transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
-                    transition: "transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)",
-                  }}>
-                    {/* Front — logo a colori su sfondo bianco */}
+                    display: "inline-block",
+                    background: "rgba(212,255,60,0.15)", border: "1px solid rgba(212,255,60,0.3)",
+                    color: "var(--c-acid)", borderRadius: 999,
+                    padding: "4px 12px", fontSize: 10, fontWeight: 800,
+                    letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 16,
+                  }}>{c.tag}</div>
+                  <div style={{
+                    fontFamily: "var(--font-heading)", fontSize: "clamp(22px, 2vw, 30px)",
+                    textTransform: "uppercase", letterSpacing: "-0.02em",
+                    color: "var(--c-cream)", lineHeight: 1, marginBottom: 8,
+                  }}>{c.brand}</div>
+                  <div style={{ fontSize: 11, color: "rgba(245,239,224,0.45)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 20 }}>
+                    {c.role}
+                  </div>
+                  <p style={{ fontSize: 13, color: "rgba(245,239,224,0.7)", lineHeight: 1.7, margin: 0 }}
+                     dangerouslySetInnerHTML={{ __html: c.text }} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Client logo grid — flip cards */}
+          <div style={{ paddingTop: 60, borderTop: "2px solid rgba(212,255,60,0.15)", marginBottom: 80 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, marginBottom: 40 }}>
+              <div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.5, marginBottom: 12 }}>
+                  Partner ufficiali
+                </div>
+                <h3 style={{
+                  fontFamily: "var(--font-heading)", fontSize: "clamp(32px, 4.5vw, 64px)",
+                  lineHeight: 0.9, textTransform: "uppercase", letterSpacing: "-0.03em",
+                  color: "var(--c-cream)", margin: 0,
+                }}>
+                  Loro scelgono<br /><span style={{ color: "var(--c-acid)" }}>Dial Funghi.</span>
+                </h3>
+              </div>
+              <p style={{ fontSize: 14, color: "rgba(245,239,224,0.6)", maxWidth: 340, lineHeight: 1.6, margin: 0 }}>
+                Hover sui loghi per scoprire il tipo di partnership.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 20 }}>
+              {B2B_CLIENTS.map((client) => {
+                const isFlipped = flippedClient === client.name;
+                return (
+                  <div
+                    key={client.name}
+                    onMouseEnter={() => setFlippedClient(client.name)}
+                    onMouseLeave={() => setFlippedClient(null)}
+                    style={{ perspective: 800, cursor: "pointer", height: 160 }}
+                  >
                     <div style={{
-                      position: "absolute", inset: 0,
-                      backfaceVisibility: "hidden",
-                      WebkitBackfaceVisibility: "hidden",
-                      background: "#fff",
-                      border: "2.5px solid rgba(245,239,224,0.3)",
-                      borderRadius: 20,
-                      boxShadow: "6px 6px 0 rgba(212,255,60,0.4)",
-                      display: "flex", flexDirection: "column",
-                      alignItems: "center", justifyContent: "center",
-                      padding: 20, gap: 10,
+                      position: "relative", width: "100%", height: "100%",
+                      transformStyle: "preserve-3d",
+                      transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                      transition: "transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)",
                     }}>
-                      <Image
-                        src={`${BASE_PATH}${client.logo}`}
-                        alt={client.name}
-                        width={150}
-                        height={64}
-                        style={{ objectFit: "contain", maxHeight: 64 }}
-                      />
-                      <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#999" }}>
-                        Partner
+                      <div style={{
+                        position: "absolute", inset: 0,
+                        backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
+                        background: "#fff", border: "2.5px solid rgba(245,239,224,0.3)",
+                        borderRadius: 20, boxShadow: "6px 6px 0 rgba(212,255,60,0.4)",
+                        display: "flex", flexDirection: "column",
+                        alignItems: "center", justifyContent: "center", padding: 20, gap: 10,
+                      }}>
+                        <Image src={`${BASE_PATH}${client.logo}`} alt={client.name} width={150} height={64} style={{ objectFit: "contain", maxHeight: 64 }} />
+                        <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#999" }}>Partner</div>
                       </div>
-                    </div>
-                    {/* Back — nome brand su acid */}
-                    <div style={{
-                      position: "absolute", inset: 0,
-                      backfaceVisibility: "hidden",
-                      WebkitBackfaceVisibility: "hidden",
-                      transform: "rotateY(180deg)",
-                      background: "var(--c-acid)", color: "var(--c-ink)",
-                      border: "2.5px solid rgba(245,239,224,0.3)",
-                      borderRadius: 20,
-                      boxShadow: "6px 6px 0 rgba(212,255,60,0.4)",
-                      display: "flex", flexDirection: "column",
-                      alignItems: "center", justifyContent: "center",
-                      padding: 20, textAlign: "center",
-                    }}>
-                      <div style={{ fontFamily: "var(--font-heading)", fontSize: 22, textTransform: "uppercase", letterSpacing: "-0.02em", lineHeight: 0.95 }}>
-                        {client.name}
-                      </div>
-                      <div style={{ marginTop: 12, width: 32, height: 2, background: "var(--c-ink)", borderRadius: 2 }} />
-                      <div style={{ marginTop: 12, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.6 }}>
-                        Partner Dial Funghi
+                      <div style={{
+                        position: "absolute", inset: 0,
+                        backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
+                        transform: "rotateY(180deg)",
+                        background: "var(--c-acid)", color: "var(--c-ink)",
+                        border: "2.5px solid rgba(245,239,224,0.3)",
+                        borderRadius: 20, boxShadow: "6px 6px 0 rgba(212,255,60,0.4)",
+                        display: "flex", flexDirection: "column",
+                        alignItems: "center", justifyContent: "center", padding: 20, textAlign: "center",
+                      }}>
+                        <div style={{ fontFamily: "var(--font-heading)", fontSize: 22, textTransform: "uppercase", letterSpacing: "-0.02em", lineHeight: 0.95 }}>
+                          {client.name}
+                        </div>
+                        <div style={{ marginTop: 12, width: 32, height: 2, background: "var(--c-ink)", borderRadius: 2 }} />
+                        <div style={{ marginTop: 12, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.6 }}>
+                          Partner Dial Funghi
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
-          {/* B2B Industrial detail */}
-          <div style={{ marginTop: 60, paddingTop: 60, borderTop: "2px solid rgba(212,255,60,0.2)" }}>
+          {/* Produzione industriale */}
+          <div style={{ paddingTop: 60, paddingBottom: 100, borderTop: "2px solid rgba(212,255,60,0.15)" }}>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.5, marginBottom: 16 }}>
-              Semilavorati industriali / OEM / Private Label
+              Semilavorati / OEM / Private Label
             </div>
             <h3 style={{
-              fontFamily: "var(--font-heading)", fontSize: "clamp(28px, 4vw, 56px)",
+              fontFamily: "var(--font-heading)", fontSize: "clamp(32px, 4.5vw, 64px)",
               textTransform: "uppercase", letterSpacing: "-0.03em", color: "var(--c-cream)",
-              lineHeight: 0.9, margin: "0 0 40px",
+              lineHeight: 0.9, margin: "0 0 48px",
             }}>
               Produzione<br /><span style={{ color: "var(--c-acid)" }}>su misura.</span>
             </h3>
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20, marginBottom: 32 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20, marginBottom: 36 }}>
               {[
                 {
                   title: "Prodotti Liquidi",
-                  body: "Estratti, concentrati, paste, emulsioni, puree e salse. Ideali per zuppe, minestroni, sughi pronti, ripieni e pasta fresca industriale.",
+                  body: "Estratti, concentrati, paste, emulsioni, puree e salse. Ideali per zuppe, minestroni, sughi pronti, ripieni e pasta fresca industriale. Disponibili in formati standard o sviluppati su specifica cliente.",
                 },
                 {
                   title: "Prodotti Secchi",
-                  body: "Polvere micronizzata, polvere <2mm, briciole (1–9mm). Adatti a ogni applicazione nel food processing industriale.",
+                  body: "Polvere micronizzata, polvere &lt;2mm, briciole calibrate (1–9mm). Adatti a ogni applicazione nel food processing industriale: da condimenti a snack, da panificazione a pet food premium.",
                 },
                 {
                   title: "Solo Fisica, Zero Chimica",
-                  body: "Lavorazione esclusivamente fisica. Nessun additivo, nessuna chimica. Conserviamo virtualmente tutte le sostanze aromatiche naturali del fungo.",
+                  body: "Lavorazione esclusivamente fisica. Nessun additivo, nessun conservante, nessuna chimica. Conserviamo virtualmente tutte le sostanze aromatiche naturali del fungo — impossibile con la pastorizzazione standard.",
                 },
               ].map((card) => (
                 <div key={card.title} style={{
-                  background: "rgba(245,239,224,0.06)", border: "2px solid rgba(212,255,60,0.25)",
-                  borderRadius: 20, padding: 24,
+                  background: "rgba(245,239,224,0.05)", border: "2px solid rgba(212,255,60,0.2)",
+                  borderRadius: 20, padding: "28px 24px",
                 }}>
-                  <div style={{ fontFamily: "var(--font-heading)", fontSize: 17, textTransform: "uppercase", color: "var(--c-acid)", marginBottom: 10 }}>
+                  <div style={{ fontFamily: "var(--font-heading)", fontSize: 18, textTransform: "uppercase", color: "var(--c-acid)", marginBottom: 14, lineHeight: 1 }}>
                     {card.title}
                   </div>
-                  <p style={{ fontSize: 14, color: "rgba(245,239,224,0.75)", lineHeight: 1.65, margin: 0 }}>
-                    {card.body}
-                  </p>
+                  <p style={{ fontSize: 14, color: "rgba(245,239,224,0.72)", lineHeight: 1.7, margin: 0 }}
+                     dangerouslySetInnerHTML={{ __html: card.body }} />
                 </div>
               ))}
             </div>
-
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 32 }}>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 36 }}>
               {["Bio EU", "Vegan V-Label", "Gluten Free", "Allergen Free", "Non-GMO", "BRC Food", "IFS Food"].map((c) => (
                 <span key={c} style={{
-                  background: "rgba(212,255,60,0.12)", border: "1.5px solid rgba(212,255,60,0.35)",
+                  background: "rgba(212,255,60,0.1)", border: "1.5px solid rgba(212,255,60,0.3)",
                   color: "var(--c-acid)", borderRadius: 999,
-                  padding: "6px 14px", fontSize: 11, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase",
-                }}>
-                  {c}
-                </span>
+                  padding: "7px 16px", fontSize: 11, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase",
+                }}>{c}</span>
               ))}
             </div>
-
             <Link href="/contatti" className="pop" style={{
               display: "inline-flex", alignItems: "center", gap: 10,
               background: "var(--c-acid)", color: "var(--c-ink)",
               border: "2.5px solid var(--c-acid)", borderRadius: 999,
-              padding: "16px 28px", fontWeight: 900, fontSize: 13,
+              padding: "18px 32px", fontWeight: 900, fontSize: 14,
               letterSpacing: "0.06em", textTransform: "uppercase",
               textDecoration: "none", boxShadow: "5px 5px 0 rgba(212,255,60,0.4)",
             }}>

@@ -258,8 +258,10 @@ export default function HomePage() {
   const [flippedCertHome, setFlippedCertHome] = useState<string | null>(null);
   const [hoveredReview, setHoveredReview] = useState<string | null>(null);
   const [hoveredHeroCard, setHoveredHeroCard] = useState(false);
-  const [galleryOpen, setGalleryOpen] = useState(false);
-  const [galleryIdx, setGalleryIdx] = useState(0);
+  const [carouselIdx, setCarouselIdx] = useState(0);
+  const [homeStatCounts, setHomeStatCounts] = useState({ a: 0, b: 0, c: 0, d: 0 });
+  const homeStatsRef = useRef<HTMLDivElement>(null);
+  const homeStatsStarted = useRef(false);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 800);
@@ -267,15 +269,37 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (!galleryOpen) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setGalleryOpen(false);
-      if (e.key === "ArrowLeft") setGalleryIdx((i) => (i - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length);
-      if (e.key === "ArrowRight") setGalleryIdx((i) => (i + 1) % GALLERY_PHOTOS.length);
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [galleryOpen]);
+    const t = setInterval(() => setCarouselIdx((i) => (i + 1) % GALLERY_PHOTOS.length), 3500);
+    return () => clearInterval(t);
+  }, []);
+
+  useEffect(() => {
+    const el = homeStatsRef.current;
+    if (!el) return;
+    const TARGETS = [33, 10, 5, 16];
+    const KEYS = ["a", "b", "c", "d"] as const;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || homeStatsStarted.current) return;
+      homeStatsStarted.current = true;
+      const duration = 1400;
+      const start = performance.now();
+      const tick = (now: number) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        setHomeStatCounts({
+          a: Math.round(ease * TARGETS[0]),
+          b: Math.round(ease * TARGETS[1]),
+          c: Math.round(ease * TARGETS[2]),
+          d: Math.round(ease * TARGETS[3]),
+        });
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.4 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const product = FIOR[activeBottle];
 
@@ -682,11 +706,31 @@ export default function HomePage() {
                 <strong style={{ color: "var(--c-cream)" }}>Senza scorciatoie.</strong>
               </p>
 
-              <div style={{ display: "flex", gap: 24, marginTop: 40, flexWrap: "wrap" }}>
-                {[["33", "anni di storia"], ["10", "ettari di bosco"], ["5", "certificazioni"], ["16", "prodotti"]].map(([n, l]) => (
-                  <div key={l}>
-                    <div style={{ fontWeight: 900, fontSize: 36, color: "var(--c-acid)", lineHeight: 1, letterSpacing: "-0.03em" }}>{n}</div>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: "rgba(245,239,224,0.6)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4 }}>{l}</div>
+              <div ref={homeStatsRef} style={{
+                display: "inline-flex", flexWrap: "wrap", marginTop: 40,
+                background: "var(--c-cream)", border: "2.5px solid var(--c-cream)",
+                borderRadius: 20, overflow: "hidden",
+                boxShadow: "6px 6px 0 var(--c-acid)",
+              }}>
+                {([
+                  [homeStatCounts.a, "+", "anni di storia"],
+                  [homeStatCounts.b, "", "ettari di bosco"],
+                  [homeStatCounts.c, "", "certificazioni"],
+                  [homeStatCounts.d, "", "prodotti"],
+                ] as [number, string, string][]).map(([n, suffix, label], i, arr) => (
+                  <div key={label} style={{
+                    padding: "20px 28px",
+                    borderRight: i < arr.length - 1 ? "2px solid rgba(10,15,12,0.15)" : "none",
+                  }}>
+                    <div style={{
+                      fontFamily: "var(--font-heading)", fontSize: "clamp(26px, 2.8vw, 42px)",
+                      fontWeight: 900, lineHeight: 1, letterSpacing: "-0.03em",
+                      color: "var(--c-ink)",
+                    }}>{n}{suffix}</div>
+                    <div style={{
+                      fontSize: 10, fontWeight: 700, color: "rgba(10,15,12,0.5)",
+                      textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4,
+                    }}>{label}</div>
                   </div>
                 ))}
               </div>
@@ -702,12 +746,11 @@ export default function HomePage() {
               }}>La nostra storia →</Link>
             </div>
 
-            {/* Right — company building photo — click to open gallery */}
+            {/* Right — company photo in-card carousel */}
             <div
               onMouseEnter={() => setHoveredHeroCard(true)}
               onMouseLeave={() => setHoveredHeroCard(false)}
-              onClick={() => { setGalleryIdx(0); setGalleryOpen(true); }}
-              style={{ position: "relative", cursor: "pointer" }}
+              style={{ position: "relative" }}
             >
               <div style={{
                 position: "relative", aspectRatio: "4/5",
@@ -717,23 +760,61 @@ export default function HomePage() {
                 transform: hoveredHeroCard ? "translateY(-12px) scale(1.02)" : "translateY(0) scale(1)",
                 transition: "transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease",
               }}>
-                <Image
-                  src={`${BASE_PATH}/images/azienda/stabilimento-1.jpg`}
-                  alt="Stabilimento Dial Funghi · Pergine Valsugana"
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
+                {GALLERY_PHOTOS.map((photo, idx) => (
+                  <div key={idx} style={{
+                    position: "absolute", inset: 0,
+                    opacity: idx === carouselIdx ? 1 : 0,
+                    transition: "opacity 0.75s ease",
+                  }}>
+                    <Image src={`${BASE_PATH}${photo.src}`} alt={photo.label} fill style={{ objectFit: "cover" }} />
+                  </div>
+                ))}
+                <button
+                  onClick={() => setCarouselIdx((i) => (i - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length)}
+                  style={{
+                    position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", zIndex: 4,
+                    background: "var(--c-cream)", border: "2px solid var(--c-ink)",
+                    borderRadius: "50%", width: 40, height: 40, cursor: "pointer", fontWeight: 900, fontSize: 16,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    boxShadow: "2px 2px 0 var(--c-ink)",
+                  }}
+                >←</button>
+                <button
+                  onClick={() => setCarouselIdx((i) => (i + 1) % GALLERY_PHOTOS.length)}
+                  style={{
+                    position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", zIndex: 4,
+                    background: "var(--c-cream)", border: "2px solid var(--c-ink)",
+                    borderRadius: "50%", width: 40, height: 40, cursor: "pointer", fontWeight: 900, fontSize: 16,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    boxShadow: "2px 2px 0 var(--c-ink)",
+                  }}
+                >→</button>
+                <div style={{
+                  position: "absolute", bottom: 14, left: "50%", transform: "translateX(-50%)",
+                  display: "flex", gap: 6, zIndex: 4,
+                }}>
+                  {GALLERY_PHOTOS.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCarouselIdx(idx)}
+                      style={{
+                        width: idx === carouselIdx ? 20 : 8, height: 8, borderRadius: 999, border: "none",
+                        cursor: "pointer", padding: 0,
+                        background: idx === carouselIdx ? "var(--c-acid)" : "rgba(245,239,224,0.5)",
+                        transition: "width 0.3s ease, background 0.3s ease",
+                      }}
+                    />
+                  ))}
+                </div>
+                <div style={{
+                  position: "absolute", top: 14, right: 14, zIndex: 4,
+                  background: "rgba(10,15,12,0.65)", color: "var(--c-cream)",
+                  padding: "5px 12px", borderRadius: 999,
+                  fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
+                }}>
+                  {GALLERY_PHOTOS[carouselIdx].label}
+                </div>
               </div>
-              <div style={{
-                position: "absolute", top: -16, left: -16,
-                background: "#C24B2B", color: "var(--c-cream)",
-                fontWeight: 900, fontSize: 12, letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                padding: "8px 16px", borderRadius: 999,
-                border: "2.5px solid var(--c-cream)",
-                boxShadow: "4px 4px 0 var(--c-cream)",
-                transform: "rotate(-8deg)",
-              }}>🌲 Bosco vivo</div>
             </div>
           </div>
         </section>
@@ -858,94 +939,6 @@ export default function HomePage() {
         <Footer />
       </div>
 
-      {/* Gallery modal */}
-      {galleryOpen && (
-        <div
-          onClick={() => setGalleryOpen(false)}
-          style={{
-            position: "fixed", inset: 0, zIndex: 9500,
-            background: "rgba(10,15,12,0.94)",
-            display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center",
-            padding: 32,
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              position: "relative",
-              width: "min(880px, 92vw)", height: "min(580px, 65vh)",
-              borderRadius: 24, overflow: "hidden",
-              border: "3px solid var(--c-cream)",
-              boxShadow: "16px 16px 0 var(--c-acid)",
-            }}
-          >
-            <Image
-              src={`${BASE_PATH}${GALLERY_PHOTOS[galleryIdx].src}`}
-              alt={GALLERY_PHOTOS[galleryIdx].label}
-              fill
-              style={{ objectFit: "cover" }}
-            />
-            <button
-              onClick={(e) => { e.stopPropagation(); setGalleryIdx((i) => (i - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length); }}
-              style={{
-                position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)",
-                background: "var(--c-cream)", border: "2.5px solid var(--c-ink)",
-                borderRadius: "50%", width: 44, height: 44, fontWeight: 900, fontSize: 18,
-                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: "3px 3px 0 var(--c-ink)",
-              }}
-            >←</button>
-            <button
-              onClick={(e) => { e.stopPropagation(); setGalleryIdx((i) => (i + 1) % GALLERY_PHOTOS.length); }}
-              style={{
-                position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)",
-                background: "var(--c-cream)", border: "2.5px solid var(--c-ink)",
-                borderRadius: "50%", width: 44, height: 44, fontWeight: 900, fontSize: 18,
-                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-                boxShadow: "3px 3px 0 var(--c-ink)",
-              }}
-            >→</button>
-            <div style={{
-              position: "absolute", bottom: 16, left: "50%", transform: "translateX(-50%)",
-              background: "rgba(10,15,12,0.72)", color: "var(--c-cream)",
-              padding: "6px 18px", borderRadius: 999, fontSize: 11, fontWeight: 700,
-              letterSpacing: "0.08em", textTransform: "uppercase", whiteSpace: "nowrap",
-            }}>
-              {GALLERY_PHOTOS[galleryIdx].label} · {galleryIdx + 1} / {GALLERY_PHOTOS.length}
-            </div>
-            <button
-              onClick={() => setGalleryOpen(false)}
-              style={{
-                position: "absolute", top: 14, right: 14,
-                background: "var(--c-cream)", border: "2px solid var(--c-ink)",
-                borderRadius: "50%", width: 34, height: 34, fontWeight: 900, fontSize: 13,
-                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-              }}
-            >✕</button>
-          </div>
-          {/* Thumbnails */}
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap", justifyContent: "center" }}
-          >
-            {GALLERY_PHOTOS.map((p, idx) => (
-              <button
-                key={idx}
-                onClick={() => setGalleryIdx(idx)}
-                style={{
-                  width: 72, height: 50, borderRadius: 10, overflow: "hidden",
-                  border: galleryIdx === idx ? "3px solid var(--c-acid)" : "2px solid rgba(245,239,224,0.25)",
-                  cursor: "pointer", padding: 0, flexShrink: 0, position: "relative",
-                  background: "transparent",
-                }}
-              >
-                <Image src={`${BASE_PATH}${p.src}`} alt={p.label} fill style={{ objectFit: "cover" }} />
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
     </>
   );
 }

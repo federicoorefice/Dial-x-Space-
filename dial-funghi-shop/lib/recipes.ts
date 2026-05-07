@@ -378,7 +378,7 @@ export const RECIPES: Recipe[] = [
     tag: "Funghi Secchi",
     productId: "psec",
     color: "#D9A547",
-    img: "/images/ricette/risotto-porcini.png",
+    img: "/images/ricette/risotto-secchi.png",
     intro: "Il risotto della tradizione italiana. Con i porcini secchi Dial Funghi, ogni chicco assorbe l'aroma intenso del bosco trentino.",
     servings: 4,
     ingredients: [
@@ -412,7 +412,7 @@ export const RECIPES: Recipe[] = [
     tag: "Funghi Secchi",
     productId: "psec",
     color: "#A66B3D",
-    img: "/images/ricette/risotto-porcini.png",
+    img: "/images/ricette/sugo-porcini.png",
     intro: "Il sugo del lunedì e della domenica. Veloce, profondo, con quel sapore di bosco che le salse industriali non raggiungeranno mai.",
     servings: 4,
     ingredients: [
@@ -442,7 +442,7 @@ export const RECIPES: Recipe[] = [
     tag: "Funghi Secchi",
     productId: "finf",
     color: "#D4FF3C",
-    img: "/images/ricette/risotto-porcini.png",
+    img: "/images/ricette/trifolato.png",
     intro: "Contorno semplice e nobile. I finferli secchi reidratati saltati in padella con aglio e prezzemolo — una preparazione che esalta ogni sapore.",
     servings: 4,
     ingredients: [
@@ -470,7 +470,7 @@ export const RECIPES: Recipe[] = [
     tag: "Funghi Secchi",
     productId: "psec",
     color: "#8B5A2B",
-    img: "/images/ricette/risotto-porcini.png",
+    img: "/images/ricette/zuppa-bosco.png",
     intro: "La zuppa che scalda. Con i porcini secchi e legumi, è un piatto completo che profuma di autunno trentino.",
     servings: 4,
     ingredients: [
@@ -502,7 +502,7 @@ export const RECIPES: Recipe[] = [
     tag: "Funghi Secchi",
     productId: "morc",
     color: "#F5EFE0",
-    img: "/images/ricette/tartufo-pecorino.png",
+    img: "/images/ricette/morchelle-uova.png",
     intro: "Un piatto da grande chef con tre ingredienti. Le morchelle sono tra i funghi più pregiati al mondo — rispettale con semplicità.",
     servings: 2,
     ingredients: [
@@ -532,7 +532,7 @@ export const RECIPES: Recipe[] = [
     tag: "Funghi Secchi",
     productId: "shit",
     color: "#E63B1E",
-    img: "/images/ricette/teriyaki-salmone.png",
+    img: "/images/ricette/ramen-shiitake.png",
     intro: "Il ramen fatto in casa con il carattere dello shiitake. Un brodo umami profondo che scalda corpo e spirito.",
     servings: 2,
     ingredients: [
@@ -565,7 +565,7 @@ export const RECIPES: Recipe[] = [
     tag: "Polenta",
     productId: "pol",
     color: "#D9A547",
-    img: "/images/ricette/risotto-porcini.png",
+    img: "/images/ricette/polenta-porcini.png",
     intro: "La polenta veloce che non tradisce. Con i porcini già dentro, in 10 minuti hai un piatto completo e confortante.",
     servings: 4,
     ingredients: [
@@ -594,7 +594,7 @@ export const RECIPES: Recipe[] = [
     tag: "Polenta",
     productId: "pol",
     color: "#F2C200",
-    img: "/images/ricette/panino-bbq.png",
+    img: "/images/ricette/crostini-polenta.png",
     intro: "La polenta avanzata si trasforma. Fritta diventa croccante fuori e morbida dentro — perfetta come antipasto o finger food.",
     servings: 6,
     ingredients: [
@@ -621,7 +621,7 @@ export const RECIPES: Recipe[] = [
     tag: "Polenta",
     productId: "pol",
     color: "#E63B1E",
-    img: "/images/ricette/risotto-porcini.png",
+    img: "/images/ricette/polenta-cotechino.png",
     intro: "Il piatto della domenica trentina. Polenta morbida con un ricco ragù di funghi misti — comfort food elevato.",
     servings: 6,
     ingredients: [
@@ -654,7 +654,7 @@ export const RECIPES: Recipe[] = [
     tag: "Condimenti",
     productId: "grig",
     color: "#7A4226",
-    img: "/images/ricette/risotto-porcini.png",
+    img: "/images/ricette/pasta-grigliata.png",
     intro: "Una pasta che sa di escursione in quota. Il condimento Grigliata di Montagna trasforma un sugo semplice in qualcosa di memorabile.",
     servings: 4,
     ingredients: [
@@ -684,7 +684,7 @@ export const RECIPES: Recipe[] = [
     tag: "Condimenti",
     productId: "papor",
     color: "#D4FF3C",
-    img: "/images/ricette/tartufo-pecorino.png",
+    img: "/images/ricette/pollo-condito.png",
     intro: "Il petto di pollo non deve essere noioso. Con il Preparato ai Porcini diventa succoso, aromatico e impossibile da dimenticare.",
     servings: 2,
     ingredients: [
@@ -714,7 +714,7 @@ export const RECIPES: Recipe[] = [
     tag: "Condimenti",
     productId: "grig",
     color: "#F5EFE0",
-    img: "/images/ricette/panino-bbq.png",
+    img: "/images/ricette/verdure-griglio.png",
     intro: "Contorno universale che non annoia mai. Il condimento Grigliata di Montagna esalta ogni verdura con la profondità del fungo essiccato.",
     servings: 4,
     ingredients: [
