@@ -53,6 +53,8 @@ export default function ChiSiamoPage() {
   const [flippedClient, setFlippedClient] = useState<string | null>(null);
   const [hoveredPhoto, setHoveredPhoto] = useState<number | null>(null);
   const [hoveredTimeline, setHoveredTimeline] = useState<string | null>(null);
+  const [hoveredPillar, setHoveredPillar] = useState<string | null>(null);
+  const [hoveredCase, setHoveredCase] = useState<string | null>(null);
   const [counts, setCounts] = useState<Record<string, number>>({ anni: 0, cert: 0, clienti: 0, prodotti: 0 });
   const statsRef = useRef<HTMLDivElement>(null);
 
@@ -261,46 +263,60 @@ export default function ChiSiamoPage() {
           </div>
 
           {/* 3 pillars — perché ci scelgono */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2, marginBottom: 80, borderRadius: 24, overflow: "hidden", border: "2.5px solid rgba(212,255,60,0.3)" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 80 }}>
             {[
               {
-                n: "01",
-                title: "Tecnologia industriale",
-                body: "Linee di produzione all&apos;avanguardia con capacità di processo sia per formato liquido (paste, estratti, salse, emulsioni) che secco (polveri micronizzate, briciole calibrate). Investiamo ogni anno in nuovi macchinari per ampliare i formati disponibili.",
-                accent: "var(--c-acid)",
+                n: "01", emoji: "🏭",
+                title: "Tecnologia\nIndustriale",
+                body: "Linee di produzione all'avanguardia per formati liquidi (paste, estratti, salse, emulsioni) e secchi (polveri micronizzate, briciole calibrate). Investiamo ogni anno in nuovi macchinari.",
+                bg: "var(--c-acid)", color: "var(--c-ink)", rot: -1.5,
               },
               {
-                n: "02",
-                title: "R&D interno dedicato",
-                body: "Il nostro team di micologhe e food technologist sviluppa su richiesta nuovi ingredienti funzionali, ricette e formulazioni. Lavoriamo in NDA con i brand partner, seguendo ogni progetto dalla prototipazione alla produzione in scala.",
-                accent: "#D9A547",
+                n: "02", emoji: "🔬",
+                title: "R&D Interno\nDedicato",
+                body: "Il nostro team di micologhe e food technologist sviluppa su richiesta nuovi ingredienti funzionali. Lavoriamo in NDA con i brand partner, dalla prototipazione alla produzione in scala.",
+                bg: "#D9A547", color: "var(--c-ink)", rot: 1,
               },
               {
-                n: "03",
-                title: "Filiera corta certificata",
-                body: "Selezioniamo personalmente i fornitori di funghi secchi in tutto il mondo. Ogni lotto è tracciato, analizzato in laboratorio e certificato BRC, IFS, Bio EU, Vegan V-Label. Zero scorciatoie, zero sorprese.",
-                accent: "#9CB85C",
+                n: "03", emoji: "🌲",
+                title: "Filiera Corta\nCertificata",
+                body: "Selezioniamo personalmente i fornitori di funghi secchi in tutto il mondo. Ogni lotto è tracciato, analizzato in laboratorio e certificato BRC, IFS, Bio EU, Vegan V-Label.",
+                bg: "#9CB85C", color: "var(--c-ink)", rot: -1,
               },
-            ].map((p, i) => (
-              <div key={p.n} style={{
-                background: i === 0 ? "rgba(212,255,60,0.07)" : i === 1 ? "rgba(217,165,71,0.07)" : "rgba(156,184,92,0.07)",
-                borderRight: i < 2 ? "2px solid rgba(212,255,60,0.15)" : "none",
-                padding: "40px 32px",
-              }}>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.18em", color: "rgba(245,239,224,0.35)", marginBottom: 20 }}>
-                  {p.n}
+            ].map((p) => {
+              const isHov = hoveredPillar === p.n;
+              return (
+                <div
+                  key={p.n}
+                  onMouseEnter={() => setHoveredPillar(p.n)}
+                  onMouseLeave={() => setHoveredPillar(null)}
+                  style={{
+                    background: p.bg, color: p.color,
+                    border: "2.5px solid var(--c-cream)",
+                    borderRadius: 24, padding: "36px 30px",
+                    boxShadow: isHov ? "16px 16px 0 var(--c-cream)" : "8px 8px 0 var(--c-cream)",
+                    transform: isHov
+                      ? `translateY(-10px) scale(1.04) rotate(${p.rot}deg)`
+                      : `translateY(0) scale(1) rotate(${p.rot}deg)`,
+                    transition: "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease",
+                    cursor: "default",
+                  }}
+                >
+                  <div style={{ fontSize: 40, marginBottom: 16 }}>{p.emoji}</div>
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.18em", opacity: 0.55, marginBottom: 14 }}>
+                    {p.n}
+                  </div>
+                  <div style={{
+                    fontFamily: "var(--font-heading)", fontSize: "clamp(22px, 2.2vw, 32px)",
+                    textTransform: "uppercase", letterSpacing: "-0.03em",
+                    lineHeight: 0.95, marginBottom: 18, whiteSpace: "pre-line",
+                  }}>
+                    {p.title}
+                  </div>
+                  <p style={{ fontSize: 14, lineHeight: 1.65, margin: 0, opacity: 0.8 }}>{p.body}</p>
                 </div>
-                <div style={{
-                  fontFamily: "var(--font-heading)", fontSize: "clamp(20px, 2vw, 28px)",
-                  textTransform: "uppercase", letterSpacing: "-0.02em",
-                  color: p.accent, marginBottom: 16, lineHeight: 1,
-                }}>
-                  {p.title}
-                </div>
-                <p style={{ fontSize: 14, color: "rgba(245,239,224,0.72)", lineHeight: 1.7, margin: 0 }}
-                   dangerouslySetInnerHTML={{ __html: p.body }} />
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Why Rana, Develey, Parmalat */}
@@ -312,46 +328,101 @@ export default function ChiSiamoPage() {
               {[
                 {
                   brand: "Giovanni Rana",
+                  logo: "/images/loghi/brandforum_logotale_giovanni_rana_logo9-scaled.jpeg",
                   role: "Leader mondiale nella pasta fresca",
                   text: "Rana richiede ingredienti con profilo aromatico estremamente costante e tracciabilità completa del lotto. Il nostro laboratorio sviluppa estratti e paste di porcini calibrate su specifiche tecniche precise, integrabili direttamente nella loro linea di produzione ad alta velocità.",
                   tag: "Paste & Estratti",
+                  photo: "/images/azienda/lab-1.png",
+                  accent: "var(--c-acid)",
                 },
                 {
                   brand: "Develey",
+                  logo: "/images/loghi/Develey.svg",
                   role: "Primo produttore europeo di salse",
                   text: "Per Develey sviluppiamo componenti di fungo che resistono ai processi di pastorizzazione e sterilizzazione senza perdere il profilo aromatico. Un risultato impossibile con additivi chimici — noi lo otteniamo con processi fisici brevettati.",
                   tag: "Componenti per salse",
+                  photo: "/images/azienda/macchinario-1.png",
+                  accent: "#D9A547",
                 },
                 {
                   brand: "Parmalat",
+                  logo: "/images/loghi/Parmalat.svg",
                   role: "Gruppo alimentare internazionale",
-                  text: "Parmalat lavora con Dial per l&apos;ingredientistica dei propri prodotti in Private Label. La nostra certificazione Bio EU e la filiera completamente tracciata sono requisiti non negoziabili che pochi fornitori in Europa riescono a garantire ai loro livelli.",
+                  text: "Parmalat lavora con Dial per l'ingredientistica dei propri prodotti in Private Label. La nostra certificazione Bio EU e la filiera completamente tracciata sono requisiti non negoziabili che pochi fornitori in Europa riescono a garantire ai loro livelli.",
                   tag: "Private Label & Bio",
+                  photo: "/images/azienda/stabilimento-1.jpg",
+                  accent: "#9CB85C",
                 },
-              ].map((c) => (
-                <div key={c.brand} style={{
-                  background: "rgba(245,239,224,0.04)", border: "2px solid rgba(212,255,60,0.2)",
-                  borderRadius: 24, padding: "32px 28px",
-                }}>
-                  <div style={{
-                    display: "inline-block",
-                    background: "rgba(212,255,60,0.15)", border: "1px solid rgba(212,255,60,0.3)",
-                    color: "var(--c-acid)", borderRadius: 999,
-                    padding: "4px 12px", fontSize: 10, fontWeight: 800,
-                    letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 16,
-                  }}>{c.tag}</div>
-                  <div style={{
-                    fontFamily: "var(--font-heading)", fontSize: "clamp(22px, 2vw, 30px)",
-                    textTransform: "uppercase", letterSpacing: "-0.02em",
-                    color: "var(--c-cream)", lineHeight: 1, marginBottom: 8,
-                  }}>{c.brand}</div>
-                  <div style={{ fontSize: 11, color: "rgba(245,239,224,0.45)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 20 }}>
-                    {c.role}
+              ].map((c, i) => {
+                const isHov = hoveredCase === c.brand;
+                const rot = i % 2 === 0 ? -0.8 : 0.8;
+                return (
+                  <div
+                    key={c.brand}
+                    onMouseEnter={() => setHoveredCase(c.brand)}
+                    onMouseLeave={() => setHoveredCase(null)}
+                    style={{
+                      background: "var(--c-cream)", color: "var(--c-ink)",
+                      border: "2.5px solid var(--c-cream)",
+                      borderRadius: 24, overflow: "hidden",
+                      boxShadow: isHov ? "16px 16px 0 var(--c-cream)" : "8px 8px 0 var(--c-cream)",
+                      transform: isHov
+                        ? `translateY(-10px) scale(1.03) rotate(${rot}deg)`
+                        : `translateY(0) scale(1) rotate(${rot}deg)`,
+                      transition: "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease",
+                      cursor: "default",
+                    }}
+                  >
+                    {/* Photo strip */}
+                    <div style={{ position: "relative", height: 140, overflow: "hidden" }}>
+                      <Image
+                        src={`${BASE_PATH}${c.photo}`}
+                        alt={c.brand}
+                        fill
+                        style={{ objectFit: "cover", filter: "brightness(0.75) saturate(0.9)" }}
+                      />
+                      {/* Tag overlay */}
+                      <div style={{
+                        position: "absolute", top: 12, left: 12,
+                        background: c.accent, color: "var(--c-ink)",
+                        border: "2px solid var(--c-ink)", borderRadius: 999,
+                        padding: "5px 14px", fontSize: 10, fontWeight: 900,
+                        letterSpacing: "0.08em", textTransform: "uppercase",
+                        boxShadow: "3px 3px 0 var(--c-ink)",
+                      }}>{c.tag}</div>
+                    </div>
+
+                    {/* Body */}
+                    <div style={{ padding: "24px 26px 28px" }}>
+                      {/* Logo + name row */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 10 }}>
+                        <div style={{
+                          background: "#fff", borderRadius: 12, border: "1.5px solid var(--c-ink)",
+                          padding: "6px 10px", flexShrink: 0,
+                        }}>
+                          <Image
+                            src={`${BASE_PATH}${c.logo}`}
+                            alt={c.brand}
+                            width={70} height={32}
+                            style={{ objectFit: "contain", display: "block" }}
+                          />
+                        </div>
+                        <div>
+                          <div style={{
+                            fontFamily: "var(--font-heading)", fontSize: "clamp(18px, 1.8vw, 24px)",
+                            textTransform: "uppercase", letterSpacing: "-0.02em", lineHeight: 1,
+                          }}>{c.brand}</div>
+                          <div style={{ fontSize: 10, fontWeight: 700, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 4 }}>
+                            {c.role}
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{ width: "100%", height: 2, background: "var(--c-ink)", opacity: 0.1, borderRadius: 2, marginBottom: 16 }} />
+                      <p style={{ fontSize: 13, color: "rgba(10,15,12,0.72)", lineHeight: 1.7, margin: 0 }}>{c.text}</p>
+                    </div>
                   </div>
-                  <p style={{ fontSize: 13, color: "rgba(245,239,224,0.7)", lineHeight: 1.7, margin: 0 }}
-                     dangerouslySetInnerHTML={{ __html: c.text }} />
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
