@@ -3,10 +3,10 @@ import Stripe from "stripe";
 import { Resend } from "resend";
 import { getProductById, formatPrice } from "@/lib/products";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY ?? "sk_placeholder", {
   apiVersion: "2026-04-22.dahlia",
 });
-const resend = new Resend(process.env.RESEND_API_KEY);
+const getResend = () => new Resend(process.env.RESEND_API_KEY ?? "placeholder");
 
 // Required for raw body verification
 export const runtime = "nodejs";
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+    event = getStripe().webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch (err) {
     console.error("Webhook signature verification failed:", err);
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
@@ -106,7 +106,7 @@ async function handleCompletedOrder(session: Stripe.Checkout.Session) {
 
   // Email al business
   emailPromises.push(
-    resend.emails.send({
+    getResend().emails.send({
       from: "Dial Funghi Shop <noreply@dialfunghi.it>",
       to: [process.env.BUSINESS_EMAIL ?? "federico.orefice@dialfunghi.it"],
       subject: `🛒 Nuovo ordine #${orderId} — ${totalFormatted}`,
@@ -117,7 +117,7 @@ async function handleCompletedOrder(session: Stripe.Checkout.Session) {
   // Email al cliente se disponibile
   if (customerEmail) {
     emailPromises.push(
-      resend.emails.send({
+      getResend().emails.send({
         from: "Dial Funghi <ordini@dialfunghi.it>",
         to: [customerEmail],
         subject: `Ordine confermato #${orderId} — Dial Funghi`,

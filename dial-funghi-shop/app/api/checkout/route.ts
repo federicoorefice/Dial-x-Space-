@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { z } from "zod";
 import { getProductById, SHIPPING } from "@/lib/products";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY ?? "sk_placeholder", {
   apiVersion: "2026-04-22.dahlia",
 });
 
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,
       locale: "it",
