@@ -270,18 +270,21 @@ export default function ChiSiamoPage() {
                 title: "Tecnologia\nIndustriale",
                 body: "Linee di produzione all'avanguardia per formati liquidi (paste, estratti, salse, emulsioni) e secchi (polveri micronizzate, briciole calibrate). Investiamo ogni anno in nuovi macchinari.",
                 bg: "var(--c-acid)", color: "var(--c-ink)", rot: -1.5,
+                photo: "/images/azienda/macchinario-1.png",
               },
               {
                 n: "02",
                 title: "R&D Interno\nDedicato",
                 body: "Il nostro team di micologhe e food technologist sviluppa su richiesta nuovi ingredienti funzionali. Lavoriamo in NDA con i brand partner, dalla prototipazione alla produzione in scala.",
                 bg: "var(--c-cream)", color: "var(--c-ink)", rot: 1,
+                photo: "/images/azienda/lab-1.png",
               },
               {
                 n: "03",
                 title: "Filiera Corta\nCertificata",
                 body: "Selezioniamo personalmente i fornitori di funghi secchi in tutto il mondo. Ogni lotto è tracciato, analizzato in laboratorio e certificato BRC, IFS, Bio EU, Vegan V-Label.",
                 bg: "var(--c-acid)", color: "var(--c-ink)", rot: -1,
+                photo: "/images/azienda/stabilimento-1.jpg",
               },
             ].map((p) => {
               const isHov = hoveredPillar === p.n;
@@ -293,7 +296,7 @@ export default function ChiSiamoPage() {
                   style={{
                     background: p.bg, color: p.color,
                     border: "2.5px solid var(--c-cream)",
-                    borderRadius: 24, padding: "36px 30px",
+                    borderRadius: 24, overflow: "hidden",
                     boxShadow: isHov ? "16px 16px 0 var(--c-cream)" : "8px 8px 0 var(--c-cream)",
                     transform: isHov
                       ? `translateY(-10px) scale(1.04) rotate(${p.rot}deg)`
@@ -302,17 +305,29 @@ export default function ChiSiamoPage() {
                     cursor: "default",
                   }}
                 >
-                  <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.18em", opacity: 0.5, marginBottom: 14 }}>
-                    {p.n}
+                  {/* Photo strip */}
+                  <div style={{ position: "relative", height: 160, overflow: "hidden" }}>
+                    <Image
+                      src={`${BASE_PATH}${p.photo}`}
+                      alt={p.title}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
                   </div>
-                  <div style={{
-                    fontFamily: "var(--font-heading)", fontSize: "clamp(22px, 2.2vw, 32px)",
-                    textTransform: "uppercase", letterSpacing: "-0.03em",
-                    lineHeight: 0.95, marginBottom: 18, whiteSpace: "pre-line",
-                  }}>
-                    {p.title}
+                  {/* Text */}
+                  <div style={{ padding: "28px 28px 32px" }}>
+                    <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.18em", opacity: 0.5, marginBottom: 12 }}>
+                      {p.n}
+                    </div>
+                    <div style={{
+                      fontFamily: "var(--font-heading)", fontSize: "clamp(20px, 2vw, 28px)",
+                      textTransform: "uppercase", letterSpacing: "-0.03em",
+                      lineHeight: 0.95, marginBottom: 16, whiteSpace: "pre-line",
+                    }}>
+                      {p.title}
+                    </div>
+                    <p style={{ fontSize: 14, lineHeight: 1.65, margin: 0, opacity: 0.8 }}>{p.body}</p>
                   </div>
-                  <p style={{ fontSize: 14, lineHeight: 1.65, margin: 0, opacity: 0.8 }}>{p.body}</p>
                 </div>
               );
             })}
