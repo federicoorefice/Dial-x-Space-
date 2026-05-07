@@ -6,6 +6,9 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CrossTicker from "@/components/CrossTicker";
+import FanCarousel from "@/components/FanCarousel";
+import SocialFanWall from "@/components/SocialFanWall";
 import AddToCartButton from "@/components/AddToCartButton";
 import { PRODUCTS, CERTIFICATIONS, formatPrice, type Product } from "@/lib/products";
 import { BASE_PATH } from "@/lib/basepath";
@@ -256,7 +259,6 @@ export default function HomePage() {
   const [loaded, setLoaded] = useState(false);
   const [activeBottle, setActiveBottle] = useState(0);
   const [flippedCertHome, setFlippedCertHome] = useState<string | null>(null);
-  const [hoveredReview, setHoveredReview] = useState<string | null>(null);
   const [hoveredHeroCard, setHoveredHeroCard] = useState(false);
   const [carouselIdx, setCarouselIdx] = useState(0);
   const [homeStatCounts, setHomeStatCounts] = useState({ a: 0, b: 0, c: 0, d: 0 });
@@ -549,6 +551,40 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── CROSS TICKER ──────────────────────────── */}
+        <CrossTicker />
+
+        {/* ── FAN CAROUSEL ─────────────────────────── */}
+        <section style={{
+          background: "var(--c-paper)", padding: "90px 0 100px",
+          borderTop: "3px solid var(--c-ink)", position: "relative", overflow: "visible",
+        }}>
+          <div style={{ maxWidth: 1480, margin: "0 auto", padding: "0 32px" }}>
+            <div style={{ textAlign: "center", marginBottom: 64 }}>
+              <div style={{
+                display: "inline-block", background: "var(--c-ink)", color: "var(--c-acid)",
+                padding: "8px 16px", borderRadius: 999, border: "2.5px solid var(--c-ink)",
+                fontWeight: 900, fontSize: 12, letterSpacing: "0.08em",
+                textTransform: "uppercase", marginBottom: 20, boxShadow: "4px 4px 0 var(--c-ink)",
+              }}>🍄 La Gamma Fior di Funghi</div>
+              <h2 style={{
+                fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
+                fontWeight: 900, fontSize: "clamp(42px, 7vw, 100px)",
+                lineHeight: 0.88, margin: 0,
+                textTransform: "uppercase", letterSpacing: "-0.04em", color: "var(--c-ink)",
+              }}>
+                Scegli il<br />
+                <span style={{
+                  display: "inline-block", background: "var(--c-acid)",
+                  padding: "0 20px", border: "3px solid var(--c-ink)", borderRadius: 20,
+                  transform: "rotate(-1.5deg)", boxShadow: "5px 5px 0 var(--c-ink)",
+                }}>tuo gusto.</span>
+              </h2>
+            </div>
+            <FanCarousel products={FIOR} />
+          </div>
+        </section>
+
         {/* ── CERTIFICAZIONI ───────────────────────── */}
         <section style={{
           background: "var(--c-ink)", color: "var(--c-cream)",
@@ -838,66 +874,8 @@ export default function HomePage() {
               </h2>
             </div>
 
-            {/* Review grid */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-              gap: 24,
-            }}>
-              {REVIEWS.map((rev, i) => {
-                const isHov = hoveredReview === rev.id;
-                const baseRot = i % 2 === 0 ? -0.5 : 0.5;
-                return (
-                <div
-                  key={rev.id}
-                  onMouseEnter={() => setHoveredReview(rev.id)}
-                  onMouseLeave={() => setHoveredReview(null)}
-                  style={{
-                    background: rev.color, color: "var(--c-ink)",
-                    borderRadius: 24, padding: "32px 28px",
-                    border: "2.5px solid var(--c-ink)",
-                    boxShadow: isHov ? "16px 20px 0 var(--c-ink)" : "6px 6px 0 var(--c-ink)",
-                    transform: isHov
-                      ? `translateY(-10px) scale(1.03) rotate(${baseRot}deg)`
-                      : `translateY(0) scale(1) rotate(${baseRot}deg)`,
-                    transition: "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease",
-                    display: "flex", flexDirection: "column", gap: 16,
-                    cursor: "default",
-                  }}
-                >
-                  {/* Stars */}
-                  <div style={{ fontSize: 18, letterSpacing: 2 }}>
-                    {"★".repeat(rev.stars)}
-                  </div>
-
-                  {/* Quote */}
-                  <p style={{ fontSize: 16, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>
-                    &ldquo;{rev.text}&rdquo;
-                  </p>
-
-                  {/* Footer */}
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginTop: "auto" }}>
-                    <div>
-                      <div style={{ fontFamily: "var(--font-heading)", fontSize: 16, fontWeight: 900, textTransform: "uppercase" }}>
-                        {rev.name}
-                      </div>
-                      <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, opacity: 0.55, letterSpacing: "0.1em", marginTop: 2 }}>
-                        {rev.location}
-                      </div>
-                    </div>
-                    <div style={{
-                      background: "var(--c-ink)", color: "var(--c-acid)",
-                      padding: "5px 12px", borderRadius: 999,
-                      fontSize: 10, fontWeight: 800,
-                      textTransform: "uppercase", letterSpacing: "0.06em",
-                    }}>
-                      {rev.product}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-            </div>
+            {/* Social fan wall */}
+            <SocialFanWall reviews={REVIEWS} />
 
             {/* CTA */}
             <div style={{ marginTop: 64, display: "flex", gap: 16, flexWrap: "wrap" }}>
