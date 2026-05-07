@@ -69,7 +69,7 @@ export default function CarrelloPage() {
                     display: "flex", alignItems: "center", gap: 20,
                   }}
                 >
-                  <Image src={item.img} alt={item.name} width={80} height={80}
+                  <Image src={`${BASE_PATH}${item.img}`} alt={item.name} width={80} height={80}
                     style={{ objectFit: "contain", flexShrink: 0 }} />
                   <div style={{ flex: 1 }}>
                     <div style={{ fontFamily: "var(--font-heading)", fontSize: 18, textTransform: "uppercase", lineHeight: 1 }}>
