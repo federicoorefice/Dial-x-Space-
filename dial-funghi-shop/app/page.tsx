@@ -343,7 +343,7 @@ export default function HomePage() {
               style={{
                 fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
                 fontWeight: 900,
-                fontSize: "clamp(40px, 7.5vw, 130px)",
+                fontSize: "clamp(48px, 9vw, 160px)",
                 lineHeight: 0.88,
                 letterSpacing: "-0.04em",
                 textTransform: "uppercase",
