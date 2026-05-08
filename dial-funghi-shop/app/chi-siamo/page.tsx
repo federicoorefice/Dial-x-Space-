@@ -18,18 +18,18 @@ const TIMELINE = [
 ];
 
 const B2B_CLIENTS = [
-  { name: "Giovanni Rana", logo: "/images/loghi/brandforum_logotale_giovanni_rana_logo9-scaled.jpeg" },
-  { name: "Parmalat", logo: "/images/loghi/Parmalat.svg" },
-  { name: "McDonald's", logo: "/images/loghi/McDonalds.svg" },
-  { name: "COOP", logo: "/images/loghi/Coop_Italia.svg" },
-  { name: "CONAD", logo: "/images/loghi/Conad.svg" },
-  { name: "Develey", logo: "/images/loghi/Develey.svg" },
-  { name: "Esselunga", logo: "/images/loghi/Esselunga.svg" },
-  { name: "Carrefour", logo: "/images/loghi/Carrefour.svg" },
-  { name: "Lidl", logo: "/images/loghi/Lidl.svg" },
-  { name: "Metro", logo: "/images/loghi/Metro.svg" },
-  { name: "Eurospin", logo: "/images/loghi/Eurospin.svg" },
-  { name: "Tosano", logo: "/images/loghi/Tosano.svg" },
+  { name: "Giovanni Rana", logo: "/images/loghi/brandforum_logotale_giovanni_rana_logo9-scaled.jpeg", since: 2008, type: "Pasta fresca & ripieni", detail: "Paste e estratti di porcini calibrati su specifiche tecniche per i ripieni di pasta fresca premium." },
+  { name: "Parmalat", logo: "/images/loghi/Parmalat.svg", since: 2012, type: "Private Label & Bio", detail: "Ingredientistica Bio EU certificata per creme e prodotti a marchio del gruppo internazionale." },
+  { name: "McDonald's", logo: "/images/loghi/McDonalds.svg", since: 2015, type: "Food Service & HoReCa", detail: "Componenti di fungo secco per ricette speciali dei menu stagionali nazionali." },
+  { name: "COOP", logo: "/images/loghi/Coop_Italia.svg", since: 2003, type: "GDO & Private Label", detail: "Partner storico per private label biologica e funghi secchi confezionati a marchio COOP." },
+  { name: "CONAD", logo: "/images/loghi/Conad.svg", since: 2005, type: "Distribuzione retail", detail: "Funghi secchi e linea biologica certificata per i punti vendita CONAD su tutto il territorio." },
+  { name: "Develey", logo: "/images/loghi/Develey.svg", since: 2010, type: "Salse & condimenti", detail: "Estratti fungo resistenti alla pastorizzazione per salse e condimenti della linea premium." },
+  { name: "Esselunga", logo: "/images/loghi/Esselunga.svg", since: 2007, type: "Premium retail", detail: "Gamma di funghi secchi gourmet e prodotti biologici selezionati per la clientela Esselunga." },
+  { name: "Carrefour", logo: "/images/loghi/Carrefour.svg", since: 2009, type: "GDO Europa & Bio", detail: "Linea biologica certificata EU per la grande distribuzione Carrefour Italia ed Europa." },
+  { name: "Lidl", logo: "/images/loghi/Lidl.svg", since: 2014, type: "Private Label discount", detail: "Prodotti fungo premium accessibili per la rete Lidl: qualità certificata a prezzo competitivo." },
+  { name: "Metro", logo: "/images/loghi/Metro.svg", since: 2006, type: "HoReCa & Food Service", detail: "Semilavorati professionali (polveri, briciole, paste) per chef e operatori della ristorazione." },
+  { name: "Eurospin", logo: "/images/loghi/Eurospin.svg", since: 2016, type: "Distribuzione GDO", detail: "Funghi secchi e prodotti confezionati selezionati per la rete discount premium Eurospin." },
+  { name: "Tosano", logo: "/images/loghi/Tosano.svg", since: 2011, type: "GDO Nordest", detail: "Partner esclusivo per la distribuzione di prodotti biologici e funghi secchi nel Triveneto." },
 ];
 
 const PHOTOS = [
@@ -154,34 +154,70 @@ export default function ChiSiamoPage() {
         </div>
       </section>
 
-      {/* TIMELINE */}
-      <section style={{ padding: "60px 32px", maxWidth: 1480, margin: "0 auto" }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.6, marginBottom: 32 }}>
+      {/* TIMELINE — verticale */}
+      <section style={{ padding: "60px 32px 80px", maxWidth: 1480, margin: "0 auto" }}>
+        <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.6, marginBottom: 48 }}>
           La nostra storia
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 20 }}>
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
           {TIMELINE.map((it, i) => {
             const isHov = hoveredTimeline === it.y;
-            const baseRot = i % 2 === 0 ? -1 : 1;
+            const isLast = i === TIMELINE.length - 1;
             return (
-              <div key={it.y}
-                onMouseEnter={() => setHoveredTimeline(it.y)}
-                onMouseLeave={() => setHoveredTimeline(null)}
-                style={{
-                  background: it.c, color: it.textLight ? "var(--c-cream)" : "var(--c-ink)",
-                  border: "2.5px solid var(--c-ink)", borderRadius: 24,
-                  padding: 28,
-                  boxShadow: isHov ? "16px 16px 0 var(--c-ink)" : "8px 8px 0 var(--c-ink)",
-                  transform: isHov
-                    ? `translateY(-10px) scale(1.04) rotate(${baseRot}deg)`
-                    : `translateY(0) scale(1) rotate(${baseRot}deg)`,
-                  transition: "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease",
-                  cursor: "default",
-                }}
-              >
-                <div style={{ fontFamily: "var(--font-heading)", fontSize: 52, lineHeight: 1, letterSpacing: "-0.04em" }}>{it.y}</div>
-                <div style={{ fontWeight: 900, fontSize: 16, marginTop: 8, textTransform: "uppercase" }}>{it.t}</div>
-                <div style={{ fontSize: 14, marginTop: 8, lineHeight: 1.55, opacity: it.textLight ? 0.85 : 0.75 }}>{it.d}</div>
+              <div key={it.y} style={{ display: "grid", gridTemplateColumns: "160px 56px 1fr", alignItems: "flex-start" }}>
+
+                {/* Colonna sinistra: anno */}
+                <div style={{ paddingTop: 18, paddingRight: 0, textAlign: "right", paddingBottom: isLast ? 0 : 48 }}>
+                  <div style={{
+                    fontFamily: "var(--font-heading)", fontSize: "clamp(28px, 2.8vw, 44px)",
+                    letterSpacing: "-0.04em", lineHeight: 1, color: "var(--c-ink)",
+                    opacity: isHov ? 1 : 0.55,
+                    transition: "opacity 0.2s ease",
+                  }}>
+                    {it.y}
+                  </div>
+                </div>
+
+                {/* Colonna centrale: linea + dot */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 20 }}>
+                  <div style={{
+                    width: 20, height: 20, borderRadius: "50%", flexShrink: 0,
+                    background: it.c, border: "3px solid var(--c-ink)",
+                    boxShadow: isHov ? `0 0 0 4px ${it.c}55` : "none",
+                    transition: "box-shadow 0.25s ease",
+                    zIndex: 1,
+                  }} />
+                  {!isLast && (
+                    <div style={{
+                      width: 3, flex: 1, minHeight: 56,
+                      background: "var(--c-ink)", opacity: 0.12, borderRadius: 2,
+                      marginTop: 4,
+                    }} />
+                  )}
+                </div>
+
+                {/* Colonna destra: card */}
+                <div style={{ paddingLeft: 16, paddingBottom: isLast ? 0 : 32 }}>
+                  <div
+                    onMouseEnter={() => setHoveredTimeline(it.y)}
+                    onMouseLeave={() => setHoveredTimeline(null)}
+                    style={{
+                      background: it.c, color: it.textLight ? "var(--c-cream)" : "var(--c-ink)",
+                      border: "2.5px solid var(--c-ink)", borderRadius: 24,
+                      padding: "22px 28px",
+                      maxWidth: 580,
+                      boxShadow: isHov ? "14px 14px 0 var(--c-ink)" : "6px 6px 0 var(--c-ink)",
+                      transform: isHov ? "translateY(-6px) scale(1.02)" : "translateY(0) scale(1)",
+                      transition: "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease",
+                      cursor: "default",
+                    }}
+                  >
+                    <div style={{ fontWeight: 900, fontSize: 15, textTransform: "uppercase", letterSpacing: "0.04em" }}>{it.t}</div>
+                    <div style={{ fontSize: 14, marginTop: 8, lineHeight: 1.6, opacity: it.textLight ? 0.85 : 0.72 }}>{it.d}</div>
+                  </div>
+                </div>
+
               </div>
             );
           })}
@@ -467,7 +503,7 @@ export default function ChiSiamoPage() {
                     key={client.name}
                     onMouseEnter={() => setFlippedClient(client.name)}
                     onMouseLeave={() => setFlippedClient(null)}
-                    style={{ perspective: 800, cursor: "pointer", height: 160 }}
+                    style={{ perspective: 800, cursor: "pointer", height: 195 }}
                   >
                     <div style={{
                       position: "relative", width: "100%", height: "100%",
@@ -475,6 +511,7 @@ export default function ChiSiamoPage() {
                       transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
                       transition: "transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)",
                     }}>
+                      {/* Front */}
                       <div style={{
                         position: "absolute", inset: 0,
                         backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
@@ -484,8 +521,9 @@ export default function ChiSiamoPage() {
                         alignItems: "center", justifyContent: "center", padding: 20, gap: 10,
                       }}>
                         <Image src={`${BASE_PATH}${client.logo}`} alt={client.name} width={150} height={64} style={{ objectFit: "contain", maxHeight: 64 }} />
-                        <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#999" }}>Partner</div>
+                        <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#999" }}>Partner dal {client.since}</div>
                       </div>
+                      {/* Back */}
                       <div style={{
                         position: "absolute", inset: 0,
                         backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
@@ -494,15 +532,15 @@ export default function ChiSiamoPage() {
                         border: "2.5px solid rgba(245,239,224,0.3)",
                         borderRadius: 20, boxShadow: "6px 6px 0 rgba(212,255,60,0.4)",
                         display: "flex", flexDirection: "column",
-                        alignItems: "center", justifyContent: "center", padding: 20, textAlign: "center",
+                        alignItems: "flex-start", justifyContent: "center", padding: "18px 20px",
                       }}>
-                        <div style={{ fontFamily: "var(--font-heading)", fontSize: 22, textTransform: "uppercase", letterSpacing: "-0.02em", lineHeight: 0.95 }}>
+                        <div style={{ fontFamily: "var(--font-heading)", fontSize: 17, textTransform: "uppercase", letterSpacing: "-0.02em", lineHeight: 1 }}>
                           {client.name}
                         </div>
-                        <div style={{ marginTop: 12, width: 32, height: 2, background: "var(--c-ink)", borderRadius: 2 }} />
-                        <div style={{ marginTop: 12, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.6 }}>
-                          Partner Dial Funghi
-                        </div>
+                        <div style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.55, marginTop: 4 }}>Dal {client.since}</div>
+                        <div style={{ width: 28, height: 2, background: "var(--c-ink)", borderRadius: 2, margin: "10px 0 8px" }} />
+                        <div style={{ fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.07em", opacity: 0.7, marginBottom: 7 }}>{client.type}</div>
+                        <div style={{ fontSize: 11, lineHeight: 1.55, opacity: 0.8 }}>{client.detail}</div>
                       </div>
                     </div>
                   </div>
