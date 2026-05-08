@@ -157,8 +157,15 @@ export default function ChiSiamoPage() {
       {/* TIMELINE — verticale centrata */}
       <section style={{ padding: "60px 32px 80px" }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          <div style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(36px, 5vw, 72px)", letterSpacing: "-0.03em", textTransform: "uppercase", fontWeight: 900, marginBottom: 48, textAlign: "center" }}>
-            La nostra storia
+          <div style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(36px, 5vw, 72px)", letterSpacing: "-0.03em", textTransform: "uppercase", fontWeight: 900, marginBottom: 48, textAlign: "center", lineHeight: 1.1 }}>
+            La nostra{" "}
+            <span style={{
+              display: "inline-block", background: "var(--c-acid)", color: "var(--c-ink)",
+              padding: "0 20px", border: "3px solid var(--c-ink)", borderRadius: 20,
+              transform: "rotate(-2deg)", boxShadow: "7px 7px 0 var(--c-ink)",
+            }}>
+              storia
+            </span>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column" }}>
