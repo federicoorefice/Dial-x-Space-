@@ -367,9 +367,9 @@ export default function HomePage() {
               animate={loaded ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.45, duration: 0.7 }}
               style={{
-                marginTop: 40, color: "var(--c-cream)",
-                fontSize: 15, fontWeight: 500, maxWidth: 600,
-                textShadow: "0 2px 20px rgba(0,0,0,0.6)", lineHeight: 1.5,
+                marginTop: 40, color: "#fff",
+                fontSize: 20, fontWeight: 700, maxWidth: 600,
+                textShadow: "0 2px 24px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.9)", lineHeight: 1.55,
               }}
             >
               La prima salsa ai funghi in formato squeeze.<br />
