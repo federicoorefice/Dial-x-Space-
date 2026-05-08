@@ -343,8 +343,8 @@ export default function HomePage() {
               style={{
                 fontFamily: "var(--font-heading, 'Archivo Black'), sans-serif",
                 fontWeight: 900,
-                fontSize: "clamp(48px, 9vw, 160px)",
-                lineHeight: 0.85,
+                fontSize: "clamp(40px, 7.5vw, 130px)",
+                lineHeight: 0.88,
                 letterSpacing: "-0.04em",
                 textTransform: "uppercase",
                 color: "var(--c-cream)", margin: 0,
@@ -359,7 +359,15 @@ export default function HomePage() {
                 border: "4px solid var(--c-ink)", borderRadius: 24,
                 transform: "rotate(-2deg)", margin: "8px 0",
               }}>gusto</span>
-              <br />del bosco<br />in ogni piatto.
+              <br />del{" "}
+              <span style={{
+                display: "inline-block",
+                background: "var(--c-acid)", color: "var(--c-ink)",
+                padding: "0 24px",
+                border: "4px solid var(--c-ink)", borderRadius: 24,
+                transform: "rotate(1.5deg)", margin: "8px 0",
+              }}>bosco</span>
+              <br />in ogni piatto.
             </motion.h1>
 
             <motion.p
