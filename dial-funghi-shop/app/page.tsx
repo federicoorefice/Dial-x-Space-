@@ -351,15 +351,15 @@ export default function HomePage() {
                 textShadow: "0 4px 40px rgba(0,0,0,0.5)",
               }}
             >
-              Funghi<br />
+              Assapora il{" "}
               <span style={{
                 display: "inline-block",
                 background: "var(--c-acid)", color: "var(--c-ink)",
                 padding: "0 24px",
                 border: "4px solid var(--c-ink)", borderRadius: 24,
                 transform: "rotate(-2deg)", margin: "8px 0",
-              }}>From&nbsp;the</span>
-              <br />Bosco
+              }}>gusto</span>
+              <br />del bosco<br />in ogni piatto.
             </motion.h1>
 
             <motion.p
@@ -372,8 +372,7 @@ export default function HomePage() {
                 textShadow: "0 2px 24px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.9)", lineHeight: 1.55,
               }}
             >
-              La prima salsa ai funghi in formato squeeze.<br />
-              Selezione manuale, lavorazione artigianale.
+              La prima salsa ai funghi in formato squeeze.
             </motion.p>
 
             <motion.div
