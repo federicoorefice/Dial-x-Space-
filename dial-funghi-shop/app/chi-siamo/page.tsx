@@ -154,73 +154,74 @@ export default function ChiSiamoPage() {
         </div>
       </section>
 
-      {/* TIMELINE — verticale */}
-      <section style={{ padding: "60px 32px 80px", maxWidth: 1480, margin: "0 auto" }}>
-        <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.6, marginBottom: 48 }}>
-          La nostra storia
-        </div>
+      {/* TIMELINE — verticale centrata */}
+      <section style={{ padding: "60px 32px 80px" }}>
+        <div style={{ maxWidth: 860, margin: "0 auto" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.6, marginBottom: 48, textAlign: "center" }}>
+            La nostra storia
+          </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {TIMELINE.map((it, i) => {
-            const isHov = hoveredTimeline === it.y;
-            const isLast = i === TIMELINE.length - 1;
-            return (
-              <div key={it.y} style={{ display: "grid", gridTemplateColumns: "160px 56px 1fr", alignItems: "flex-start" }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            {TIMELINE.map((it, i) => {
+              const isHov = hoveredTimeline === it.y;
+              const isLast = i === TIMELINE.length - 1;
+              return (
+                <div key={it.y} style={{ display: "grid", gridTemplateColumns: "120px 48px 1fr", alignItems: "flex-start" }}>
 
-                {/* Colonna sinistra: anno */}
-                <div style={{ paddingTop: 18, paddingRight: 0, textAlign: "right", paddingBottom: isLast ? 0 : 48 }}>
-                  <div style={{
-                    fontFamily: "var(--font-heading)", fontSize: "clamp(28px, 2.8vw, 44px)",
-                    letterSpacing: "-0.04em", lineHeight: 1, color: "var(--c-ink)",
-                    opacity: isHov ? 1 : 0.55,
-                    transition: "opacity 0.2s ease",
-                  }}>
-                    {it.y}
-                  </div>
-                </div>
-
-                {/* Colonna centrale: linea + dot */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 20 }}>
-                  <div style={{
-                    width: 20, height: 20, borderRadius: "50%", flexShrink: 0,
-                    background: it.c, border: "3px solid var(--c-ink)",
-                    boxShadow: isHov ? `0 0 0 4px ${it.c}55` : "none",
-                    transition: "box-shadow 0.25s ease",
-                    zIndex: 1,
-                  }} />
-                  {!isLast && (
+                  {/* Anno — sinistra */}
+                  <div style={{ paddingTop: 22, textAlign: "right", paddingRight: 0, paddingBottom: isLast ? 0 : 36 }}>
                     <div style={{
-                      width: 3, flex: 1, minHeight: 56,
-                      background: "var(--c-ink)", opacity: 0.12, borderRadius: 2,
-                      marginTop: 4,
-                    }} />
-                  )}
-                </div>
-
-                {/* Colonna destra: card */}
-                <div style={{ paddingLeft: 16, paddingBottom: isLast ? 0 : 32 }}>
-                  <div
-                    onMouseEnter={() => setHoveredTimeline(it.y)}
-                    onMouseLeave={() => setHoveredTimeline(null)}
-                    style={{
-                      background: it.c, color: it.textLight ? "var(--c-cream)" : "var(--c-ink)",
-                      border: "2.5px solid var(--c-ink)", borderRadius: 24,
-                      padding: "22px 28px",
-                      maxWidth: 580,
-                      boxShadow: isHov ? "14px 14px 0 var(--c-ink)" : "6px 6px 0 var(--c-ink)",
-                      transform: isHov ? "translateY(-6px) scale(1.02)" : "translateY(0) scale(1)",
-                      transition: "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease",
-                      cursor: "default",
-                    }}
-                  >
-                    <div style={{ fontWeight: 900, fontSize: 15, textTransform: "uppercase", letterSpacing: "0.04em" }}>{it.t}</div>
-                    <div style={{ fontSize: 14, marginTop: 8, lineHeight: 1.6, opacity: it.textLight ? 0.85 : 0.72 }}>{it.d}</div>
+                      fontFamily: "var(--font-heading)", fontSize: "clamp(24px, 2.4vw, 38px)",
+                      letterSpacing: "-0.04em", lineHeight: 1, color: "var(--c-ink)",
+                      opacity: isHov ? 1 : 0.45,
+                      transition: "opacity 0.2s ease",
+                    }}>
+                      {it.y}
+                    </div>
                   </div>
-                </div>
 
-              </div>
-            );
-          })}
+                  {/* Dot + linea — centro */}
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 26 }}>
+                    <div style={{
+                      width: 22, height: 22, borderRadius: "50%", flexShrink: 0,
+                      background: it.c, border: "3px solid var(--c-ink)",
+                      boxShadow: isHov ? `0 0 0 5px ${it.c}66` : "none",
+                      transition: "box-shadow 0.25s ease",
+                      zIndex: 1,
+                    }} />
+                    {!isLast && (
+                      <div style={{
+                        width: 3, flex: 1, minHeight: 48,
+                        background: "var(--c-ink)", opacity: 0.1, borderRadius: 2,
+                        marginTop: 4,
+                      }} />
+                    )}
+                  </div>
+
+                  {/* Card — destra */}
+                  <div style={{ paddingLeft: 12, paddingBottom: isLast ? 0 : 28 }}>
+                    <div
+                      onMouseEnter={() => setHoveredTimeline(it.y)}
+                      onMouseLeave={() => setHoveredTimeline(null)}
+                      style={{
+                        background: it.c, color: it.textLight ? "var(--c-cream)" : "var(--c-ink)",
+                        border: "2.5px solid var(--c-ink)", borderRadius: 24,
+                        padding: "28px 32px 30px",
+                        boxShadow: isHov ? "12px 12px 0 var(--c-ink)" : "6px 6px 0 var(--c-ink)",
+                        transform: isHov ? "translateY(-6px) scale(1.02)" : "translateY(0) scale(1)",
+                        transition: "transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease",
+                        cursor: "default",
+                      }}
+                    >
+                      <div style={{ fontWeight: 900, fontSize: 17, textTransform: "uppercase", letterSpacing: "0.05em" }}>{it.t}</div>
+                      <div style={{ fontSize: 15, marginTop: 10, lineHeight: 1.65, opacity: it.textLight ? 0.85 : 0.72 }}>{it.d}</div>
+                    </div>
+                  </div>
+
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
